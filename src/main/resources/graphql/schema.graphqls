@@ -1,0 +1,8 @@
+# All queries that are defined for this YACSER graphQL server
+type Query {
+	test: String
+}
+
+schema {
+  query: Query
+}
