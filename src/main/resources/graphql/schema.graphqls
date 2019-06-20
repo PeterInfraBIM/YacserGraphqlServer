@@ -14,13 +14,18 @@ enum YacserObjectType {
 
 	# YACSER data model
 type YacserModel {
+		# Base URI of the model.
 	id: String
+		# Optional name of the model.
 	name: String
 }
 
-	# YACSER general object type
+	# YACSER object instance.
 type YacserObject {
-	id: String
+		# URI of the object instance.
+	id: String!
+		# Optional name of the object.
+	name: String
 }
 
 	# All queries that are defined for this YACSER graphQL server
@@ -31,15 +36,24 @@ type Query {
 
 	# All mutations that are defined for this YACSER graphQL server
 type Mutation {
+
 		# Create a YACSER model.
-		createModel(
+	createModel(
 			# Base URI of the model.
-		id: String!, 
+		modelId: String!, 
 			# Optional name of the model.
 		name: String
 	): YacserModel
+	
 		# Create a YACSER object.
-	createObject(type: YacserObjectType!): YacserObject
+	createObject(
+			# Base URI of the model.
+		modelId: String!, 
+			# Subtype of YACSER object.
+		type: YacserObjectType!
+			# Optional name of the object.
+		name: String
+	): YacserObject
 }
 
 schema {

@@ -51,7 +51,7 @@ public class SparqlServer {
 		sparql = FusekiServer.create().add("/rdf", ds, true).build();
 		sparql.start();
 	}
-	
+
 	public static PrefixMapping getPrefixMapping() {
 		if (prefixMapping == null) {
 			prefixMapping = PrefixMapping.Factory.create();
@@ -108,4 +108,26 @@ public class SparqlServer {
 		return bindings;
 	}
 
+	public void update(ParameterizedSparqlString queryStr) throws IOException {
+		String query = queryStr.toString();
+		HttpURLConnection con = getUpdateConnection();
+		sendUpdate(con, query);
+	}
+
+	private HttpURLConnection getUpdateConnection() throws IOException {
+		URL obj = new URL(UPDATE_URL);
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+		con.setRequestMethod("POST");
+		con.setRequestProperty("Content-Type", "application/sparql-update");
+		return con;
+	}
+
+	private void sendUpdate(HttpURLConnection con, String query) throws IOException {
+		con.setDoOutput(true);
+		DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+		wr.writeBytes(query);
+		wr.flush();
+		wr.close();
+	}
 }

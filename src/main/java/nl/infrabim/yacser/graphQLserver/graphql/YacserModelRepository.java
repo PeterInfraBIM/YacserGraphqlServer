@@ -3,6 +3,7 @@ package nl.infrabim.yacser.graphQLserver.graphql;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.jena.query.ParameterizedSparqlString;
 import org.apache.jena.rdf.model.Literal;
@@ -53,13 +54,13 @@ public class YacserModelRepository {
 		return models;
 	}
 
-	public YacserModel createModel(String id, String name) {
+	public YacserModel createModel(String id, Optional<String> modelName) {
 		YacserModel yacserModel = new YacserModel(id);
-		create(yacserModel, name);
+		create(yacserModel, modelName);
 		return yacserModel;
 	}
 
-	private void create(YacserModel yacserModel, String name) {
+	private void create(YacserModel yacserModel, Optional<String> name) {
 		Model model = ModelFactory.createDefaultModel();
 
 		model.setNsPrefix("bs", "https://w3id.org/def/basicsemantics#");
@@ -78,9 +79,9 @@ public class YacserModelRepository {
 		model.add(model.createStatement(ontology, RDF.type, OWL.Ontology));
 		model.add(model.createStatement(ontology, OWL.imports, yacser));
 
-		if (name != null) {
+		if (name.isPresent()) {
 			Property prefLabel = model.createProperty("http://www.w3.org/2004/02/skos/core#prefLabel");
-			Literal label = model.createLiteral(name, "en");
+			Literal label = model.createLiteral(name.get(), "en");
 			model.add(model.createStatement(ontology, prefLabel, label));
 		}
 
