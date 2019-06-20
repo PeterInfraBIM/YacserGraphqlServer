@@ -1,0 +1,352 @@
+# baseURI: https://w3id.org/def/simple_custom_datatypes
+
+@prefix cdt: <https://w3id.org/def/simple_custom_datatypes#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/def/simple_custom_datatypes> a owl:Ontology .
+ 
+cdt:ucum  a  rdfs:Datatype ;
+    rdfs:label  "ucum"@en ;
+    rdfs:comment  """Datatype to encode measurements in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and a unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of measurements as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a UCUM unit to their corresponding measures according to the International Systems of Quantities."""@en .
+
+cdt:acceleration  a  rdfs:Datatype ;
+    rdfs:label  "acceleration"@en ;
+    rdfs:seeAlso  <custom_datatypes.html>, <custom_datatypes.js>;
+    rdfs:isDefinedBy  <custom_datatypes>;
+    rdfs:comment  """Datatype to encode measurement of quantity kind acceleration in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and an acceleration unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of acceleration as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a acceleration unit to their corresponding acceleration measures according to the International Systems of Quantities."""@en .
+
+cdt:amountOfSubstance  a  rdfs:Datatype ;
+    rdfs:label  "amountOfSubstance"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind amountOfSubstance in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and an amountOfSubstance unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of amountOfSubstance as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a amountOfSubstance unit to their corresponding amountOfSubstance measures according to the International Systems of Quantities."""@en .
+
+cdt:angle  a  rdfs:Datatype ;
+    rdfs:label  "angle"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind angle in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and an angle unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of angle as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a angle unit to their corresponding angle measures according to the International Systems of Quantities."""@en .
+
+cdt:area  a  rdfs:Datatype ;
+    rdfs:label  "area"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind area in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and an area unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of area as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a area unit to their corresponding area measures according to the International Systems of Quantities."""@en .
+
+cdt:catalyticActivity  a  rdfs:Datatype ;
+    rdfs:label  "catalyticActivity"@en ;
+    rdfs:isDefinedBy  <custom_datatypes>;
+    rdfs:comment  """Datatype to encode measurement of quantity kind catalyticActivity in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and a catalyticActivity unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of catalyticActivity as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a catalyticActivity unit to their corresponding catalyticActivity measures according to the International Systems of Quantities."""@en .
+
+cdt:dimensionless  a  rdfs:Datatype ;
+    rdfs:label  "dimensionless"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind dimensionless in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and a dimensionless unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of dimensionless as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a dimensionless unit to their corresponding dimensionless measures according to the International Systems of Quantities."""@en .
+
+cdt:electricCapacitance  a  rdfs:Datatype ;
+    rdfs:label  "electricCapacitance"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind electricCapacitance in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and an electricCapacitance unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of electricCapacitance as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a electricCapacitance unit to their corresponding electricCapacitance measures according to the International Systems of Quantities."""@en .
+
+cdt:electricCharge  a  rdfs:Datatype ;
+    rdfs:label  "electricCharge"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind electricCharge in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and an electricCharge unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of electricCharge as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a electricCharge unit to their corresponding electricCharge measures according to the International Systems of Quantities."""@en .
+
+cdt:electricConductance  a  rdfs:Datatype ;
+    rdfs:label  "electricConductance"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind electricConductance in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and an electricConductance unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of electricConductance as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a electricConductance unit to their corresponding electricConductance measures according to the International Systems of Quantities."""@en .
+
+cdt:electricCurrent  a  rdfs:Datatype ;
+    rdfs:label  "electricCurrent"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind electricCurrent in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and an electricCurrent unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of electricCurrent as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a electricCurrent unit to their corresponding electricCurrent measures according to the International Systems of Quantities."""@en .
+
+cdt:electricInductance  a  rdfs:Datatype ;
+    rdfs:label  "electricInductance"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind electricInductance in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and an electricInductance unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of electricInductance as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a electricInductance unit to their corresponding electricInductance measures according to the International Systems of Quantities."""@en .
+
+cdt:electricPotential  a  rdfs:Datatype ;
+    rdfs:label  "electricPotential"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind electricPotential in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and an electricPotential unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of electricPotential as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a electricPotential unit to their corresponding electricPotential measures according to the International Systems of Quantities."""@en .
+
+cdt:electricResistance  a  rdfs:Datatype ;
+    rdfs:label  "electricResistance"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind electricResistance in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and an electricResistance unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of electricResistance as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a electricResistance unit to their corresponding electricResistance measures according to the International Systems of Quantities."""@en .
+
+cdt:energy  a  rdfs:Datatype ;
+    rdfs:label  "energy"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind energy in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and an energy unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of energy as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a energy unit to their corresponding energy measures according to the International Systems of Quantities."""@en .
+
+cdt:force  a  rdfs:Datatype ;
+    rdfs:label  "force"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind force in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and a force unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of force as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a force unit to their corresponding force measures according to the International Systems of Quantities."""@en .
+
+cdt:frequency  a  rdfs:Datatype ;
+    rdfs:label  "frequency"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind frequency in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and a frequency unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of frequency as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a frequency unit to their corresponding frequency measures according to the International Systems of Quantities."""@en .
+
+cdt:illuminance  a  rdfs:Datatype ;
+    rdfs:label  "illuminance"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind illuminance in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and an illuminance unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of illuminance as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a illuminance unit to their corresponding illuminance measures according to the International Systems of Quantities."""@en .
+
+cdt:length  a  rdfs:Datatype ;
+    rdfs:label  "length"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind length in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and a length unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of length as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a length unit to their corresponding length measures according to the International Systems of Quantities."""@en .
+
+cdt:luminousFlux  a  rdfs:Datatype ;
+    rdfs:label  "luminousFlux"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind luminousFlux in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and a luminousFlux unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of luminousFlux as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a luminousFlux unit to their corresponding luminousFlux measures according to the International Systems of Quantities."""@en .
+
+cdt:luminousIntensity  a  rdfs:Datatype ;
+    rdfs:label  "luminousIntensity"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind luminousIntensity in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and a luminousIntensity unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of luminousIntensity as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a luminousIntensity unit to their corresponding luminousIntensity measures according to the International Systems of Quantities."""@en .
+
+cdt:magneticFlux  a  rdfs:Datatype ;
+    rdfs:label  "magneticFlux"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind magneticFlux in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and a magneticFlux unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of magneticFlux as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a magneticFlux unit to their corresponding magneticFlux measures according to the International Systems of Quantities."""@en .
+
+cdt:magneticFluxDensity  a  rdfs:Datatype ;
+    rdfs:label  "magneticFluxDensity"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind magneticFluxDensity in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and a magneticFluxDensity unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of magneticFluxDensity as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a magneticFluxDensity unit to their corresponding magneticFluxDensity measures according to the International Systems of Quantities."""@en .
+
+cdt:mass  a  rdfs:Datatype ;
+    rdfs:label  "mass"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind mass in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and a mass unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of mass as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a mass unit to their corresponding mass measures according to the International Systems of Quantities."""@en .
+
+cdt:power  a  rdfs:Datatype ;
+    rdfs:label  "power"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind power in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and a power unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of power as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a power unit to their corresponding power measures according to the International Systems of Quantities."""@en .
+
+cdt:pressure  a  rdfs:Datatype ;
+    rdfs:label  "pressure"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind pressure in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and a pressure unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of pressure as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a pressure unit to their corresponding pressure measures according to the International Systems of Quantities."""@en .
+
+cdt:radiationDoseAbsorbed  a  rdfs:Datatype ;
+    rdfs:label  "radiationDoseAbsorbed"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind radiationDoseAbsorbed in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and a radiationDoseAbsorbed unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of radiationDoseAbsorbed as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a radiationDoseAbsorbed unit to their corresponding radiationDoseAbsorbed measures according to the International Systems of Quantities."""@en .
+
+cdt:radiationDoseEffective  a  rdfs:Datatype ;
+    rdfs:label  "radiationDoseEffective"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind radiationDoseEffective in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and a radiationDoseEffective unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of radiationDoseEffective as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a radiationDoseEffective unit to their corresponding radiationDoseEffective measures according to the International Systems of Quantities."""@en .
+
+cdt:radioactivity  a  rdfs:Datatype ;
+    rdfs:label  "radioactivity"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind radioactivity in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and a radioactivity unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of radioactivity as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a radioactivity unit to their corresponding radioactivity measures according to the International Systems of Quantities."""@en .
+
+cdt:solidAngle  a  rdfs:Datatype ;
+    rdfs:label  "solidAngle"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind solidAngle in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and a solidAngle unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of solidAngle as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a solidAngle unit to their corresponding solidAngle measures according to the International Systems of Quantities."""@en .
+
+cdt:speed  a  rdfs:Datatype ;
+    rdfs:label  "speed"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind speed in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and a speed unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of speed as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a speed unit to their corresponding speed measures according to the International Systems of Quantities."""@en .
+
+cdt:temperature  a  rdfs:Datatype ;
+    rdfs:label  "temperature"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind temperature in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and a temperature unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of temperature as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a temperature unit to their corresponding temperature measures according to the International Systems of Quantities."""@en .
+
+cdt:time  a  rdfs:Datatype ;
+    rdfs:label  "time"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind time in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and a time unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of time as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a time unit to their corresponding time measures according to the International Systems of Quantities."""@en .
+
+cdt:volume  a  rdfs:Datatype ;
+    rdfs:label  "volume"@en ;
+    rdfs:comment  """Datatype to encode measurement of quantity kind volume in a simple literal. 
+
+Lexical space is the concatenation of the lexical form of an xsd:decimal, optionally followed by 'e' or 'E' and the lexical form of an xsd:integer, at least one space, and a volume unit chosen in the Unified Code for Units of Measure code system. 
+
+Value space is the set of volume as defined by the International Systems of Quantities.
+
+Lexical-to-value mapping maps lexical forms with a volume unit to their corresponding volume measures according to the International Systems of Quantities."""@en .

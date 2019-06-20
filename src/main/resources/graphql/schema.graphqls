@@ -1,8 +1,48 @@
-# All queries that are defined for this YACSER graphQL server
+	# YACSER object types
+enum YacserObjectType {
+	Function
+	Hamburger
+	Performance
+	PortRealisation
+	RealisationModule
+	RealisationPort
+	Requirement
+	SystemInterface
+	SystemSlot
+	Value
+}
+
+	# YACSER data model
+type YacserModel {
+	id: String
+	name: String
+}
+
+	# YACSER general object type
+type YacserObject {
+	id: String
+}
+
+	# All queries that are defined for this YACSER graphQL server
 type Query {
-	test: String
+		# List all loaded models.
+	allModels: [YacserModel]
+}
+
+	# All mutations that are defined for this YACSER graphQL server
+type Mutation {
+		# Create a YACSER model.
+		createModel(
+			# Base URI of the model.
+		id: String!, 
+			# Optional name of the model.
+		name: String
+	): YacserModel
+		# Create a YACSER object.
+	createObject(type: YacserObjectType!): YacserObject
 }
 
 schema {
   query: Query
+  mutation: Mutation
 }

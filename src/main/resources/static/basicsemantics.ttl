@@ -1,0 +1,503 @@
+# baseURI: https://w3id.org/def/basicsemantics
+# imports: http://purl.org/dc/terms/
+# imports: http://www.w3.org/2004/02/skos/core
+# imports: http://www.w3.org/ns/shacl#
+# imports: https://w3id.org/def/simple_custom_datatypes
+
+@prefix bs: <https://w3id.org/def/basicsemantics#> .
+@prefix cdt: <https://w3id.org/def/simple_custom_datatypes#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix ex: <https://w3id.org/def/example#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/def/basicsemantics>
+  a owl:Ontology ;
+  owl:imports dct: ;
+  owl:imports <http://www.w3.org/2004/02/skos/core> ;
+  owl:imports sh: ;
+  owl:imports <https://w3id.org/def/simple_custom_datatypes> ;
+.
+bs:Activity
+  a owl:Class ;
+  rdfs:subClassOf [
+      a owl:Restriction ;
+      owl:allValuesFrom bs:Activity ;
+      owl:onProperty dct:hasPart ;
+    ] ;
+  skos:definition "An activity is something possibly or actual happens in space and time" ;
+  skos:example "Fluid pressure measurement, driving a car are examples of an <activity> " ;
+  skos:prefLabel "activiteit"@nl ;
+  skos:prefLabel "activity"@en ;
+  skos:scopeNote "Process, function, human activity, machine activity, task, procedure, project are subclasses of <Activity>." ;
+.
+bs:Event
+  a owl:Class ;
+  skos:definition "A thing that happens or takes place and marks the beginning or ending of an activity or state" ;
+  skos:example "The connection of power to pump P_101, the take-off of a aeroplane are examples of an <Event>. " ;
+  skos:prefLabel "event"@en ;
+  skos:prefLabel "gebeurtenis"@nl ;
+  skos:scopeNote "Transition, cause, effect, milestone, issue, accident, point in time are subclasses of <Event>." ;
+.
+bs:InformationObject
+  a owl:Class ;
+  rdfs:subClassOf [
+      a owl:Restriction ;
+      owl:allValuesFrom bs:InformationObject ;
+      owl:onProperty dct:hasPart ;
+    ] ;
+  skos:definition "Thing that is a whole of information on itself and has an own identity" ;
+  skos:example "a file within a computer system, the PDF file with URI http://material-certificate/M-101-1234.pdf are examples of <InformationObject> " ;
+  skos:prefLabel "informatieobject"@nl ;
+  skos:prefLabel "information object"@en ;
+  skos:scopeNote "Requirement, document, statement, E-mail, code, identifier are subclasses of <InformationObject> ." ;
+.
+bs:PhysicalObject
+  a owl:Class ;
+  rdfs:subClassOf [
+      a owl:Restriction ;
+      owl:allValuesFrom bs:PhysicalObject ;
+      owl:onProperty dct:hasPart ;
+    ] ;
+  skos:definition "Is something that possibly or actual exists in space and time, perceivable through the senses" ;
+  skos:example "Pump P_101, a single living organism are examples of a <PhysicalObject>" ;
+  skos:prefLabel "fysiek object"@nl ;
+  skos:prefLabel "physical object"@en ;
+  skos:scopeNote "Artefact, matter, person, organisation, stream, connection are subclasses of <PhysicalObject>." ;
+.
+bs:Property
+  a owl:Class ;
+.
+bs:PropertyType
+  a owl:Class ;
+.
+bs:PropertyTypeGroup
+  a owl:Class ;
+.
+bs:SpatialRegion
+  a owl:Class ;
+  skos:definition "Demarcated space" ;
+  skos:example "construction area of a building, Maritime traffic zone within the Channel, a hazard zone within a plant are examples of a <SpatialRegion>" ;
+  skos:prefLabel "ruimte"@nl ;
+  skos:prefLabel "spatial region"@en ;
+  skos:scopeNote "Area, country, corridor, zone, route are subclasses of <SpatialRegion>." ;
+.
+bs:State
+  a owl:Class ;
+  skos:definition "A particular condition that something is in during a specific period in time" ;
+  skos:example "well-functioning of a car, the condition of an elevator of being un-safe are examples of a <State>" ;
+  skos:prefLabel "state"@en ;
+  skos:prefLabel "toestand"@nl ;
+  skos:scopeNote "Condition, risk, failure state, objective are subclasses of <State>." ;
+.
+bs:TimePeriod
+  a owl:Class ;
+  skos:definition "A length or portion of time" ;
+  skos:example "week 12 in 2019, design stage of the Schiphol tunnel are examples of a <TimePeriod>" ;
+  skos:prefLabel "tijdperiode"@nl ;
+  skos:prefLabel "time period"@en ;
+  skos:scopeNote "Week, day, life cycle stage are subclasses of <TimePeriod>." ;
+.
+bs:describes
+  a owl:ObjectProperty ;
+  skos:prefLabel "beschrijft"@nl ;
+  skos:prefLabel "describes"@en ;
+  rdfs:domain bs:InformationObject ;
+  rdfs:range [
+      a owl:Class ;
+      owl:unionOf (
+          bs:PhysicalObject
+          bs:InformationObject
+          bs:State
+          bs:Event
+          bs:Activity
+          bs:Spatialregion
+          bs:PeriodInTime
+        ) ;
+    ] ;
+  owl:inverseOf bs:isDescribedBy ;
+.
+bs:ends
+  a owl:ObjectProperty ;
+  skos:prefLabel "beeindigt"@nl ;
+  skos:prefLabel "ends"@en ;
+  rdfs:domain bs:Event ;
+  rdfs:range bs:State ;
+  owl:inverseOf bs:isEndedBy ;
+.
+bs:hasBoundary
+  a owl:ObjectProperty ;
+  skos:prefLabel "heeft begrenzing"@nl ;
+  skos:prefLabel "has boundary"@en ;
+  rdfs:domain [
+      a owl:Class ;
+      owl:unionOf (
+          bs:PhysicalObject
+          bs:Activity
+        ) ;
+    ] ;
+  rdfs:range bs:SpatialRegion ;
+  owl:inverseOf bs:isBoundaryOf ;
+.
+bs:hasInput
+  a owl:ObjectProperty ;
+  skos:prefLabel "heeft invoer"@nl ;
+  skos:prefLabel "has input"@en ;
+  rdfs:domain bs:Activity ;
+  rdfs:range [
+      a owl:Class ;
+      owl:unionOf (
+          bs:PhysicalObject
+          bs:InformationObject
+        ) ;
+    ] ;
+  owl:inverseOf bs:isInputOf ;
+.
+bs:hasLocation
+  a owl:ObjectProperty ;
+  skos:prefLabel "heeft locatie"@nl ;
+  skos:prefLabel "has location"@en ;
+  rdfs:domain [
+      a owl:Class ;
+      owl:unionOf (
+          bs:PhysicalObject
+          bs:Activity
+        ) ;
+    ] ;
+  rdfs:range bs:SpatialRegion ;
+  owl:inverseOf bs:isLocationOf ;
+.
+bs:hasOutput
+  a owl:ObjectProperty ;
+  skos:prefLabel "heeft uitvoer"@nl ;
+  skos:prefLabel "has output"@en ;
+  rdfs:domain bs:Activity ;
+  rdfs:range [
+      a owl:Class ;
+      owl:unionOf (
+          bs:PhysicalObject
+          bs:InformationObject
+        ) ;
+    ] ;
+  owl:inverseOf bs:isOutputOf ;
+.
+bs:hasPeriod
+  a owl:ObjectProperty ;
+  skos:prefLabel "heeft periode"@nl ;
+  skos:prefLabel "has period"@en ;
+  rdfs:domain [
+      a owl:Class ;
+      owl:unionOf (
+          bs:PhysicalObject
+          bs:State
+          bs:Activity
+        ) ;
+    ] ;
+  rdfs:range bs:TimePeriod ;
+  owl:inverseOf bs:isPeriodFor ;
+.
+bs:hasProperty
+  a owl:ObjectProperty ;
+  rdfs:range bs:Property ;
+.
+bs:hasPropertyType
+  a owl:ObjectProperty ;
+  rdfs:domain bs:Property ;
+  rdfs:range bs:PropertyType ;
+.
+bs:hasPropertyTypeGroup
+  a owl:ObjectProperty ;
+  rdfs:domain bs:Property ;
+  rdfs:range bs:PropertyType ;
+.
+bs:hasQuantity
+  a owl:DatatypeProperty ;
+  rdfs:domain bs:PropertyType ;
+  rdfs:range rdfs:Datatype ;
+.
+bs:hasState
+  a owl:ObjectProperty ;
+  skos:prefLabel "heeft toestand"@nl ;
+  skos:prefLabel "has state"@en ;
+  rdfs:domain [
+      a owl:Class ;
+      owl:unionOf (
+          bs:PhysicalObject
+          bs:Activity
+        ) ;
+    ] ;
+  rdfs:range bs:State ;
+  owl:inverseOf bs:isStateOf ;
+.
+bs:hasUnit
+  a owl:DatatypeProperty ;
+  rdfs:domain bs:Property ;
+  rdfs:range xsd:string ;
+.
+bs:hasValue
+  a owl:DatatypeProperty ;
+  rdfs:domain bs:Property ;
+  rdfs:range xsd:decimal ;
+.
+bs:hasValueUnit
+  a owl:DatatypeProperty ;
+  rdfs:domain bs:Property ;
+  rdfs:range cdt:ucum ;
+.
+bs:isBoundaryOf
+  a owl:ObjectProperty ;
+  skos:prefLabel "is boundary of"@nl ;
+  skos:prefLabel "is begrenzing van"@en ;
+  rdfs:domain bs:PhysicalObject ;
+  rdfs:range [
+      a owl:Class ;
+      owl:unionOf (
+          bs:PhysicalObject
+          bs:Activity
+        ) ;
+    ] ;
+  owl:inverseOf bs:hasBoundary ;
+.
+bs:isDescribedBy
+  a owl:ObjectProperty ;
+  skos:prefLabel "is beschreven door"@nl ;
+  skos:prefLabel "is described by"@en ;
+  rdfs:domain [
+      a owl:Class ;
+      owl:unionOf (
+          bs:PhysicalObject
+          bs:InformationObject
+          bs:State
+          bs:Event
+          bs:Activity
+          bs:Spatialregion
+          bs:PeriodInTime
+        ) ;
+    ] ;
+  rdfs:range bs:InformationObject ;
+  owl:inverseOf bs:describes ;
+.
+bs:isEndedBy
+  a owl:ObjectProperty ;
+  skos:prefLabel "is beeindigd door"@nl ;
+  skos:prefLabel "is ended by"@en ;
+  rdfs:domain bs:State ;
+  rdfs:range bs:Event ;
+  owl:inverseOf bs:ends ;
+.
+bs:isInputOf
+  a owl:ObjectProperty ;
+  skos:prefLabel "is invoer van"@nl ;
+  skos:prefLabel "is input of"@en ;
+  rdfs:domain [
+      a owl:Class ;
+      owl:unionOf (
+          bs:PhysicalObject
+          bs:InformationObject
+        ) ;
+    ] ;
+  rdfs:range bs:Activity ;
+  owl:inverseOf bs:hasInput ;
+.
+bs:isLocationOf
+  a owl:ObjectProperty ;
+  skos:prefLabel "is locatie van"@nl ;
+  skos:prefLabel "is location of"@en ;
+  rdfs:domain bs:SpatialRegion ;
+  rdfs:range [
+      a owl:Class ;
+      owl:unionOf (
+          bs:PhysicalObject
+          bs:Activity
+        ) ;
+    ] ;
+  owl:inverseOf bs:hasLocation ;
+.
+bs:isMemberOfPropertyTypeGroup
+  a owl:ObjectProperty ;
+  rdfs:domain bs:PropertyType ;
+  rdfs:range bs:PropertyTypeGroup ;
+.
+bs:isOutputOf
+  a owl:ObjectProperty ;
+  skos:prefLabel "is uitvoer van"@nl ;
+  skos:prefLabel "is output of"@en ;
+  rdfs:domain [
+      a owl:Class ;
+      owl:unionOf (
+          bs:PhysicalObject
+          bs:InformationObject
+        ) ;
+    ] ;
+  rdfs:range bs:Activity ;
+  owl:inverseOf bs:hasOutput ;
+.
+bs:isPerformedBy
+  a owl:ObjectProperty ;
+  skos:prefLabel "is uitgevoerd door"@nl ;
+  skos:prefLabel "is performed by"@en ;
+  rdfs:domain bs:Activity ;
+  rdfs:range bs:PhysicalObject ;
+  owl:inverseOf bs:performs ;
+.
+bs:isPeriodFor
+  a owl:ObjectProperty ;
+  skos:prefLabel "is periode voor"@nl ;
+  skos:prefLabel "is period for"@en ;
+  rdfs:domain bs:TimePeriod ;
+  rdfs:range [
+      a owl:Class ;
+      owl:unionOf (
+          bs:PhysicalObject
+          bs:State
+          bs:Activity
+        ) ;
+    ] ;
+  owl:inverseOf bs:hasPeriod ;
+.
+bs:isBegunBy
+  a owl:ObjectProperty ;
+  skos:prefLabel "is begonnen door"@nl ;
+  skos:prefLabel "is begun by"@en ;
+  rdfs:domain [
+      a owl:Class ;
+      owl:unionOf (
+          bs:Activity
+          bs:State
+        ) ;
+    ] ;
+  rdfs:range bs:Event ;
+  owl:inverseOf bs:begins ;
+.
+bs:isStateOf
+  a owl:ObjectProperty ;
+  skos:prefLabel "is toestand van"@nl ;
+  skos:prefLabel "is state of"@en ;
+  rdfs:domain bs:State ;
+  rdfs:range [
+      a owl:Class ;
+      owl:unionOf (
+          bs:PhysicalObject
+          bs:Activity
+        ) ;
+    ] ;
+  owl:inverseOf bs:hasState ;
+.
+bs:isTriggeredBy
+  a owl:ObjectProperty ;
+  skos:prefLabel "is getriggerd door"@nl ;
+  skos:prefLabel "is triggered by"@en ;
+  rdfs:domain bs:Event ;
+  rdfs:range [
+      a owl:Class ;
+      owl:unionOf (
+          bs:Activity
+          bs:Object
+        ) ;
+    ] ;
+  owl:inverseOf bs:triggers ;
+.
+bs:performs
+  a owl:ObjectProperty ;
+  skos:prefLabel "voert uit"@nl ;
+  skos:prefLabel "performs"@en ;
+  rdfs:domain bs:PhysicalObject ;
+  rdfs:range bs:Activity ;
+  owl:inverseOf bs:isPerformedBy ;
+.
+bs:begins
+  a owl:ObjectProperty ;
+  skos:prefLabel "begint"@nl ;
+  skos:prefLabel "begins"@en ;
+  rdfs:domain bs:Event ;
+  rdfs:range [
+      a owl:Class ;
+      owl:unionOf (
+          bs:Activity
+          bs:State
+        ) ;
+    ] ;
+  owl:inverseOf bs:isStartedBy ;
+.
+bs:triggers
+  a owl:ObjectProperty ;
+  skos:prefLabel "triggert"@nl ;
+  skos:prefLabel "triggers"@en ;
+  rdfs:domain [
+      a owl:Class ;
+      owl:unionOf (
+          bs:Activity
+          bs:Object
+        ) ;
+    ] ;
+  rdfs:range bs:Event ;
+  owl:inverseOf bs:isTriggeredBy ;
+.
+ex:ClearOpeningHeight
+  a bs:PropertyType ;
+  rdfs:seeAlso "EN12519" ;
+  rdfs:subClassOf ex:Height ;
+  bs:isMemberOfPropertyTypeGroup ex:WindowGeometricProperties ;
+  ex:guid "77987gjg-h4545hjjh" ;
+.
+ex:ClearOpeningHeight_1
+  a bs:Property ;
+  bs:hasPropertyType ex:ClearOpeningHeight ;
+  bs:hasUnit "m" ;
+  bs:hasValue 2.40 ;
+.
+ex:DROOF-t3
+  a ex:ExternalFirePerformanceType ;
+.
+ex:Door
+  a owl:Class ;
+  rdfs:subClassOf bs:PhysicalObject ;
+.
+ex:Door_1
+  a ex:Door ;
+  bs:hasProperty ex:ClearOpeningHeight_1 ;
+  ex:clearOpeningHeight "2.40 m"^^cdt:length ;
+  ex:externalFirePerformanceType ex:FROOF-t4 ;
+.
+ex:EROOF
+  a ex:ExternalFirePerformanceType ;
+.
+ex:ExternalFirePerformanceType
+  a owl:Class ;
+.
+ex:FROOF-t4
+  a ex:ExternalFirePerformanceType ;
+.
+ex:Height
+  a bs:PropertyType ;
+  bs:hasQuantity cdt:length ;
+.
+ex:WindowGeometricProperties
+  a bs:PropertyTypeGroup ;
+  ex:dateOfCreation "2019-03-05" ;
+.
+ex:clearOpeningHeight
+  a owl:DatatypeProperty ;
+.
+ex:externalFirePerformanceType
+  a owl:ObjectProperty ;
+.
+ex:height
+  a owl:DatatypeProperty ;
+.
+[
+  a owl:AllDisjointClasses ;
+  owl:members (
+      bs:PhysicalObject
+      bs:InformationObject
+      bs:State
+      bs:Event
+      bs:TimePeriod
+      bs:SpatialRegion
+      bs:Activity
+    ) ;
+].
