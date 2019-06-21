@@ -7,6 +7,10 @@ import org.springframework.stereotype.Component;
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
 
+import nl.infrabim.yacser.graphQLserver.graphql.objects.YacserObject;
+import nl.infrabim.yacser.graphQLserver.graphql.objects.YacserObjectRepository;
+import nl.infrabim.yacser.graphQLserver.graphql.objects.YacserObjectType;
+
 @Component
 public class Mutation implements GraphQLMutationResolver {
 

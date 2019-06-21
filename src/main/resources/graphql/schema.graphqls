@@ -20,18 +20,56 @@ type YacserModel {
 	name: String
 }
 
-	# YACSER object instance.
-type YacserObject {
+	# YACSER object interface.
+interface YacserObject {
 		# URI of the object instance.
 	id: String!
 		# Optional name of the object.
 	name: String
+		# Type of the object instance
+	type: YacserObjectType!
+}
+
+	# YACSER Function instance.
+type Function implements YacserObject {
+		# URI of the object instance.
+	id: String!
+		# Optional name of the object.
+	name: String
+		# Type of the object instance
+	type: YacserObjectType!
+}
+
+	# YACSER Hamburger instance.
+type Hamburger implements YacserObject {
+		# URI of the object instance.
+	id: String!
+		# Optional name of the object.
+	name: String
+		# Type of the object instance
+	type: YacserObjectType!
 }
 
 	# All queries that are defined for this YACSER graphQL server
 type Query {
 		# List all loaded models.
 	allModels: [YacserModel]
+		# List all YACSER objects
+	allObjects(
+			# Base URI of the model.
+		modelId: ID!
+	): [YacserObject]
+		# Get Function object by ID.
+	function(
+			# Function object ID.
+		id: ID!
+	): Function
+		# Get Hamburger object by ID.
+	hamburger(
+			# Hamburger object ID.
+		id: ID!
+	): Hamburger
+	
 }
 
 	# All mutations that are defined for this YACSER graphQL server
@@ -40,7 +78,7 @@ type Mutation {
 		# Create a YACSER model.
 	createModel(
 			# Base URI of the model.
-		modelId: String!, 
+		modelId: ID!, 
 			# Optional name of the model.
 		name: String
 	): YacserModel
@@ -48,7 +86,7 @@ type Mutation {
 		# Create a YACSER object.
 	createObject(
 			# Base URI of the model.
-		modelId: String!, 
+		modelId: ID!, 
 			# Subtype of YACSER object.
 		type: YacserObjectType!
 			# Optional name of the object.

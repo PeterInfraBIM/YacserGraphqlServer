@@ -1,4 +1,4 @@
-package nl.infrabim.yacser.graphQLserver.graphql;
+package nl.infrabim.yacser.graphQLserver.graphql.objects;
 
 public class YacserObject {
 	private String id;

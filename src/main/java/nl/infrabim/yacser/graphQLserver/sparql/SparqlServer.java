@@ -112,6 +112,10 @@ public class SparqlServer {
 		String query = queryStr.toString();
 		HttpURLConnection con = getUpdateConnection();
 		sendUpdate(con, query);
+		int responseCode = con.getResponseCode();
+		LOGGER.info("Sending 'POST' request to URL : " + SparqlServer.class);
+		LOGGER.info("Post parameters : " + query);
+		LOGGER.info("Response Code : " + responseCode);
 	}
 
 	private HttpURLConnection getUpdateConnection() throws IOException {
