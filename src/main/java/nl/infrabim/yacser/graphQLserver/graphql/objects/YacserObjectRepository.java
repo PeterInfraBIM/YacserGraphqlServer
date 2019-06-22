@@ -53,7 +53,7 @@ public class YacserObjectRepository {
 		return build(type, objectId);
 	}
 
-	private YacserObject build(YacserObjectType type, String objectId) {
+	static YacserObject build(YacserObjectType type, String objectId) {
 		YacserObject yacserObject = null;
 		switch (type) {
 		case Function:
@@ -75,6 +75,7 @@ public class YacserObjectRepository {
 		case SystemInterface:
 			break;
 		case SystemSlot:
+			yacserObject = new SystemSlot(objectId);
 			break;
 		case Value:
 			break;

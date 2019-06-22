@@ -50,26 +50,62 @@ type Hamburger implements YacserObject {
 	type: YacserObjectType!
 }
 
+	# YACSER System slot instance.
+type SystemSlot implements YacserObject {
+		# URI of the object instance.
+	id: String!
+		# Optional name of the object.
+	name: String
+		# Type of the object instance
+	type: YacserObjectType!
+		# Specified functions.
+	functions: [Function]
+}
+
 	# All queries that are defined for this YACSER graphQL server
 type Query {
 		# List all loaded models.
 	allModels: [YacserModel]
+	
 		# List all YACSER objects
 	allObjects(
 			# Base URI of the model.
 		modelId: ID!
 	): [YacserObject]
+	
 		# Get Function object by ID.
 	function(
 			# Function object ID.
 		id: ID!
 	): Function
+	
 		# Get Hamburger object by ID.
 	hamburger(
 			# Hamburger object ID.
 		id: ID!
 	): Hamburger
 	
+		# Get SystemSlot object by ID.
+	systemSlot(
+			# SystemSlot object ID.
+		id: ID!
+		
+	): SystemSlot
+	
+}
+
+	# Update SystemSlot input arguments.
+input UpdateSystemSlotInput {
+		# SystemSlot ID.
+	systemSlotId: ID!
+		# If present: new name.
+	updateName: String
+		# If present: add functions.
+	addFunctions: [ID]
+		# If present: remove functions.
+	removeFunctions: [ID]
+		# If present: Replace all functions.
+	replaceFunctions: [ID]
 }
 
 	# All mutations that are defined for this YACSER graphQL server
@@ -92,6 +128,13 @@ type Mutation {
 			# Optional name of the object.
 		name: String
 	): YacserObject
+	
+		# Update SystemSlot object
+	updateSystemSlot(
+			# Input for Update SystemSlot.
+		input: UpdateSystemSlotInput!
+	): SystemSlot
+	
 }
 
 schema {

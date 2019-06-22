@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
 
+import nl.infrabim.yacser.graphQLserver.graphql.objects.SystemSlot;
+import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateSystemSlotInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.YacserObject;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.YacserObjectRepository;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.YacserObjectType;
@@ -41,10 +43,15 @@ public class Mutation implements GraphQLMutationResolver {
 	 * @param type       Subtype of YACSER object.
 	 * @param objectName Optional name of the object.
 	 * @return
-	 * @throws IOException 
+	 * @throws IOException
 	 */
-	public YacserObject createObject(String modelId, YacserObjectType type, Optional<String> objectName) throws IOException {
+	public YacserObject createObject(String modelId, YacserObjectType type, Optional<String> objectName)
+			throws IOException {
 		return yacserObjectRepository.createObject(modelId, type, objectName);
+	}
+
+	public SystemSlot updateSystemSlot(UpdateSystemSlotInput input) {
+		return null;
 	}
 
 }
