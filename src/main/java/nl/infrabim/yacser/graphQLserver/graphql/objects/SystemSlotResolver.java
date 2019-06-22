@@ -33,12 +33,14 @@ public class SystemSlotResolver extends YacserObjectResolver implements GraphQLR
 		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
 		queryStr.setIri("object", systemSlot.getId());
 		queryStr.setIri("model", modelId);
-		queryStr.append("SELECT ?function ");
-		queryStr.append("WHERE {");
+		queryStr.append("SELECT ?function ?label ");
+		queryStr.append("WHERE { ");
 		queryStr.append("	GRAPH ?model { ");
 		queryStr.append("	    ?object yacser:hasFunction ?function . ");
-		queryStr.append("	}");
-		queryStr.append("}");
+		queryStr.append("	    OPTIONAL { ?object skos:prefLabel ?label . } ");
+		queryStr.append("	} ");
+		queryStr.append("} ");
+		queryStr.append("ORDER BY ?label ");
 
 		JsonNode responseNodes = SparqlServer.instance.query(queryStr);
 		if (responseNodes.size() > 0) {

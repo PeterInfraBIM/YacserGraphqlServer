@@ -146,4 +146,31 @@ public class YacserObjectRepository {
 		return build(type, objectId);
 	}
 
+	public YacserObject addRelatedObjects(YacserObjectType type, String subjectId, String relation,
+			List<String> objectIds) throws IOException {
+		String modelId = subjectId.substring(0, subjectId.indexOf('#'));
+		String relationId = SparqlServer.YACSER_URI + "#" + relation;
+
+		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
+		queryStr.setIri("graph", modelId);
+		queryStr.setIri("subject", subjectId);
+		queryStr.setIri("predicate", relationId);
+		queryStr.append("INSERT { ");
+		queryStr.append("  GRAPH ?graph { ");
+		int index = 1;
+		for (String objectId : objectIds) {
+			queryStr.setIri("object" + index, objectId);
+			queryStr.append("    ?subject ?predicate ?object" + index + " . ");
+			index++;
+		}
+		queryStr.append("    ?subject ?predicate ?class . ");
+		queryStr.append("  } ");
+		queryStr.append("} ");
+		queryStr.append("WHERE {} ");
+
+		SparqlServer.instance.update(queryStr);
+
+		return build(type, subjectId);
+	}
+
 }
