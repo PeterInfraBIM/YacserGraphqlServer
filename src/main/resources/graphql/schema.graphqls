@@ -38,6 +38,8 @@ type Function implements YacserObject {
 	name: String
 		# Type of the object instance
 	type: YacserObjectType!
+		# Owner SystemSlot
+	owner: SystemSlot
 }
 
 	# YACSER Hamburger instance.
