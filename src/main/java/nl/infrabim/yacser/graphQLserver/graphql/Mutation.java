@@ -14,6 +14,7 @@ import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateSystemSlotInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.YacserObject;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.YacserObjectRepository;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.YacserObjectType;
+import nl.infrabim.yacser.graphQLserver.sparql.SparqlServer;
 
 @Component
 public class Mutation implements GraphQLMutationResolver {
@@ -71,6 +72,33 @@ public class Mutation implements GraphQLMutationResolver {
 	public SystemSlot updateSystemSlot(UpdateSystemSlotInput input) throws IOException {
 		return yacserObjectRepository.updateSystemSlot(input.getSystemSlotId(),
 				Optional.ofNullable(input.getUpdateName()), Optional.ofNullable(input.getAddFunctions()));
+	}
+
+	/**
+	 * Save model
+	 * 
+	 * @param modelId  Base URI of the model.
+	 * @param filePath File path
+	 * @return Success?
+	 */
+	public boolean saveModel(String modelId, String filePath) {
+		try {
+			SparqlServer.instance.saveNamedModel(modelId, filePath);
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public boolean loadModel(String filePath) {
+		try {
+			SparqlServer.instance.loadNamedModel(filePath);
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 }

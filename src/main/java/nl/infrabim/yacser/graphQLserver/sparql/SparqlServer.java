@@ -2,7 +2,9 @@ package nl.infrabim.yacser.graphQLserver.sparql;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -14,6 +16,9 @@ import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.query.ParameterizedSparqlString;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.shared.PrefixMapping;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
@@ -79,6 +84,28 @@ public class SparqlServer {
 
 	public void addNamedModel(String uri, Model model) {
 		ds.addNamedModel(uri, model);
+	}
+
+	public void saveNamedModel(String uri, String filePath) throws IOException {
+		Model namedModel = ds.getNamedModel(uri);
+		FileSystemResource fileResource = new FileSystemResource(filePath);
+		FileOutputStream fileOut = new FileOutputStream(fileResource.getFile());
+		namedModel.write(fileOut, "TURTLE", uri);
+		fileOut.close();
+	}
+
+	public void loadNamedModel(String filePath) throws IOException {
+		FileSystemResource fileResource = new FileSystemResource(filePath);
+		Model namedModel = ModelFactory.createDefaultModel();
+		InputStream inputStream = fileResource.getInputStream();
+		namedModel.read(inputStream, "", "TURTLE");
+		inputStream.close();
+		StmtIterator listStatements = namedModel.listStatements((Resource) null, RDF.type, OWL.Ontology);
+		if (listStatements.hasNext()) {
+			Statement statement = listStatements.nextStatement();
+			statement.getSubject();
+			addNamedModel(statement.getSubject().getURI(), namedModel);
+		}
 	}
 
 	public JsonNode query(ParameterizedSparqlString queryStr) throws IOException {
