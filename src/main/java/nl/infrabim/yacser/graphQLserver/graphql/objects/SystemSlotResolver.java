@@ -56,5 +56,37 @@ public class SystemSlotResolver extends YacserObjectResolver implements GraphQLR
 
 		return functions;
 	}
+	
+	public List<SystemInterface> getInterfaces(SystemSlot systemSlot) throws IOException {
+		List<SystemInterface> interfaces = null;
+		String modelId = systemSlot.getId().substring(0, systemSlot.getId().indexOf('#'));
+
+		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
+		queryStr.setIri("object", systemSlot.getId());
+		queryStr.setIri("model", modelId);
+		queryStr.append("SELECT ?interface ?label ");
+		queryStr.append("WHERE { ");
+		queryStr.append("	GRAPH ?model { ");
+		queryStr.append("	    OPTIONAL { ?interface yacser:systemSlot0 ?object . } ");
+		queryStr.append("	    OPTIONAL { ?interface yacser:systemSlot1 ?object . } ");
+		queryStr.append("	    OPTIONAL { ?interface skos:prefLabel ?label . } ");
+		queryStr.append("	} ");
+		queryStr.append("} ");
+		queryStr.append("ORDER BY ?label ");
+
+		JsonNode responseNodes = SparqlServer.instance.query(queryStr);
+		if (responseNodes.size() > 0) {
+			interfaces = new ArrayList<>();
+			for (JsonNode node : responseNodes) {
+				JsonNode interfaceNode = node.get("interface");
+				if (interfaceNode != null) {
+					interfaces.add((SystemInterface) YacserObjectRepository.build(YacserObjectType.SystemInterface,
+							interfaceNode.get("value").asText()));
+				}
+			}
+		}
+
+		return interfaces;
+	}
 
 }

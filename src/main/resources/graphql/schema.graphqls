@@ -50,6 +50,20 @@ type Hamburger implements YacserObject {
 	type: YacserObjectType!
 }
 
+	# YACSER System interface instance.
+type SystemInterface implements YacserObject {
+		# URI of the object instance.
+	id: String!
+		# Optional name of the object.
+	name: String
+		# Type of the object instance
+	type: YacserObjectType!
+		# First SystemSlot.
+	systemSlot0: SystemSlot
+		# Second SystemSlot.
+	systemSlot1: SystemSlot
+}
+
 	# YACSER System slot instance.
 type SystemSlot implements YacserObject {
 		# URI of the object instance.
@@ -60,6 +74,8 @@ type SystemSlot implements YacserObject {
 	type: YacserObjectType!
 		# Specified functions.
 	functions: [Function]
+		# Related interfaces.
+	interfaces: [SystemInterface]
 }
 
 	# All queries that are defined for this YACSER graphQL server
@@ -84,14 +100,31 @@ type Query {
 			# Hamburger object ID.
 		id: ID!
 	): Hamburger
-	
+
+		# Get SystemInterface object by ID.
+	systemInterface(
+			# SystemInterface object ID.
+		id: ID!
+	): SystemInterface
+		
 		# Get SystemSlot object by ID.
 	systemSlot(
 			# SystemSlot object ID.
 		id: ID!
-		
 	): SystemSlot
 	
+}
+
+	# Update SystemInterface input arguments.
+input UpdateSystemInterfaceInput {
+		# SystemInterface ID.
+	systemInterfaceId: ID!
+		# If present: new name.
+	updateName: String
+		# If present: update SystemSlot 0.
+	updateSystemSlot0: ID
+		# If present: update SystemSlot 1.
+	updateSystemSlot1: ID
 }
 
 	# Update SystemSlot input arguments.
@@ -128,7 +161,13 @@ type Mutation {
 			# Optional name of the object.
 		name: String
 	): YacserObject
-	
+
+		# Update SystemInterface object
+	updateSystemInterface(
+			# Input for Update SystemInterface.
+		input: UpdateSystemInterfaceInput!
+	): SystemInterface
+		
 		# Update SystemSlot object
 	updateSystemSlot(
 			# Input for Update SystemSlot.

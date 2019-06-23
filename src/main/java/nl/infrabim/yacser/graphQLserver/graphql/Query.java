@@ -9,6 +9,7 @@ import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 
 import nl.infrabim.yacser.graphQLserver.graphql.objects.Function;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.Hamburger;
+import nl.infrabim.yacser.graphQLserver.graphql.objects.SystemInterface;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.SystemSlot;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.YacserObject;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.YacserObjectRepository;
@@ -59,7 +60,11 @@ public class Query implements GraphQLQueryResolver {
 	public Hamburger getHamburger(String objectId) {
 		return (Hamburger) yacserObjectRepository.getObject(YacserObjectType.Hamburger, objectId);
 	}
-	
+
+	public SystemInterface getSystemInterface(String objectId) {
+		return (SystemInterface) yacserObjectRepository.getObject(YacserObjectType.SystemInterface, objectId);
+	}
+
 	public SystemSlot getSystemSlot(String objectId) {
 		return (SystemSlot) yacserObjectRepository.getObject(YacserObjectType.SystemSlot, objectId);
 	}

@@ -15,6 +15,10 @@ import nl.infrabim.yacser.graphQLserver.sparql.SparqlServer;
 
 @Component
 public class YacserObjectRepository {
+	private static final String YACSER_HAS_FUNCTION = SparqlServer.YACSER_URI + "#hasFunction";
+	private static final String YACSER_SYSTEM_SLOT_0 = SparqlServer.YACSER_URI + "#systemSlot0";
+	private static final String YACSER_SYSTEM_SLOT_1 = SparqlServer.YACSER_URI + "#systemSlot1";
+	private static final String SKOS_PREF_LABEL = SparqlServer.SKOS_URI + "#prefLabel";
 
 	/**
 	 * Constructor
@@ -73,6 +77,7 @@ public class YacserObjectRepository {
 		case Requirement:
 			break;
 		case SystemInterface:
+			yacserObject = new SystemInterface(objectId);
 			break;
 		case SystemSlot:
 			yacserObject = new SystemSlot(objectId);
@@ -146,10 +151,8 @@ public class YacserObjectRepository {
 		return build(type, objectId);
 	}
 
-	public YacserObject addRelatedObjects(YacserObjectType type, String subjectId, String relation,
-			List<String> objectIds) throws IOException {
+	private void addRelatedObjects(String subjectId, String relationId, List<String> objectIds) throws IOException {
 		String modelId = subjectId.substring(0, subjectId.indexOf('#'));
-		String relationId = SparqlServer.YACSER_URI + "#" + relation;
 
 		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
 		queryStr.setIri("graph", modelId);
@@ -163,14 +166,104 @@ public class YacserObjectRepository {
 			queryStr.append("    ?subject ?predicate ?object" + index + " . ");
 			index++;
 		}
-		queryStr.append("    ?subject ?predicate ?class . ");
 		queryStr.append("  } ");
 		queryStr.append("} ");
 		queryStr.append("WHERE {} ");
 
 		SparqlServer.instance.update(queryStr);
+	}
 
-		return build(type, subjectId);
+	private void updateRelatedObject(String subjectId, String relationId, String objectId) throws IOException {
+		String modelId = subjectId.substring(0, subjectId.indexOf('#'));
+
+		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
+		queryStr.setIri("graph", modelId);
+		queryStr.setIri("subject", subjectId);
+		queryStr.setIri("predicate", relationId);
+		queryStr.setIri("object", objectId);
+		queryStr.append("INSERT { ");
+		queryStr.append("  GRAPH ?graph { ");
+		queryStr.append("    ?subject ?predicate ?object . ");
+		queryStr.append("  } ");
+		queryStr.append("} ");
+		queryStr.append("WHERE {} ");
+
+		SparqlServer.instance.update(queryStr);
+	}
+
+	private void updateStringLiteral(String subjectId, String relationId, String newLiteral) throws IOException {
+		String modelId = subjectId.substring(0, subjectId.indexOf('#'));
+
+		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
+		queryStr.setIri("graph", modelId);
+		queryStr.setIri("subject", subjectId);
+		queryStr.setIri("predicate", relationId);
+		queryStr.setLiteral("newLiteral", newLiteral, "en");
+		queryStr.append("DELETE { ");
+		queryStr.append("  GRAPH ?graph { ");
+		queryStr.append("    ?subject ?predicate ?oldLiteral . ");
+		queryStr.append("  } ");
+		queryStr.append("} ");
+		if (newLiteral.length() > 0) {
+			queryStr.append("INSERT { ");
+			queryStr.append("  GRAPH ?graph { ");
+			queryStr.append("    ?subject ?predicate ?newLiteral . ");
+			queryStr.append("  } ");
+			queryStr.append("} ");
+		}
+		queryStr.append("WHERE { } ");
+
+		SparqlServer.instance.update(queryStr);
+	}
+
+	/**
+	 * Update SystemInterface
+	 * 
+	 * @param systemInterfaceId
+	 * @param updateName
+	 * @param updateSystemSlot0
+	 * @param updateSystemSlot1
+	 * @return SystemInterface object
+	 * @throws IOException
+	 */
+	public SystemInterface updateSystemInterface(String systemInterfaceId, Optional<String> updateName,
+			Optional<String> updateSystemSlot0, Optional<String> updateSystemSlot1) throws IOException {
+
+		if (updateName.isPresent()) {
+			updateStringLiteral(systemInterfaceId, SKOS_PREF_LABEL, updateName.get());
+		}
+
+		if (updateSystemSlot0.isPresent()) {
+			updateRelatedObject(systemInterfaceId, YACSER_SYSTEM_SLOT_0, updateSystemSlot0.get());
+		}
+
+		if (updateSystemSlot1.isPresent()) {
+			updateRelatedObject(systemInterfaceId, YACSER_SYSTEM_SLOT_1, updateSystemSlot1.get());
+		}
+
+		return (SystemInterface) build(YacserObjectType.SystemInterface, systemInterfaceId);
+	}
+
+	/**
+	 * Update SystemSlot
+	 * 
+	 * @param systemSlotId
+	 * @param updateName
+	 * @param addFunctions
+	 * @return SystemSlot object
+	 * @throws IOException
+	 */
+	public SystemSlot updateSystemSlot(String systemSlotId, Optional<String> updateName,
+			Optional<List<String>> addFunctions) throws IOException {
+		if (updateName.isPresent()) {
+			updateStringLiteral(systemSlotId, SKOS_PREF_LABEL, updateName.get());
+		}
+
+		if (addFunctions.isPresent()) {
+			addRelatedObjects(systemSlotId, YACSER_HAS_FUNCTION, addFunctions.get());
+		}
+
+		return (SystemSlot) build(YacserObjectType.SystemSlot, systemSlotId);
 	}
 
 }

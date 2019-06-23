@@ -1,19 +1,19 @@
 package nl.infrabim.yacser.graphQLserver.graphql;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
 
+import nl.infrabim.yacser.graphQLserver.graphql.objects.SystemInterface;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.SystemSlot;
+import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateSystemInterfaceInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateSystemSlotInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.YacserObject;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.YacserObjectRepository;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.YacserObjectType;
-import nl.infrabim.yacser.graphQLserver.sparql.SparqlServer;
 
 @Component
 public class Mutation implements GraphQLMutationResolver {
@@ -52,14 +52,25 @@ public class Mutation implements GraphQLMutationResolver {
 		return yacserObjectRepository.createObject(modelId, type, objectName);
 	}
 
+	/**
+	 * @param input Input arguments for updating the SystemInterface object
+	 * @return SystemInterface object
+	 * @throws IOException
+	 */
+	public SystemInterface updateSystemInterface(UpdateSystemInterfaceInput input) throws IOException {
+		return yacserObjectRepository.updateSystemInterface(input.getSystemInterfaceId(),
+				Optional.ofNullable(input.getUpdateName()), Optional.ofNullable(input.getUpdateSystemSlot0()),
+				Optional.ofNullable(input.getUpdateSystemSlot1()));
+	}
+
+	/**
+	 * @param input Input arguments for updating the SystemSlot object
+	 * @return SystemSlot object
+	 * @throws IOException
+	 */
 	public SystemSlot updateSystemSlot(UpdateSystemSlotInput input) throws IOException {
-		SystemSlot result = null;
-		List<String> addFunctions = input.getAddFunctions();
-		if (addFunctions != null && addFunctions.size() > 0) {
-			result = (SystemSlot) yacserObjectRepository.addRelatedObjects(YacserObjectType.SystemSlot,
-					input.getSystemSlotId(), "hasFunction", input.getAddFunctions());
-		}
-		return result;
+		return yacserObjectRepository.updateSystemSlot(input.getSystemSlotId(),
+				Optional.ofNullable(input.getUpdateName()), Optional.ofNullable(input.getAddFunctions()));
 	}
 
 }

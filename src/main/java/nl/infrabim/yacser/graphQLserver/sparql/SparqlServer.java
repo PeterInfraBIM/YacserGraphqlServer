@@ -33,6 +33,7 @@ public class SparqlServer {
 	private static final String YACSER_PATH = "src/main/resources/static/yacser.ttl";
 	public static final String BS_URI = "https://w3id.org/def/basicsemantics";
 	private static final String BS_PATH = "src/main/resources/static/basicsemantics.ttl";
+	public static final String SKOS_URI = "http://www.w3.org/2004/02/skos/core";
 
 	public static SparqlServer instance;
 	public static FusekiServer sparql;
@@ -61,7 +62,7 @@ public class SparqlServer {
 			prefixMapping.setNsPrefix("xml", "http://www.w3.org/XML/1998/namespace/");
 			prefixMapping.setNsPrefix("yacser", YACSER_URI + '#');
 			prefixMapping.setNsPrefix("bs", BS_URI + '#');
-			prefixMapping.setNsPrefix("skos", "http://www.w3.org/2004/02/skos/core#");
+			prefixMapping.setNsPrefix("skos", SKOS_URI + '#');
 			prefixMapping.setNsPrefix("expr", "https://w3id.org/express#");
 			prefixMapping.setNsPrefix("usr", "http://www.infrabim.nl/bimbots-psd-repository/users#");
 		}

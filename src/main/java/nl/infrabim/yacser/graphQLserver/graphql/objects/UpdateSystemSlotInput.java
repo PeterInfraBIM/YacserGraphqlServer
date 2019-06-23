@@ -4,7 +4,7 @@ import java.util.List;
 
 public class UpdateSystemSlotInput {
 	private String systemSlotId; // SystemSlot ID.
-	private String updateName; // If present: new name.
+	private String updateName; // If present: new name, "" will remove the name.
 	private List<String> addFunctions; // If present: add functions.
 	private List<String> removeFunctions; // If present: remove functions.
 	private List<String> replaceFunctions; // If present: Replace all functions.
