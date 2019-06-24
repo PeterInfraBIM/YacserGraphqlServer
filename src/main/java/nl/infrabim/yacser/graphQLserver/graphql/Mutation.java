@@ -91,14 +91,16 @@ public class Mutation implements GraphQLMutationResolver {
 		return false;
 	}
 
-	public boolean loadModel(String filePath) {
+	public YacserModel loadModel(String filePath) {
 		try {
-			SparqlServer.instance.loadNamedModel(filePath);
-			return true;
+			String modelId = SparqlServer.instance.loadNamedModel(filePath);
+			if (modelId != null) {
+				return new YacserModel(modelId);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return false;
+		return null;
 	}
 
 }

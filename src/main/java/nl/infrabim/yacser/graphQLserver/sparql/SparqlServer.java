@@ -94,7 +94,7 @@ public class SparqlServer {
 		fileOut.close();
 	}
 
-	public void loadNamedModel(String filePath) throws IOException {
+	public String loadNamedModel(String filePath) throws IOException {
 		FileSystemResource fileResource = new FileSystemResource(filePath);
 		Model namedModel = ModelFactory.createDefaultModel();
 		InputStream inputStream = fileResource.getInputStream();
@@ -103,9 +103,11 @@ public class SparqlServer {
 		StmtIterator listStatements = namedModel.listStatements((Resource) null, RDF.type, OWL.Ontology);
 		if (listStatements.hasNext()) {
 			Statement statement = listStatements.nextStatement();
-			statement.getSubject();
-			addNamedModel(statement.getSubject().getURI(), namedModel);
+			String uri = statement.getSubject().getURI();
+			addNamedModel(uri, namedModel);
+			return uri;
 		}
+		return null;
 	}
 
 	public JsonNode query(ParameterizedSparqlString queryStr) throws IOException {

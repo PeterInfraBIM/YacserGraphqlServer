@@ -188,7 +188,7 @@ type Mutation {
 	loadModel(
 		# File path
 	filePath: String!
-	): Boolean
+	): YacserModel
 	
 }
 
