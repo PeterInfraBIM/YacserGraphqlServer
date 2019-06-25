@@ -1,6 +1,8 @@
 package nl.infrabim.yacser.graphQLserver.graphql.objects;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.jena.query.ParameterizedSparqlString;
 import org.springframework.stereotype.Component;
@@ -49,5 +51,36 @@ public class FunctionResolver extends YacserObjectResolver implements GraphQLRes
 		}
 
 		return null;
+	}
+	
+	public List<Requirement> getRequirements(Function function) throws IOException {
+		List<Requirement> requirements = null;
+		String modelId = function.getId().substring(0, function.getId().indexOf('#'));
+
+		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
+		queryStr.setIri("object", function.getId());
+		queryStr.setIri("model", modelId);
+		queryStr.append("SELECT ?requirement ?label ");
+		queryStr.append("WHERE { ");
+		queryStr.append("	GRAPH ?model { ");
+		queryStr.append("	    ?object yacser:hasRequirement ?requirement . ");
+		queryStr.append("	    OPTIONAL { ?object skos:prefLabel ?label . } ");
+		queryStr.append("	} ");
+		queryStr.append("} ");
+		queryStr.append("ORDER BY ?label ");
+
+		JsonNode responseNodes = SparqlServer.instance.query(queryStr);
+		if (responseNodes.size() > 0) {
+			requirements = new ArrayList<>();
+			for (JsonNode node : responseNodes) {
+				JsonNode requirementNode = node.get("requirement");
+				if (requirementNode != null) {
+					requirements.add((Requirement) YacserObjectRepository.build(YacserObjectType.Requirement,
+							requirementNode.get("value").asText()));
+				}
+			}
+		}
+
+		return requirements;
 	}
 }

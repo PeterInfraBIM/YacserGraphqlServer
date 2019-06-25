@@ -16,6 +16,7 @@ import nl.infrabim.yacser.graphQLserver.sparql.SparqlServer;
 @Component
 public class YacserObjectRepository {
 	private static final String YACSER_HAS_FUNCTION = SparqlServer.YACSER_URI + "#hasFunction";
+	private static final String YACSER_HAS_REQUIREMENT = SparqlServer.YACSER_URI + "#hasRequirement";
 	private static final String YACSER_SYSTEM_SLOT_0 = SparqlServer.YACSER_URI + "#systemSlot0";
 	private static final String YACSER_SYSTEM_SLOT_1 = SparqlServer.YACSER_URI + "#systemSlot1";
 	private static final String SKOS_PREF_LABEL = SparqlServer.SKOS_URI + "#prefLabel";
@@ -75,6 +76,7 @@ public class YacserObjectRepository {
 		case RealisationPort:
 			break;
 		case Requirement:
+			yacserObject = new Requirement(objectId);
 			break;
 		case SystemInterface:
 			yacserObject = new SystemInterface(objectId);
@@ -216,6 +218,19 @@ public class YacserObjectRepository {
 		SparqlServer.instance.update(queryStr);
 	}
 
+	public Function updateFunction(String functionId, Optional<String> updateName,
+			Optional<List<String>> addRequirements) throws IOException {
+		if (updateName.isPresent()) {
+			updateStringLiteral(functionId, SKOS_PREF_LABEL, updateName.get());
+		}
+
+		if (addRequirements.isPresent()) {
+			addRelatedObjects(functionId, YACSER_HAS_REQUIREMENT, addRequirements.get());
+		}
+
+		return (Function) build(YacserObjectType.Function, functionId);
+	}
+	
 	/**
 	 * Update SystemInterface
 	 * 
