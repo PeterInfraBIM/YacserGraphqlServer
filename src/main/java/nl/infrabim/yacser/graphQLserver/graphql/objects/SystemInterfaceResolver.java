@@ -20,6 +20,10 @@ public class SystemInterfaceResolver extends YacserObjectResolver implements Gra
 		return super.getName(systemInterface);
 	}
 
+	public String getDescription(SystemInterface systemInterface) throws IOException {
+		return super.getDescription(systemInterface);
+	}
+
 	public YacserObjectType getType(SystemInterface systemInterface) throws IOException {
 		return super.getType(systemInterface);
 	}

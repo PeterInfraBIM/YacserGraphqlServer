@@ -18,6 +18,8 @@ type YacserModel {
 	id: String
 		# Optional name of the model.
 	name: String
+		# Optional description of the model.
+	description: String
 }
 
 	# YACSER object interface.
@@ -26,6 +28,8 @@ interface YacserObject {
 	id: String!
 		# Optional name of the object.
 	name: String
+		# Optional description of the object.
+	description: String
 		# Type of the object instance
 	type: YacserObjectType!
 }
@@ -36,6 +40,8 @@ type Function implements YacserObject {
 	id: String!
 		# Optional name of the object.
 	name: String
+		# Optional description of the object.
+	description: String
 		# Type of the object instance
 	type: YacserObjectType!
 		# Owner SystemSlot
@@ -50,6 +56,8 @@ type Hamburger implements YacserObject {
 	id: String!
 		# Optional name of the object.
 	name: String
+		# Optional description of the object.
+	description: String
 		# Type of the object instance
 	type: YacserObjectType!
 }
@@ -60,6 +68,8 @@ type Requirement implements YacserObject {
 	id: String!
 		# Optional name of the object.
 	name: String
+		# Optional description of the object.
+	description: String
 		# Type of the object instance
 	type: YacserObjectType!
 		# Owner SystemSlot
@@ -72,6 +82,8 @@ type SystemInterface implements YacserObject {
 	id: String!
 		# Optional name of the object.
 	name: String
+		# Optional description of the object.
+	description: String
 		# Type of the object instance
 	type: YacserObjectType!
 		# First SystemSlot.
@@ -86,6 +98,8 @@ type SystemSlot implements YacserObject {
 	id: String!
 		# Optional name of the object.
 	name: String
+		# Optional description of the object.
+	description: String
 		# Type of the object instance
 	type: YacserObjectType!
 		# Specified functions.
@@ -143,6 +157,8 @@ input UpdateFunctionInput {
 	functionId: ID!
 		# If present: new name.
 	updateName: String
+		# If present: new description.
+	updateDescription: String
 		# If present: add requirements.
 	addRequirements: [ID]
 }
@@ -153,6 +169,8 @@ input UpdateSystemInterfaceInput {
 	systemInterfaceId: ID!
 		# If present: new name.
 	updateName: String
+		# If present: new description.
+	updateDescription: String
 		# If present: update SystemSlot 0.
 	updateSystemSlot0: ID
 		# If present: update SystemSlot 1.
@@ -165,6 +183,8 @@ input UpdateSystemSlotInput {
 	systemSlotId: ID!
 		# If present: new name.
 	updateName: String
+		# If present: new description.
+	updateDescription: String
 		# If present: add functions.
 	addFunctions: [ID]
 		# If present: remove functions.
@@ -182,6 +202,8 @@ type Mutation {
 		modelId: ID!, 
 			# Optional name of the model.
 		name: String
+			# Optional description of the model.
+		description: String
 	): YacserModel
 	
 		# Create a YACSER object.
@@ -192,6 +214,8 @@ type Mutation {
 		type: YacserObjectType!
 			# Optional name of the object.
 		name: String
+			# Optional description of the object.
+		description: String
 	): YacserObject
 
 		# Update Function object

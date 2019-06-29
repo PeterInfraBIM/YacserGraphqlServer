@@ -2,5 +2,6 @@
 .factorypath
 .project
 .settings
+bin
 target
 src/test

@@ -3,6 +3,7 @@ package nl.infrabim.yacser.graphQLserver.graphql.objects;
 public class UpdateSystemInterfaceInput {
 	private String systemInterfaceId; // SystemInterface ID.
 	private String updateName; // If present: new name, "" will remove the name.
+	private String updateDescription; // If present: new description, "" will remove the description.
 	private String updateSystemSlot0; // If present: update SystemSlot 0.
 	private String updateSystemSlot1; // If present: update SystemSlot 1.
 
@@ -23,6 +24,14 @@ public class UpdateSystemInterfaceInput {
 
 	public void setUpdateName(String updateName) {
 		this.updateName = updateName;
+	}
+
+	public String getUpdateDescription() {
+		return updateDescription;
+	}
+
+	public void setUpdateDescription(String updateDescription) {
+		this.updateDescription = updateDescription;
 	}
 
 	public String getUpdateSystemSlot0() {

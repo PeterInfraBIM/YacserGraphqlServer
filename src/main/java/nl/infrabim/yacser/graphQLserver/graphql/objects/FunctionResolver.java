@@ -22,6 +22,10 @@ public class FunctionResolver extends YacserObjectResolver implements GraphQLRes
 		return super.getName(function);
 	}
 
+	public String getDescription(Function function) throws IOException {
+		return super.getDescription(function);
+	}
+
 	public YacserObjectType getType(Function function) throws IOException {
 		return super.getType(function);
 	}
@@ -52,7 +56,7 @@ public class FunctionResolver extends YacserObjectResolver implements GraphQLRes
 
 		return null;
 	}
-	
+
 	public List<Requirement> getRequirements(Function function) throws IOException {
 		List<Requirement> requirements = null;
 		String modelId = function.getId().substring(0, function.getId().indexOf('#'));

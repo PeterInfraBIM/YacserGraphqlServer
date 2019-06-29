@@ -49,6 +49,39 @@ public class YacserObjectResolver {
 	}
 
 	/**
+	 * Get the description of the YACSER object.
+	 * 
+	 * @param yacserObject the YACSER object instance
+	 * @return the description string
+	 * @throws IOException
+	 */
+	public String getDescription(YacserObject yacserObject) throws IOException {
+		String modelId = yacserObject.getId().substring(0, yacserObject.getId().indexOf('#'));
+
+		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
+		queryStr.setIri("object", yacserObject.getId());
+		queryStr.setIri("model", modelId);
+		queryStr.append("SELECT ?description ");
+		queryStr.append("WHERE {");
+		queryStr.append("	GRAPH ?model { ");
+		queryStr.append("	    ?object db:description ?description . ");
+		queryStr.append("	}");
+		queryStr.append("}");
+
+		JsonNode responseNodes = SparqlServer.instance.query(queryStr);
+		if (responseNodes.size() > 0) {
+			for (JsonNode node : responseNodes) {
+				JsonNode descriptionNode = node.get("description");
+				if (descriptionNode != null) {
+					return descriptionNode.get("value").asText();
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/**
 	 * Get the type of the YACSER object.
 	 * 
 	 * @param yacserObject the YACSER object instance

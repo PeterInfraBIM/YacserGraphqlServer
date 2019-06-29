@@ -20,6 +20,10 @@ public class RequirementResolver extends YacserObjectResolver implements GraphQL
 		return super.getName(requirement);
 	}
 
+	public String getDescription(Requirement requirement) throws IOException {
+		return super.getDescription(requirement);
+	}
+
 	public YacserObjectType getType(Requirement requirement) throws IOException {
 		return super.getType(requirement);
 	}

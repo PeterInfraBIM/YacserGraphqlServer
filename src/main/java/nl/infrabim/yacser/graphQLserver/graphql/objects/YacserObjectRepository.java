@@ -20,6 +20,7 @@ public class YacserObjectRepository {
 	private static final String YACSER_SYSTEM_SLOT_0 = SparqlServer.YACSER_URI + "#systemSlot0";
 	private static final String YACSER_SYSTEM_SLOT_1 = SparqlServer.YACSER_URI + "#systemSlot1";
 	private static final String SKOS_PREF_LABEL = SparqlServer.SKOS_URI + "#prefLabel";
+	private static final String DB_DESCRIPTION = SparqlServer.DBC_URI + "description";
 
 	/**
 	 * Constructor
@@ -36,8 +37,8 @@ public class YacserObjectRepository {
 	 * @return the new YACSER object
 	 * @throws IOException
 	 */
-	public YacserObject createObject(String modelId, YacserObjectType type, Optional<String> objectName)
-			throws IOException {
+	public YacserObject createObject(String modelId, YacserObjectType type, Optional<String> objectName,
+			Optional<String> objectDescription) throws IOException {
 		String objectId = modelId + "#" + UUID.randomUUID().toString();
 		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
 		queryStr.setIri("graph", modelId);
@@ -48,6 +49,9 @@ public class YacserObjectRepository {
 		queryStr.append("    ?object rdf:type ?class . ");
 		if (objectName.isPresent()) {
 			queryStr.append("    ?object skos:prefLabel \"" + objectName.get() + "\"@en . ");
+		}
+		if (objectDescription.isPresent()) {
+			queryStr.append("    ?object db:description \"" + objectDescription.get() + "\"@en . ");
 		}
 		queryStr.append("  } ");
 		queryStr.append("} ");
@@ -218,10 +222,15 @@ public class YacserObjectRepository {
 		SparqlServer.instance.update(queryStr);
 	}
 
-	public Function updateFunction(String functionId, Optional<String> updateName,
+	public Function updateFunction(String functionId, Optional<String> updateName, Optional<String> updateDescription,
 			Optional<List<String>> addRequirements) throws IOException {
+
 		if (updateName.isPresent()) {
 			updateStringLiteral(functionId, SKOS_PREF_LABEL, updateName.get());
+		}
+
+		if (updateDescription.isPresent()) {
+			updateStringLiteral(functionId, DB_DESCRIPTION, updateDescription.get());
 		}
 
 		if (addRequirements.isPresent()) {
@@ -230,7 +239,7 @@ public class YacserObjectRepository {
 
 		return (Function) build(YacserObjectType.Function, functionId);
 	}
-	
+
 	/**
 	 * Update SystemInterface
 	 * 
@@ -242,10 +251,15 @@ public class YacserObjectRepository {
 	 * @throws IOException
 	 */
 	public SystemInterface updateSystemInterface(String systemInterfaceId, Optional<String> updateName,
-			Optional<String> updateSystemSlot0, Optional<String> updateSystemSlot1) throws IOException {
+			Optional<String> updateDescription, Optional<String> updateSystemSlot0, Optional<String> updateSystemSlot1)
+			throws IOException {
 
 		if (updateName.isPresent()) {
 			updateStringLiteral(systemInterfaceId, SKOS_PREF_LABEL, updateName.get());
+		}
+
+		if (updateDescription.isPresent()) {
+			updateStringLiteral(systemInterfaceId, DB_DESCRIPTION, updateDescription.get());
 		}
 
 		if (updateSystemSlot0.isPresent()) {
@@ -269,9 +283,14 @@ public class YacserObjectRepository {
 	 * @throws IOException
 	 */
 	public SystemSlot updateSystemSlot(String systemSlotId, Optional<String> updateName,
-			Optional<List<String>> addFunctions) throws IOException {
+			Optional<String> updateDescription, Optional<List<String>> addFunctions) throws IOException {
+
 		if (updateName.isPresent()) {
 			updateStringLiteral(systemSlotId, SKOS_PREF_LABEL, updateName.get());
+		}
+
+		if (updateDescription.isPresent()) {
+			updateStringLiteral(systemSlotId, DB_DESCRIPTION, updateDescription.get());
 		}
 
 		if (addFunctions.isPresent()) {

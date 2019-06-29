@@ -5,6 +5,7 @@ import java.util.List;
 public class UpdateSystemSlotInput {
 	private String systemSlotId; // SystemSlot ID.
 	private String updateName; // If present: new name, "" will remove the name.
+	private String updateDescription; // If present: new description, "" will remove the description.
 	private List<String> addFunctions; // If present: add functions.
 	private List<String> removeFunctions; // If present: remove functions.
 	private List<String> replaceFunctions; // If present: Replace all functions.
@@ -26,6 +27,14 @@ public class UpdateSystemSlotInput {
 
 	public void setUpdateName(String updateName) {
 		this.updateName = updateName;
+	}
+
+	public String getUpdateDescription() {
+		return updateDescription;
+	}
+
+	public void setUpdateDescription(String updateDescription) {
+		this.updateDescription = updateDescription;
 	}
 
 	public List<String> getAddFunctions() {

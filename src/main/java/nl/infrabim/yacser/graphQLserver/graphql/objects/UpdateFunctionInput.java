@@ -5,6 +5,7 @@ import java.util.List;
 public class UpdateFunctionInput {
 	private String functionId; // Function ID.
 	private String updateName; // If present: new name, "" will remove the name.
+	private String updateDescription; // If present: new description, "" will remove the description.
 	private List<String> addRequirements; // If present: add requirements.
 
 	public UpdateFunctionInput() {
@@ -24,6 +25,14 @@ public class UpdateFunctionInput {
 
 	public void setUpdateName(String updateName) {
 		this.updateName = updateName;
+	}
+
+	public String getUpdateDescription() {
+		return updateDescription;
+	}
+
+	public void setUpdateDescription(String updateDescription) {
+		this.updateDescription = updateDescription;
 	}
 
 	public List<String> getAddRequirements() {

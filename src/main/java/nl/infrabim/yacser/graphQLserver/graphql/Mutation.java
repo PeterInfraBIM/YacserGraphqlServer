@@ -39,8 +39,8 @@ public class Mutation implements GraphQLMutationResolver {
 	 * @param modelName Optional name of the model.
 	 * @return
 	 */
-	public YacserModel createModel(String modelId, Optional<String> modelName) {
-		return yacserModelRepository.createModel(modelId, modelName);
+	public YacserModel createModel(String modelId, Optional<String> modelName, Optional<String> modelDescription) {
+		return yacserModelRepository.createModel(modelId, modelName, modelDescription);
 	}
 
 	/**
@@ -50,14 +50,14 @@ public class Mutation implements GraphQLMutationResolver {
 	 * @return
 	 * @throws IOException
 	 */
-	public YacserObject createObject(String modelId, YacserObjectType type, Optional<String> objectName)
-			throws IOException {
-		return yacserObjectRepository.createObject(modelId, type, objectName);
+	public YacserObject createObject(String modelId, YacserObjectType type, Optional<String> objectName,
+			Optional<String> objectDescription) throws IOException {
+		return yacserObjectRepository.createObject(modelId, type, objectName, objectDescription);
 	}
-	
+
 	public Function updateFunction(UpdateFunctionInput input) throws IOException {
-		return yacserObjectRepository.updateFunction(input.getFunctionId(),
-				Optional.ofNullable(input.getUpdateName()), Optional.ofNullable(input.getAddRequirements()));
+		return yacserObjectRepository.updateFunction(input.getFunctionId(), Optional.ofNullable(input.getUpdateName()),
+				Optional.ofNullable(input.getUpdateDescription()), Optional.ofNullable(input.getAddRequirements()));
 	}
 
 	/**
@@ -67,8 +67,8 @@ public class Mutation implements GraphQLMutationResolver {
 	 */
 	public SystemInterface updateSystemInterface(UpdateSystemInterfaceInput input) throws IOException {
 		return yacserObjectRepository.updateSystemInterface(input.getSystemInterfaceId(),
-				Optional.ofNullable(input.getUpdateName()), Optional.ofNullable(input.getUpdateSystemSlot0()),
-				Optional.ofNullable(input.getUpdateSystemSlot1()));
+				Optional.ofNullable(input.getUpdateName()), Optional.ofNullable(input.getUpdateDescription()),
+				Optional.ofNullable(input.getUpdateSystemSlot0()), Optional.ofNullable(input.getUpdateSystemSlot1()));
 	}
 
 	/**
@@ -78,7 +78,8 @@ public class Mutation implements GraphQLMutationResolver {
 	 */
 	public SystemSlot updateSystemSlot(UpdateSystemSlotInput input) throws IOException {
 		return yacserObjectRepository.updateSystemSlot(input.getSystemSlotId(),
-				Optional.ofNullable(input.getUpdateName()), Optional.ofNullable(input.getAddFunctions()));
+				Optional.ofNullable(input.getUpdateName()), Optional.ofNullable(input.getUpdateDescription()),
+				Optional.ofNullable(input.getAddFunctions()));
 	}
 
 	/**

@@ -22,6 +22,10 @@ public class SystemSlotResolver extends YacserObjectResolver implements GraphQLR
 		return super.getName(systemSlot);
 	}
 
+	public String getDescription(SystemSlot systemSlot) throws IOException {
+		return super.getDescription(systemSlot);
+	}
+
 	public YacserObjectType getType(SystemSlot systemSlot) throws IOException {
 		return super.getType(systemSlot);
 	}

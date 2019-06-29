@@ -54,17 +54,18 @@ public class YacserModelRepository {
 		return models;
 	}
 
-	public YacserModel createModel(String id, Optional<String> modelName) {
+	public YacserModel createModel(String id, Optional<String> modelName, Optional<String> modelDescription) {
 		YacserModel yacserModel = new YacserModel(id);
-		create(yacserModel, modelName);
+		create(yacserModel, modelName, modelDescription);
 		return yacserModel;
 	}
 
-	private void create(YacserModel yacserModel, Optional<String> name) {
+	private void create(YacserModel yacserModel, Optional<String> name, Optional<String> description) {
 		Model model = ModelFactory.createDefaultModel();
 
 		model.setNsPrefix("bs", "https://w3id.org/def/basicsemantics#");
 		model.setNsPrefix("cdt", "https://w3id.org/def/simple_custom_datatypes#");
+		model.setNsPrefix("dc", "http://purl.org/dc/elements/1.1/");
 		model.setNsPrefix("dct", "http://purl.org/dc/terms/");
 		model.setNsPrefix("owl", OWL.NS);
 		model.setNsPrefix("rdf", RDF.uri);
@@ -83,6 +84,12 @@ public class YacserModelRepository {
 			Property prefLabel = model.createProperty("http://www.w3.org/2004/02/skos/core#prefLabel");
 			Literal label = model.createLiteral(name.get(), "en");
 			model.add(model.createStatement(ontology, prefLabel, label));
+		}
+		
+		if (description.isPresent()) {
+			Property descr = model.createProperty("http://purl.org/dc/elements/1.1/description");
+			Literal label = model.createLiteral(description.get(), "en");
+			model.add(model.createStatement(ontology, descr, label));
 		}
 
 		SparqlServer.instance.addNamedModel(yacserModel.getId(), model);
