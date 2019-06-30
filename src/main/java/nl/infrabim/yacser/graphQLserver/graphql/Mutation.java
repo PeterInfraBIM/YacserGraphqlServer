@@ -8,9 +8,11 @@ import org.springframework.stereotype.Component;
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
 
 import nl.infrabim.yacser.graphQLserver.graphql.objects.Function;
+import nl.infrabim.yacser.graphQLserver.graphql.objects.Requirement;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.SystemInterface;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.SystemSlot;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateFunctionInput;
+import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateRequirementInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateSystemInterfaceInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateSystemSlotInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.YacserObject;
@@ -72,6 +74,16 @@ public class Mutation implements GraphQLMutationResolver {
 	 */
 	public YacserModel updateModel(UpdateYacserModelInput input) throws IOException {
 		return yacserModelRepository.updateModel(input.getModelId(), Optional.ofNullable(input.getUpdateName()),
+				Optional.ofNullable(input.getUpdateDescription()));
+	}
+	
+	/**
+	 * @param input Input arguments for updating the Requirement object
+	 * @return Updated Requirement object
+	 * @throws IOException
+	 */
+	public Requirement updateRequirement(UpdateRequirementInput input) throws IOException {
+		return yacserObjectRepository.updateRequirement(input.getRequirementId(), Optional.ofNullable(input.getUpdateName()),
 				Optional.ofNullable(input.getUpdateDescription()));
 	}
 

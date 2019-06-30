@@ -89,6 +89,7 @@ public class YacserObjectRepository {
 			yacserObject = new SystemSlot(objectId);
 			break;
 		case Value:
+			yacserObject = new Value(objectId);
 			break;
 		default:
 			break;
@@ -253,6 +254,29 @@ public class YacserObjectRepository {
 		}
 
 		return (Function) build(YacserObjectType.Function, functionId);
+	}
+
+	/**
+	 * Update Requirement object
+	 * 
+	 * @param requirementId     Requirement ID.
+	 * @param updateName        If present, updated name.
+	 * @param updateDescription If present, updated description.
+	 * @return Updated Requirement object.
+	 * @throws IOException
+	 */
+	public Requirement updateRequirement(String requirementId, Optional<String> updateName,
+			Optional<String> updateDescription) throws IOException {
+
+		if (updateName.isPresent()) {
+			updateStringLiteral(requirementId, SKOS_PREF_LABEL, updateName.get());
+		}
+
+		if (updateDescription.isPresent()) {
+			updateStringLiteral(requirementId, DB_DESCRIPTION, updateDescription.get());
+		}
+
+		return (Requirement) build(YacserObjectType.Requirement, requirementId);
 	}
 
 	/**

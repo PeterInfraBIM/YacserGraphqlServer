@@ -15,7 +15,7 @@ enum YacserObjectType {
 	# YACSER data model
 type YacserModel {
 		# Base URI of the model.
-	id: String
+	id: ID!
 		# Optional name of the model.
 	name: String
 		# Optional description of the model.
@@ -25,7 +25,7 @@ type YacserModel {
 	# YACSER object interface.
 interface YacserObject {
 		# URI of the object instance.
-	id: String!
+	id: ID!
 		# Optional name of the object.
 	name: String
 		# Optional description of the object.
@@ -37,7 +37,7 @@ interface YacserObject {
 	# YACSER Function instance.
 type Function implements YacserObject {
 		# URI of the object instance.
-	id: String!
+	id: ID!
 		# Optional name of the object.
 	name: String
 		# Optional description of the object.
@@ -53,7 +53,7 @@ type Function implements YacserObject {
 	# YACSER Hamburger instance.
 type Hamburger implements YacserObject {
 		# URI of the object instance.
-	id: String!
+	id: ID!
 		# Optional name of the object.
 	name: String
 		# Optional description of the object.
@@ -65,21 +65,25 @@ type Hamburger implements YacserObject {
 	# YACSER Requirement instance.
 type Requirement implements YacserObject {
 		# URI of the object instance.
-	id: String!
+	id: ID!
 		# Optional name of the object.
 	name: String
 		# Optional description of the object.
 	description: String
 		# Type of the object instance
 	type: YacserObjectType!
-		# Owner SystemSlot
+		# Owner Function, SystemSlot of SystemInterface
 	owner: YacserObject
+		# Minimal value
+	minValue: Value
+		# Maximal value
+	maxValue: Value
 }
 
 	# YACSER System interface instance.
 type SystemInterface implements YacserObject {
 		# URI of the object instance.
-	id: String!
+	id: ID!
 		# Optional name of the object.
 	name: String
 		# Optional description of the object.
@@ -95,7 +99,7 @@ type SystemInterface implements YacserObject {
 	# YACSER System slot instance.
 type SystemSlot implements YacserObject {
 		# URI of the object instance.
-	id: String!
+	id: ID!
 		# Optional name of the object.
 	name: String
 		# Optional description of the object.
@@ -106,6 +110,16 @@ type SystemSlot implements YacserObject {
 	functions: [Function]
 		# Related interfaces.
 	interfaces: [SystemInterface]
+}
+
+	# Value instance.
+type Value {
+		# Value URI
+	id: ID!
+		# Unit string
+	unit: String
+		# Value float
+	value: Float
 }
 
 	# All queries that are defined for this YACSER graphQL server
@@ -149,6 +163,11 @@ type Query {
 		id: ID!
 	): SystemSlot
 	
+		# Get Value object by ID.
+	value(
+			# Value object ID.
+		id: ID!
+	): Value
 }
 
 	# Update Function input arguments.
@@ -163,10 +182,10 @@ input UpdateFunctionInput {
 	addRequirements: [ID]
 }
 
-	# Update YacserModel input arguments.
-input UpdateYacserModelInput {
-		# Model ID.
-	modelId: ID!
+	# Update Requirement input arguments.
+input UpdateRequirementInput {
+		# Requirement ID.
+	requirementId: ID!
 		# If present: new name.
 	updateName: String
 		# If present: new description.
@@ -201,6 +220,16 @@ input UpdateSystemSlotInput {
 	removeFunctions: [ID]
 		# If present: Replace all functions.
 	replaceFunctions: [ID]
+}
+
+	# Update YacserModel input arguments.
+input UpdateYacserModelInput {
+		# Model ID.
+	modelId: ID!
+		# If present: new name.
+	updateName: String
+		# If present: new description.
+	updateDescription: String
 }
 
 	# All mutations that are defined for this YACSER graphQL server
@@ -239,6 +268,12 @@ type Mutation {
 			# Input for Update YacserModel.
 		input: UpdateYacserModelInput!
 	): YacserModel
+	
+		# Update Requirement object
+	updateRequirement(
+			# Input for Update Requirement.
+		input: UpdateRequirementInput!
+	): Requirement
 	
 			# Update SystemInterface object
 	updateSystemInterface(

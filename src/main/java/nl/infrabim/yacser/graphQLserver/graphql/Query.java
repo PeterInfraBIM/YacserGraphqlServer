@@ -12,6 +12,7 @@ import nl.infrabim.yacser.graphQLserver.graphql.objects.Hamburger;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.Requirement;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.SystemInterface;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.SystemSlot;
+import nl.infrabim.yacser.graphQLserver.graphql.objects.Value;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.YacserObject;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.YacserObjectRepository;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.YacserObjectType;
@@ -73,5 +74,8 @@ public class Query implements GraphQLQueryResolver {
 	public SystemSlot getSystemSlot(String objectId) {
 		return (SystemSlot) yacserObjectRepository.getObject(YacserObjectType.SystemSlot, objectId);
 	}
-
+	
+	public Value getValue(String objectId) {
+		return (Value) yacserObjectRepository.getObject(YacserObjectType.Value, objectId);
+	}
 }

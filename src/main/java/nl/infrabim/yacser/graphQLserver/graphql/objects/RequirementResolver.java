@@ -60,4 +60,12 @@ public class RequirementResolver extends YacserObjectResolver implements GraphQL
 
 		return null;
 	}
+
+	public Value getMinValue(Requirement requirement) {
+		return null;
+	}
+	
+	public Value getMaxValue(Requirement requirement) {
+		return null;
+	}
 }
