@@ -64,7 +64,7 @@ public class Query implements GraphQLQueryResolver {
 	}
 
 	public Requirement getRequirement(String objectId) {
-		return (Requirement) yacserObjectRepository.getObject(YacserObjectType.Function, objectId);
+		return (Requirement) yacserObjectRepository.getObject(YacserObjectType.Requirement, objectId);
 	}
 
 	public SystemInterface getSystemInterface(String objectId) {
@@ -74,7 +74,7 @@ public class Query implements GraphQLQueryResolver {
 	public SystemSlot getSystemSlot(String objectId) {
 		return (SystemSlot) yacserObjectRepository.getObject(YacserObjectType.SystemSlot, objectId);
 	}
-	
+
 	public Value getValue(String objectId) {
 		return (Value) yacserObjectRepository.getObject(YacserObjectType.Value, objectId);
 	}

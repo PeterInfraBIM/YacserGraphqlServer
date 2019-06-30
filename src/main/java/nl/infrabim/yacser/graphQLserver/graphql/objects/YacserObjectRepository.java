@@ -16,6 +16,8 @@ import nl.infrabim.yacser.graphQLserver.sparql.SparqlServer;
 @Component
 public class YacserObjectRepository {
 	public static final String YACSER_HAS_FUNCTION = SparqlServer.YACSER_URI + "#hasFunction";
+	public static final String YACSER_HAS_MAX_VALUE = SparqlServer.YACSER_URI + "#hasMaxValue";
+	public static final String YACSER_HAS_MIN_VALUE = SparqlServer.YACSER_URI + "#hasMinValue";
 	public static final String YACSER_HAS_REQUIREMENT = SparqlServer.YACSER_URI + "#hasRequirement";
 	public static final String YACSER_SYSTEM_SLOT_0 = SparqlServer.YACSER_URI + "#systemSlot0";
 	public static final String YACSER_SYSTEM_SLOT_1 = SparqlServer.YACSER_URI + "#systemSlot1";
@@ -121,6 +123,8 @@ public class YacserObjectRepository {
 		queryStr.append("	   	{ OPTIONAL { ?type rdfs:subClassOf bs:InformationObject . } } ");
 		queryStr.append("	   	UNION ");
 		queryStr.append("	   	{ OPTIONAL { ?type rdfs:subClassOf bs:PhysicalObject . } } ");
+		queryStr.append("	   	UNION ");
+		queryStr.append("	   	{ OPTIONAL { ?type rdfs:subClassOf bs:Property . } } ");
 		queryStr.append("	}");
 		queryStr.append("}");
 		queryStr.append("ORDER BY ?name ");
@@ -156,6 +160,31 @@ public class YacserObjectRepository {
 	 */
 	public YacserObject getObject(YacserObjectType type, String objectId) {
 		return build(type, objectId);
+	}
+
+	public static String getRelatedObject(String subjectId, String relationId) throws IOException {
+		String modelId = subjectId.substring(0, subjectId.indexOf('#'));
+
+		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
+		queryStr.setIri("graph", modelId);
+		queryStr.setIri("subject", subjectId);
+		queryStr.setIri("predicate", relationId);
+		queryStr.append("SELECT ?object { ");
+		queryStr.append("  GRAPH ?graph { ");
+		queryStr.append("    ?subject ?predicate ?object . ");
+		queryStr.append("  } ");
+		queryStr.append("} ");
+
+		JsonNode responseNodes = SparqlServer.instance.query(queryStr);
+		if (responseNodes.size() > 0) {
+			for (JsonNode node : responseNodes) {
+				JsonNode objectNode = node.get("object");
+				if (objectNode != null) {
+					return objectNode.get("value").asText();
+				}
+			}
+		}
+		return null;
 	}
 
 	private void addRelatedObjects(String subjectId, String relationId, List<String> objectIds) throws IOException {
@@ -262,11 +291,14 @@ public class YacserObjectRepository {
 	 * @param requirementId     Requirement ID.
 	 * @param updateName        If present, updated name.
 	 * @param updateDescription If present, updated description.
+	 * @param updateMinValue    If present, updated minimal value.
+	 * @param updateMaxValue    If present, updated maximal value.
 	 * @return Updated Requirement object.
 	 * @throws IOException
 	 */
 	public Requirement updateRequirement(String requirementId, Optional<String> updateName,
-			Optional<String> updateDescription) throws IOException {
+			Optional<String> updateDescription, Optional<String> updateMinValue, Optional<String> updateMaxValue)
+			throws IOException {
 
 		if (updateName.isPresent()) {
 			updateStringLiteral(requirementId, SKOS_PREF_LABEL, updateName.get());
@@ -274,6 +306,14 @@ public class YacserObjectRepository {
 
 		if (updateDescription.isPresent()) {
 			updateStringLiteral(requirementId, DB_DESCRIPTION, updateDescription.get());
+		}
+
+		if (updateMinValue.isPresent()) {
+			updateRelatedObject(requirementId, YACSER_HAS_MIN_VALUE, updateMinValue.get());
+		}
+
+		if (updateMaxValue.isPresent()) {
+			updateRelatedObject(requirementId, YACSER_HAS_MAX_VALUE, updateMaxValue.get());
 		}
 
 		return (Requirement) build(YacserObjectType.Requirement, requirementId);

@@ -61,11 +61,15 @@ public class RequirementResolver extends YacserObjectResolver implements GraphQL
 		return null;
 	}
 
-	public Value getMinValue(Requirement requirement) {
-		return null;
+	public Value getMinValue(Requirement requirement) throws IOException {
+		String minValueId = YacserObjectRepository.getRelatedObject(requirement.getId(),
+				YacserObjectRepository.YACSER_HAS_MIN_VALUE);
+		return (Value) YacserObjectRepository.build(YacserObjectType.Value, minValueId);
 	}
-	
-	public Value getMaxValue(Requirement requirement) {
-		return null;
+
+	public Value getMaxValue(Requirement requirement) throws IOException {
+		String maxValueId = YacserObjectRepository.getRelatedObject(requirement.getId(),
+				YacserObjectRepository.YACSER_HAS_MAX_VALUE);
+		return (Value) YacserObjectRepository.build(YacserObjectType.Value, maxValueId);
 	}
 }

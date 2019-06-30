@@ -29,6 +29,6 @@ public class ValueResolver extends YacserObjectResolver implements GraphQLResolv
 	}
 	
 	public Double getValue(Value value) throws IOException {
-		return 0.0d;
+		return null;
 	}
 }

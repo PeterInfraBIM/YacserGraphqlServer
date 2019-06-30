@@ -76,15 +76,16 @@ public class Mutation implements GraphQLMutationResolver {
 		return yacserModelRepository.updateModel(input.getModelId(), Optional.ofNullable(input.getUpdateName()),
 				Optional.ofNullable(input.getUpdateDescription()));
 	}
-	
+
 	/**
 	 * @param input Input arguments for updating the Requirement object
 	 * @return Updated Requirement object
 	 * @throws IOException
 	 */
 	public Requirement updateRequirement(UpdateRequirementInput input) throws IOException {
-		return yacserObjectRepository.updateRequirement(input.getRequirementId(), Optional.ofNullable(input.getUpdateName()),
-				Optional.ofNullable(input.getUpdateDescription()));
+		return yacserObjectRepository.updateRequirement(input.getRequirementId(),
+				Optional.ofNullable(input.getUpdateName()), Optional.ofNullable(input.getUpdateDescription()),
+				Optional.ofNullable(input.getUpdateMinValue()), Optional.ofNullable(input.getUpdateMaxValue()));
 	}
 
 	/**

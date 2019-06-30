@@ -113,9 +113,15 @@ type SystemSlot implements YacserObject {
 }
 
 	# Value instance.
-type Value {
+type Value implements YacserObject {
 		# Value URI
 	id: ID!
+		# Optional name of the object.
+	name: String
+		# Optional description of the object.
+	description: String
+		# Type of the object instance
+	type: YacserObjectType!
 		# Unit string
 	unit: String
 		# Value float
@@ -190,6 +196,10 @@ input UpdateRequirementInput {
 	updateName: String
 		# If present: new description.
 	updateDescription: String
+		# If present: new minimal Value
+	updateMinValue: ID
+		# If present: new maximal Value
+	updateMaxValue: ID
 }
 
 	# Update SystemInterface input arguments.
