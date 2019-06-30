@@ -163,6 +163,16 @@ input UpdateFunctionInput {
 	addRequirements: [ID]
 }
 
+	# Update YacserModel input arguments.
+input UpdateYacserModelInput {
+		# Model ID.
+	modelId: ID!
+		# If present: new name.
+	updateName: String
+		# If present: new description.
+	updateDescription: String
+}
+
 	# Update SystemInterface input arguments.
 input UpdateSystemInterfaceInput {
 		# SystemInterface ID.
@@ -223,6 +233,12 @@ type Mutation {
 			# Input for Update Function.
 		input: UpdateFunctionInput!
 	): Function
+	
+		# Update YacserModel object
+	updateModel(
+			# Input for Update YacserModel.
+		input: UpdateYacserModelInput!
+	): YacserModel
 	
 			# Update SystemInterface object
 	updateSystemInterface(

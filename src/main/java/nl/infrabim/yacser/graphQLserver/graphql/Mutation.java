@@ -55,14 +55,29 @@ public class Mutation implements GraphQLMutationResolver {
 		return yacserObjectRepository.createObject(modelId, type, objectName, objectDescription);
 	}
 
+	/**
+	 * @param input Input arguments for updating the Function object
+	 * @return Updated Function object
+	 * @throws IOException
+	 */
 	public Function updateFunction(UpdateFunctionInput input) throws IOException {
 		return yacserObjectRepository.updateFunction(input.getFunctionId(), Optional.ofNullable(input.getUpdateName()),
 				Optional.ofNullable(input.getUpdateDescription()), Optional.ofNullable(input.getAddRequirements()));
 	}
 
 	/**
+	 * @param input Input arguments for updating the YacserModel object
+	 * @return Updated YacserModel object
+	 * @throws IOException
+	 */
+	public YacserModel updateModel(UpdateYacserModelInput input) throws IOException {
+		return yacserModelRepository.updateModel(input.getModelId(), Optional.ofNullable(input.getUpdateName()),
+				Optional.ofNullable(input.getUpdateDescription()));
+	}
+
+	/**
 	 * @param input Input arguments for updating the SystemInterface object
-	 * @return SystemInterface object
+	 * @return Updated SystemInterface object
 	 * @throws IOException
 	 */
 	public SystemInterface updateSystemInterface(UpdateSystemInterfaceInput input) throws IOException {
@@ -73,7 +88,7 @@ public class Mutation implements GraphQLMutationResolver {
 
 	/**
 	 * @param input Input arguments for updating the SystemSlot object
-	 * @return SystemSlot object
+	 * @return Updated SystemSlot object
 	 * @throws IOException
 	 */
 	public SystemSlot updateSystemSlot(UpdateSystemSlotInput input) throws IOException {

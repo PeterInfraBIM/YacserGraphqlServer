@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import nl.infrabim.yacser.graphQLserver.graphql.objects.YacserObjectRepository;
 import nl.infrabim.yacser.graphQLserver.sparql.SparqlServer;
 
 @Component
@@ -85,7 +86,7 @@ public class YacserModelRepository {
 			Literal label = model.createLiteral(name.get(), "en");
 			model.add(model.createStatement(ontology, prefLabel, label));
 		}
-		
+
 		if (description.isPresent()) {
 			Property descr = model.createProperty("http://purl.org/dc/elements/1.1/description");
 			Literal label = model.createLiteral(description.get(), "en");
@@ -93,6 +94,31 @@ public class YacserModelRepository {
 		}
 
 		SparqlServer.instance.addNamedModel(yacserModel.getId(), model);
+	}
+
+	/**
+	 * Update YacserModel object
+	 * 
+	 * @param modelId           Model ID.
+	 * @param updateName        If present, updated name.
+	 * @param updateDescription If present, updated description.
+	 * @return Updated Function object.
+	 * @throws IOException
+	 */
+	public YacserModel updateModel(String modelId, Optional<String> updateName, Optional<String> updateDescription)
+			throws IOException {
+
+		if (updateName.isPresent()) {
+			YacserObjectRepository.updateStringLiteral(modelId, YacserObjectRepository.SKOS_PREF_LABEL,
+					updateName.get());
+		}
+
+		if (updateDescription.isPresent()) {
+			YacserObjectRepository.updateStringLiteral(modelId, YacserObjectRepository.DB_DESCRIPTION,
+					updateDescription.get());
+		}
+
+		return new YacserModel(modelId);
 	}
 
 }

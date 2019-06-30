@@ -5,3 +5,5 @@
 bin
 target
 src/test
+/example.ttl
+/parkbank.ttl

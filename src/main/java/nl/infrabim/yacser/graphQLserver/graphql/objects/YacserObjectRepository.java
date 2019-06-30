@@ -15,12 +15,12 @@ import nl.infrabim.yacser.graphQLserver.sparql.SparqlServer;
 
 @Component
 public class YacserObjectRepository {
-	private static final String YACSER_HAS_FUNCTION = SparqlServer.YACSER_URI + "#hasFunction";
-	private static final String YACSER_HAS_REQUIREMENT = SparqlServer.YACSER_URI + "#hasRequirement";
-	private static final String YACSER_SYSTEM_SLOT_0 = SparqlServer.YACSER_URI + "#systemSlot0";
-	private static final String YACSER_SYSTEM_SLOT_1 = SparqlServer.YACSER_URI + "#systemSlot1";
-	private static final String SKOS_PREF_LABEL = SparqlServer.SKOS_URI + "#prefLabel";
-	private static final String DB_DESCRIPTION = SparqlServer.DBC_URI + "description";
+	public static final String YACSER_HAS_FUNCTION = SparqlServer.YACSER_URI + "#hasFunction";
+	public static final String YACSER_HAS_REQUIREMENT = SparqlServer.YACSER_URI + "#hasRequirement";
+	public static final String YACSER_SYSTEM_SLOT_0 = SparqlServer.YACSER_URI + "#systemSlot0";
+	public static final String YACSER_SYSTEM_SLOT_1 = SparqlServer.YACSER_URI + "#systemSlot1";
+	public static final String SKOS_PREF_LABEL = SparqlServer.SKOS_URI + "#prefLabel";
+	public static final String DB_DESCRIPTION = SparqlServer.DBC_URI + "description";
 
 	/**
 	 * Constructor
@@ -62,7 +62,7 @@ public class YacserObjectRepository {
 		return build(type, objectId);
 	}
 
-	static YacserObject build(YacserObjectType type, String objectId) {
+	public static YacserObject build(YacserObjectType type, String objectId) {
 		YacserObject yacserObject = null;
 		switch (type) {
 		case Function:
@@ -197,8 +197,9 @@ public class YacserObjectRepository {
 		SparqlServer.instance.update(queryStr);
 	}
 
-	private void updateStringLiteral(String subjectId, String relationId, String newLiteral) throws IOException {
-		String modelId = subjectId.substring(0, subjectId.indexOf('#'));
+	public static void updateStringLiteral(String subjectId, String relationId, String newLiteral) throws IOException {
+		int indexOfHashMark = subjectId.indexOf('#');
+		String modelId = indexOfHashMark != -1 ? subjectId.substring(0, indexOfHashMark) : subjectId;
 
 		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
 		queryStr.setIri("graph", modelId);
@@ -217,11 +218,25 @@ public class YacserObjectRepository {
 			queryStr.append("  } ");
 			queryStr.append("} ");
 		}
-		queryStr.append("WHERE { } ");
+		queryStr.append("WHERE { ");
+		queryStr.append("  GRAPH ?graph { ");
+		queryStr.append("    ?subject ?predicate ?oldLiteral . ");
+		queryStr.append("  } ");
+		queryStr.append("} ");
 
 		SparqlServer.instance.update(queryStr);
 	}
 
+	/**
+	 * Update Function object
+	 * 
+	 * @param functionId        Function ID.
+	 * @param updateName        If present, updated name.
+	 * @param updateDescription If present, updated description.
+	 * @param addRequirements   If present, additional requirements.
+	 * @return Updated Function object.
+	 * @throws IOException
+	 */
 	public Function updateFunction(String functionId, Optional<String> updateName, Optional<String> updateDescription,
 			Optional<List<String>> addRequirements) throws IOException {
 
