@@ -109,12 +109,12 @@ public class YacserModelRepository {
 			throws IOException {
 
 		if (updateName.isPresent()) {
-			YacserObjectRepository.updateStringLiteral(modelId, YacserObjectRepository.SKOS_PREF_LABEL,
+			YacserObjectRepository.updateLiteral(modelId, YacserObjectRepository.SKOS_PREF_LABEL,
 					updateName.get());
 		}
 
 		if (updateDescription.isPresent()) {
-			YacserObjectRepository.updateStringLiteral(modelId, YacserObjectRepository.DB_DESCRIPTION,
+			YacserObjectRepository.updateLiteral(modelId, YacserObjectRepository.DB_DESCRIPTION,
 					updateDescription.get());
 		}
 

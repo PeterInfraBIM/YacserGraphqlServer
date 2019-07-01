@@ -23,29 +23,7 @@ public class YacserObjectResolver {
 	 * @throws IOException
 	 */
 	public String getName(YacserObject yacserObject) throws IOException {
-		String modelId = yacserObject.getId().substring(0, yacserObject.getId().indexOf('#'));
-
-		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
-		queryStr.setIri("object", yacserObject.getId());
-		queryStr.setIri("model", modelId);
-		queryStr.append("SELECT ?label ");
-		queryStr.append("WHERE {");
-		queryStr.append("	GRAPH ?model { ");
-		queryStr.append("	    ?object skos:prefLabel ?label . ");
-		queryStr.append("	}");
-		queryStr.append("}");
-
-		JsonNode responseNodes = SparqlServer.instance.query(queryStr);
-		if (responseNodes.size() > 0) {
-			for (JsonNode node : responseNodes) {
-				JsonNode labelNode = node.get("label");
-				if (labelNode != null) {
-					return labelNode.get("value").asText();
-				}
-			}
-		}
-
-		return null;
+		return (String) YacserObjectRepository.getLiteral(yacserObject.getId(), YacserObjectRepository.SKOS_PREF_LABEL);
 	}
 
 	/**
@@ -56,29 +34,7 @@ public class YacserObjectResolver {
 	 * @throws IOException
 	 */
 	public String getDescription(YacserObject yacserObject) throws IOException {
-		String modelId = yacserObject.getId().substring(0, yacserObject.getId().indexOf('#'));
-
-		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
-		queryStr.setIri("object", yacserObject.getId());
-		queryStr.setIri("model", modelId);
-		queryStr.append("SELECT ?description ");
-		queryStr.append("WHERE {");
-		queryStr.append("	GRAPH ?model { ");
-		queryStr.append("	    ?object db:description ?description . ");
-		queryStr.append("	}");
-		queryStr.append("}");
-
-		JsonNode responseNodes = SparqlServer.instance.query(queryStr);
-		if (responseNodes.size() > 0) {
-			for (JsonNode node : responseNodes) {
-				JsonNode descriptionNode = node.get("description");
-				if (descriptionNode != null) {
-					return descriptionNode.get("value").asText();
-				}
-			}
-		}
-
-		return null;
+		return (String) YacserObjectRepository.getLiteral(yacserObject.getId(), YacserObjectRepository.DB_DESCRIPTION);
 	}
 
 	/**

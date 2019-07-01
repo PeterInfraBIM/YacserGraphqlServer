@@ -232,6 +232,20 @@ input UpdateSystemSlotInput {
 	replaceFunctions: [ID]
 }
 
+	# Update Value input arguments.
+input UpdateValueInput {
+		# Value ID.
+	valueId: ID!
+		# If present: new name.
+	updateName: String
+		# If present: new description.
+	updateDescription: String
+		# If present: new unit.
+	updateUnit: String
+		# If present: new value.
+	updateValue: Float
+}
+
 	# Update YacserModel input arguments.
 input UpdateYacserModelInput {
 		# Model ID.
@@ -296,6 +310,12 @@ type Mutation {
 			# Input for Update SystemSlot.
 		input: UpdateSystemSlotInput!
 	): SystemSlot
+	
+		# Update Value object
+	updateValue(
+			# Input for Update Value.
+		input: UpdateValueInput!
+	): Value
 	
 		# Save model
 	saveModel(

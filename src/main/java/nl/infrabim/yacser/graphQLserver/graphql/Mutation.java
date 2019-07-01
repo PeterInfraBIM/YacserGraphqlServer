@@ -15,6 +15,8 @@ import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateFunctionInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateRequirementInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateSystemInterfaceInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateSystemSlotInput;
+import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateValueInput;
+import nl.infrabim.yacser.graphQLserver.graphql.objects.Value;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.YacserObject;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.YacserObjectRepository;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.YacserObjectType;
@@ -108,6 +110,17 @@ public class Mutation implements GraphQLMutationResolver {
 		return yacserObjectRepository.updateSystemSlot(input.getSystemSlotId(),
 				Optional.ofNullable(input.getUpdateName()), Optional.ofNullable(input.getUpdateDescription()),
 				Optional.ofNullable(input.getAddFunctions()));
+	}
+
+	/**
+	 * @param input Input arguments for updating the Value object
+	 * @return Updated Value object
+	 * @throws IOException
+	 */
+	public Value updateValue(UpdateValueInput input) throws IOException {
+		return yacserObjectRepository.updateValue(input.getValueId(), Optional.ofNullable(input.getUpdateName()),
+				Optional.ofNullable(input.getUpdateDescription()), Optional.ofNullable(input.getUpdateUnit()),
+				Optional.ofNullable(input.getUpdateValue()));
 	}
 
 	/**

@@ -25,10 +25,10 @@ public class ValueResolver extends YacserObjectResolver implements GraphQLResolv
 	}
 	
 	public String getUnit(Value value) throws IOException {
-		return null;
+		return (String) YacserObjectRepository.getLiteral(value.getId(), YacserObjectRepository.BS_HAS_UNIT);
 	}
 	
 	public Double getValue(Value value) throws IOException {
-		return null;
+		return (Double) YacserObjectRepository.getLiteral(value.getId(), YacserObjectRepository.BS_HAS_VALUE);
 	}
 }

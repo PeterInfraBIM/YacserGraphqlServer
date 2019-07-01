@@ -23,6 +23,8 @@ public class YacserObjectRepository {
 	public static final String YACSER_SYSTEM_SLOT_1 = SparqlServer.YACSER_URI + "#systemSlot1";
 	public static final String SKOS_PREF_LABEL = SparqlServer.SKOS_URI + "#prefLabel";
 	public static final String DB_DESCRIPTION = SparqlServer.DBC_URI + "description";
+	public static final String BS_HAS_UNIT = SparqlServer.BS_URI + "#hasUnit";
+	public static final String BS_HAS_VALUE = SparqlServer.BS_URI + "#hasValue";
 
 	/**
 	 * Constructor
@@ -227,7 +229,7 @@ public class YacserObjectRepository {
 		SparqlServer.instance.update(queryStr);
 	}
 
-	public static void updateStringLiteral(String subjectId, String relationId, String newLiteral) throws IOException {
+	public static Object getLiteral(String subjectId, String relationId) throws IOException {
 		int indexOfHashMark = subjectId.indexOf('#');
 		String modelId = indexOfHashMark != -1 ? subjectId.substring(0, indexOfHashMark) : subjectId;
 
@@ -235,13 +237,51 @@ public class YacserObjectRepository {
 		queryStr.setIri("graph", modelId);
 		queryStr.setIri("subject", subjectId);
 		queryStr.setIri("predicate", relationId);
-		queryStr.setLiteral("newLiteral", newLiteral, "en");
+		queryStr.append("SELECT ?literal ");
+		queryStr.append("WHERE { ");
+		queryStr.append("  GRAPH ?graph { ");
+		queryStr.append("    ?subject ?predicate ?literal . ");
+		queryStr.append("  } ");
+		queryStr.append("} ");
+
+		SparqlServer.instance.query(queryStr);
+		JsonNode responseNodes = SparqlServer.instance.query(queryStr);
+		if (responseNodes.size() > 0) {
+			for (JsonNode node : responseNodes) {
+				JsonNode literalNode = node.get("literal");
+				if (literalNode != null) {
+					JsonNode datatypeNode = literalNode.get("datatype");
+					if (datatypeNode != null
+							&& datatypeNode.asText().equals("http://www.w3.org/2001/XMLSchema#double")) {
+						return literalNode.get("value").asDouble();
+					} else
+						return literalNode.get("value").asText();
+				}
+			}
+		}
+
+		return null;
+	}
+
+	public static void updateLiteral(String subjectId, String relationId, Object newLiteral) throws IOException {
+		int indexOfHashMark = subjectId.indexOf('#');
+		String modelId = indexOfHashMark != -1 ? subjectId.substring(0, indexOfHashMark) : subjectId;
+
+		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
+		queryStr.setIri("graph", modelId);
+		queryStr.setIri("subject", subjectId);
+		queryStr.setIri("predicate", relationId);
+		if (newLiteral instanceof String) {
+			queryStr.setLiteral("newLiteral", newLiteral.toString(), "en");
+		} else if (newLiteral instanceof Double) {
+			queryStr.setLiteral("newLiteral", ((Double) newLiteral).doubleValue());
+		}
 		queryStr.append("DELETE { ");
 		queryStr.append("  GRAPH ?graph { ");
 		queryStr.append("    ?subject ?predicate ?oldLiteral . ");
 		queryStr.append("  } ");
 		queryStr.append("} ");
-		if (newLiteral.length() > 0) {
+		if ((newLiteral instanceof String && ((String) newLiteral).length() > 0) || newLiteral instanceof Double) {
 			queryStr.append("INSERT { ");
 			queryStr.append("  GRAPH ?graph { ");
 			queryStr.append("    ?subject ?predicate ?newLiteral . ");
@@ -249,9 +289,9 @@ public class YacserObjectRepository {
 			queryStr.append("} ");
 		}
 		queryStr.append("WHERE { ");
-		queryStr.append("  GRAPH ?graph { ");
-		queryStr.append("    ?subject ?predicate ?oldLiteral . ");
-		queryStr.append("  } ");
+//		queryStr.append("  GRAPH ?graph { ");
+//		queryStr.append("    ?subject ?predicate ?oldLiteral . ");
+//		queryStr.append("  } ");
 		queryStr.append("} ");
 
 		SparqlServer.instance.update(queryStr);
@@ -271,11 +311,11 @@ public class YacserObjectRepository {
 			Optional<List<String>> addRequirements) throws IOException {
 
 		if (updateName.isPresent()) {
-			updateStringLiteral(functionId, SKOS_PREF_LABEL, updateName.get());
+			updateLiteral(functionId, SKOS_PREF_LABEL, updateName.get());
 		}
 
 		if (updateDescription.isPresent()) {
-			updateStringLiteral(functionId, DB_DESCRIPTION, updateDescription.get());
+			updateLiteral(functionId, DB_DESCRIPTION, updateDescription.get());
 		}
 
 		if (addRequirements.isPresent()) {
@@ -301,11 +341,11 @@ public class YacserObjectRepository {
 			throws IOException {
 
 		if (updateName.isPresent()) {
-			updateStringLiteral(requirementId, SKOS_PREF_LABEL, updateName.get());
+			updateLiteral(requirementId, SKOS_PREF_LABEL, updateName.get());
 		}
 
 		if (updateDescription.isPresent()) {
-			updateStringLiteral(requirementId, DB_DESCRIPTION, updateDescription.get());
+			updateLiteral(requirementId, DB_DESCRIPTION, updateDescription.get());
 		}
 
 		if (updateMinValue.isPresent()) {
@@ -334,11 +374,11 @@ public class YacserObjectRepository {
 			throws IOException {
 
 		if (updateName.isPresent()) {
-			updateStringLiteral(systemInterfaceId, SKOS_PREF_LABEL, updateName.get());
+			updateLiteral(systemInterfaceId, SKOS_PREF_LABEL, updateName.get());
 		}
 
 		if (updateDescription.isPresent()) {
-			updateStringLiteral(systemInterfaceId, DB_DESCRIPTION, updateDescription.get());
+			updateLiteral(systemInterfaceId, DB_DESCRIPTION, updateDescription.get());
 		}
 
 		if (updateSystemSlot0.isPresent()) {
@@ -365,11 +405,11 @@ public class YacserObjectRepository {
 			Optional<String> updateDescription, Optional<List<String>> addFunctions) throws IOException {
 
 		if (updateName.isPresent()) {
-			updateStringLiteral(systemSlotId, SKOS_PREF_LABEL, updateName.get());
+			updateLiteral(systemSlotId, SKOS_PREF_LABEL, updateName.get());
 		}
 
 		if (updateDescription.isPresent()) {
-			updateStringLiteral(systemSlotId, DB_DESCRIPTION, updateDescription.get());
+			updateLiteral(systemSlotId, DB_DESCRIPTION, updateDescription.get());
 		}
 
 		if (addFunctions.isPresent()) {
@@ -377,6 +417,38 @@ public class YacserObjectRepository {
 		}
 
 		return (SystemSlot) build(YacserObjectType.SystemSlot, systemSlotId);
+	}
+
+	/**
+	 * Update Value
+	 * 
+	 * @param valueId
+	 * @param updateName
+	 * @param updateDescription
+	 * @param updateUnit
+	 * @param updateValue
+	 * @return Updated Value
+	 * @throws IOException
+	 */
+	public Value updateValue(String valueId, Optional<String> updateName, Optional<String> updateDescription,
+			Optional<String> updateUnit, Optional<Double> updateValue) throws IOException {
+		if (updateName.isPresent()) {
+			updateLiteral(valueId, SKOS_PREF_LABEL, updateName.get());
+		}
+
+		if (updateDescription.isPresent()) {
+			updateLiteral(valueId, DB_DESCRIPTION, updateDescription.get());
+		}
+
+		if (updateUnit.isPresent()) {
+			updateLiteral(valueId, BS_HAS_UNIT, updateUnit.get());
+		}
+
+		if (updateValue.isPresent()) {
+			updateLiteral(valueId, BS_HAS_VALUE, updateValue.get());
+		}
+
+		return (Value) build(YacserObjectType.Value, valueId);
 	}
 
 }
