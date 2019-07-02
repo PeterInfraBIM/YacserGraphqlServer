@@ -45,29 +45,8 @@ public class YacserObjectResolver {
 	 * @throws IOException
 	 */
 	public YacserObjectType getType(YacserObject yacserObject) throws IOException {
-		String modelId = yacserObject.getId().substring(0, yacserObject.getId().indexOf('#'));
-
-		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
-		queryStr.setIri("object", yacserObject.getId());
-		queryStr.setIri("model", modelId);
-		queryStr.append("SELECT ?type ");
-		queryStr.append("WHERE {");
-		queryStr.append("	GRAPH ?model { ");
-		queryStr.append("	    ?object rdf:type ?type . ");
-		queryStr.append("	}");
-		queryStr.append("}");
-
-		JsonNode responseNodes = SparqlServer.instance.query(queryStr);
-		if (responseNodes.size() > 0) {
-			for (JsonNode node : responseNodes) {
-				JsonNode typeNode = node.get("type");
-				if (typeNode != null) {
-					return YacserObjectType.getType(typeNode.get("value").asText());
-				}
-			}
-		}
-
-		return null;
+		String typeId = YacserObjectRepository.getType(yacserObject.getId());
+		return typeId != null ? YacserObjectType.getType(typeId) : null;
 	}
 
 }

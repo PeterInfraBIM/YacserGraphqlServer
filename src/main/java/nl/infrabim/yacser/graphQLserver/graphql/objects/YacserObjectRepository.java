@@ -164,8 +164,32 @@ public class YacserObjectRepository {
 		return build(type, objectId);
 	}
 
+	public static String getType(String subjectId) throws IOException {
+		String modelId = getModelId(subjectId);
+
+		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
+		queryStr.setIri("graph", modelId);
+		queryStr.setIri("subject", subjectId);
+		queryStr.append("SELECT ?type { ");
+		queryStr.append("  GRAPH ?graph { ");
+		queryStr.append("    ?subject rdf:type ?type . ");
+		queryStr.append("  } ");
+		queryStr.append("} ");
+
+		JsonNode responseNodes = SparqlServer.instance.query(queryStr);
+		if (responseNodes.size() > 0) {
+			for (JsonNode node : responseNodes) {
+				JsonNode typeNode = node.get("type");
+				if (typeNode != null) {
+					return typeNode.get("value").asText();
+				}
+			}
+		}
+		return null;
+	}
+
 	public static String getRelatedObject(String subjectId, String relationId) throws IOException {
-		String modelId = subjectId.substring(0, subjectId.indexOf('#'));
+		String modelId = getModelId(subjectId);
 
 		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
 		queryStr.setIri("graph", modelId);
@@ -183,6 +207,62 @@ public class YacserObjectRepository {
 				JsonNode objectNode = node.get("object");
 				if (objectNode != null) {
 					return objectNode.get("value").asText();
+				}
+			}
+		}
+		return null;
+	}
+
+	public static List<String> getRelatedObjects(String subjectId, String relationId) throws IOException {
+		List<String> objectIds = null;
+		String modelId = getModelId(subjectId);
+
+		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
+		queryStr.setIri("graph", modelId);
+		queryStr.setIri("subject", subjectId);
+		queryStr.setIri("predicate", relationId);
+		queryStr.append("SELECT ?object ?label ");
+		queryStr.append("WHERE { ");
+		queryStr.append("	GRAPH ?graph { ");
+		queryStr.append("	    ?subject ?predicate ?object . ");
+		queryStr.append("	    OPTIONAL { ?subject skos:prefLabel ?label . } ");
+		queryStr.append("	} ");
+		queryStr.append("} ");
+		queryStr.append("ORDER BY ?label ");
+
+		JsonNode responseNodes = SparqlServer.instance.query(queryStr);
+		if (responseNodes.size() > 0) {
+			objectIds = new ArrayList<>();
+			for (JsonNode node : responseNodes) {
+				JsonNode objectNode = node.get("object");
+				if (objectNode != null) {
+					objectIds.add(objectNode.get("value").asText());
+				}
+			}
+		}
+
+		return objectIds;
+	}
+
+	public static String getRelatedSubject(String objectId, String relationId) throws IOException {
+		String modelId = getModelId(objectId);
+
+		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
+		queryStr.setIri("graph", modelId);
+		queryStr.setIri("object", objectId);
+		queryStr.setIri("predicate", relationId);
+		queryStr.append("SELECT ?subject { ");
+		queryStr.append("  GRAPH ?graph { ");
+		queryStr.append("    ?subject ?predicate ?object . ");
+		queryStr.append("  } ");
+		queryStr.append("} ");
+
+		JsonNode responseNodes = SparqlServer.instance.query(queryStr);
+		if (responseNodes.size() > 0) {
+			for (JsonNode node : responseNodes) {
+				JsonNode subjectNode = node.get("subject");
+				if (subjectNode != null) {
+					return subjectNode.get("value").asText();
 				}
 			}
 		}
@@ -230,8 +310,7 @@ public class YacserObjectRepository {
 	}
 
 	public static Object getLiteral(String subjectId, String relationId) throws IOException {
-		int indexOfHashMark = subjectId.indexOf('#');
-		String modelId = indexOfHashMark != -1 ? subjectId.substring(0, indexOfHashMark) : subjectId;
+		String modelId = getModelId(subjectId);
 
 		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
 		queryStr.setIri("graph", modelId);
@@ -263,9 +342,13 @@ public class YacserObjectRepository {
 		return null;
 	}
 
-	public static void updateLiteral(String subjectId, String relationId, Object newLiteral) throws IOException {
+	private static String getModelId(String subjectId) {
 		int indexOfHashMark = subjectId.indexOf('#');
-		String modelId = indexOfHashMark != -1 ? subjectId.substring(0, indexOfHashMark) : subjectId;
+		return indexOfHashMark != -1 ? subjectId.substring(0, indexOfHashMark) : subjectId;
+	}
+
+	public static void updateLiteral(String subjectId, String relationId, Object newLiteral) throws IOException {
+		String modelId = getModelId(subjectId);
 
 		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
 		queryStr.setIri("graph", modelId);

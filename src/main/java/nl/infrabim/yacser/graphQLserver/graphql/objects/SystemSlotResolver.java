@@ -31,34 +31,17 @@ public class SystemSlotResolver extends YacserObjectResolver implements GraphQLR
 	}
 
 	public List<Function> getFunctions(SystemSlot systemSlot) throws IOException {
-		List<Function> functions = null;
-		String modelId = systemSlot.getId().substring(0, systemSlot.getId().indexOf('#'));
-
-		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
-		queryStr.setIri("object", systemSlot.getId());
-		queryStr.setIri("model", modelId);
-		queryStr.append("SELECT ?function ?label ");
-		queryStr.append("WHERE { ");
-		queryStr.append("	GRAPH ?model { ");
-		queryStr.append("	    ?object yacser:hasFunction ?function . ");
-		queryStr.append("	    OPTIONAL { ?object skos:prefLabel ?label . } ");
-		queryStr.append("	} ");
-		queryStr.append("} ");
-		queryStr.append("ORDER BY ?label ");
-
-		JsonNode responseNodes = SparqlServer.instance.query(queryStr);
-		if (responseNodes.size() > 0) {
-			functions = new ArrayList<>();
-			for (JsonNode node : responseNodes) {
-				JsonNode functionNode = node.get("function");
-				if (functionNode != null) {
-					functions.add((Function) YacserObjectRepository.build(YacserObjectType.Function,
-							functionNode.get("value").asText()));
-				}
+		List<String> functionIds = YacserObjectRepository.getRelatedObjects(systemSlot.getId(),
+				YacserObjectRepository.YACSER_HAS_FUNCTION);
+		if (functionIds != null) {
+			List<Function> functions = new ArrayList<>();
+			for (String functionId : functionIds) {
+				functions
+						.add((Function) YacserObjectRepository.build(YacserObjectType.Function, functionId));
 			}
+			return functions;
 		}
-
-		return functions;
+		return null;
 	}
 	
 	public List<SystemInterface> getInterfaces(SystemSlot systemSlot) throws IOException {
