@@ -8,10 +8,12 @@ import org.springframework.stereotype.Component;
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
 
 import nl.infrabim.yacser.graphQLserver.graphql.objects.Function;
+import nl.infrabim.yacser.graphQLserver.graphql.objects.Performance;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.Requirement;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.SystemInterface;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.SystemSlot;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateFunctionInput;
+import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdatePerformanceInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateRequirementInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateSystemInterfaceInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateSystemSlotInput;
@@ -77,6 +79,17 @@ public class Mutation implements GraphQLMutationResolver {
 	public YacserModel updateModel(UpdateYacserModelInput input) throws IOException {
 		return yacserModelRepository.updateModel(input.getModelId(), Optional.ofNullable(input.getUpdateName()),
 				Optional.ofNullable(input.getUpdateDescription()));
+	}
+
+	/**
+	 * @param input Input arguments for updating the Performance object
+	 * @return Updated Performance object
+	 * @throws IOException
+	 */
+	public Performance updatePerformance(UpdatePerformanceInput input) throws IOException {
+		return yacserObjectRepository.updatePerformance(input.getPerformanceId(),
+				Optional.ofNullable(input.getUpdateName()), Optional.ofNullable(input.getUpdateDescription()),
+				Optional.ofNullable(input.getUpdateValue()));
 	}
 
 	/**

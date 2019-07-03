@@ -18,7 +18,9 @@ public class YacserObjectRepository {
 	public static final String YACSER_HAS_FUNCTION = SparqlServer.YACSER_URI + "#hasFunction";
 	public static final String YACSER_HAS_MAX_VALUE = SparqlServer.YACSER_URI + "#hasMaxValue";
 	public static final String YACSER_HAS_MIN_VALUE = SparqlServer.YACSER_URI + "#hasMinValue";
+	public static final String YACSER_HAS_PERFORMANCE = SparqlServer.YACSER_URI + "#hasPerformance";
 	public static final String YACSER_HAS_REQUIREMENT = SparqlServer.YACSER_URI + "#hasRequirement";
+	public static final String YACSER_HAS_VALUE = SparqlServer.YACSER_URI + "#hasValue";
 	public static final String YACSER_SYSTEM_SLOT_0 = SparqlServer.YACSER_URI + "#systemSlot0";
 	public static final String YACSER_SYSTEM_SLOT_1 = SparqlServer.YACSER_URI + "#systemSlot1";
 	public static final String SKOS_PREF_LABEL = SparqlServer.SKOS_URI + "#prefLabel";
@@ -76,10 +78,12 @@ public class YacserObjectRepository {
 			yacserObject = new Hamburger(objectId);
 			break;
 		case Performance:
+			yacserObject = new Performance(objectId);
 			break;
 		case PortRealisation:
 			break;
 		case RealisationModule:
+			yacserObject = new RealisationModule(objectId);
 			break;
 		case RealisationPort:
 			break;
@@ -406,6 +410,34 @@ public class YacserObjectRepository {
 		}
 
 		return (Function) build(YacserObjectType.Function, functionId);
+	}
+
+	/**
+	 * Update Performance object
+	 * 
+	 * @param performanceId     Performance ID.
+	 * @param updateName        If present, updated name.
+	 * @param updateDescription If present, updated description.
+	 * @param updateValue       If present, updated value.
+	 * @return Updated Performance object.
+	 * @throws IOException
+	 */
+	public Performance updatePerformance(String performanceId, Optional<String> updateName,
+			Optional<String> updateDescription, Optional<String> updateValue) throws IOException {
+
+		if (updateName.isPresent()) {
+			updateLiteral(performanceId, SKOS_PREF_LABEL, updateName.get());
+		}
+
+		if (updateDescription.isPresent()) {
+			updateLiteral(performanceId, DB_DESCRIPTION, updateDescription.get());
+		}
+
+		if (updateValue.isPresent()) {
+			updateRelatedObject(performanceId, YACSER_HAS_VALUE, updateValue.get());
+		}
+
+		return (Performance) build(YacserObjectType.Performance, performanceId);
 	}
 
 	/**

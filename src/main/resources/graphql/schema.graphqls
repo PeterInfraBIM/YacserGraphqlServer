@@ -62,6 +62,34 @@ type Hamburger implements YacserObject {
 	type: YacserObjectType!
 }
 
+	# YACSER Performance instance.
+type Performance implements YacserObject {
+		# URI of the object instance.
+	id: ID!
+		# Optional name of the object.
+	name: String
+		# Optional description of the object.
+	description: String
+		# Type of the object instance
+	type: YacserObjectType!
+		# Owner RealisationModule
+	owner: RealisationModule
+		# Value
+	value: Value
+}
+
+	# YACSER Realisation module instance.
+type RealisationModule implements YacserObject {
+		# URI of the object instance.
+	id: ID!
+		# Optional name of the object.
+	name: String
+		# Optional description of the object.
+	description: String
+		# Type of the object instance
+	type: YacserObjectType!
+}
+
 	# YACSER Requirement instance.
 type Requirement implements YacserObject {
 		# URI of the object instance.
@@ -151,6 +179,18 @@ type Query {
 		id: ID!
 	): Hamburger
 
+		# Get Performance object by ID.
+	performance(
+			# Performance object ID.
+		id: ID!
+	): Performance
+
+		# Get RealisationModule object by ID.
+	realisationModule(
+			# RealisationModule object ID.
+		id: ID!
+	): RealisationModule
+
 		# Get Requirement object by ID.
 	requirement(
 			# Requirement object ID.
@@ -186,6 +226,18 @@ input UpdateFunctionInput {
 	updateDescription: String
 		# If present: add requirements.
 	addRequirements: [ID]
+}
+
+	# Update Performance input arguments.
+input UpdatePerformanceInput {
+		# Performance ID.
+	performanceId: ID!
+		# If present: new name.
+	updateName: String
+		# If present: new description.
+	updateDescription: String
+		# If present: new Value
+	updateValue: ID
 }
 
 	# Update Requirement input arguments.
@@ -293,6 +345,12 @@ type Mutation {
 		input: UpdateYacserModelInput!
 	): YacserModel
 	
+		# Update Performance object
+	updatePerformance(
+			# Input for Update Performance.
+		input: UpdatePerformanceInput!
+	): Performance
+
 		# Update Requirement object
 	updateRequirement(
 			# Input for Update Requirement.
