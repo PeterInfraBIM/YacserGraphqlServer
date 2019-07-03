@@ -86,8 +86,10 @@ type RealisationModule implements YacserObject {
 	name: String
 		# Optional description of the object.
 	description: String
-		# Type of the object instance
+		# Type of the object instance.
 	type: YacserObjectType!
+		# Specified performances.
+	performances: [Performance]
 }
 
 	# YACSER Requirement instance.
@@ -98,13 +100,13 @@ type Requirement implements YacserObject {
 	name: String
 		# Optional description of the object.
 	description: String
-		# Type of the object instance
+		# Type of the object instance.
 	type: YacserObjectType!
-		# Owner Function, SystemSlot of SystemInterface
+		# Owner Function, SystemSlot of SystemInterface.
 	owner: YacserObject
-		# Minimal value
+		# Minimal value.
 	minValue: Value
-		# Maximal value
+		# Maximal value.
 	maxValue: Value
 }
 
@@ -240,6 +242,18 @@ input UpdatePerformanceInput {
 	updateValue: ID
 }
 
+	# Update RealisationModule input arguments.
+input UpdateRealisationModuleInput {
+		# RealisationModule ID.
+	realisationModuleId: ID!
+		# If present: new name.
+	updateName: String
+		# If present: new description.
+	updateDescription: String
+		# If present: add performances.
+	addPerformances: [ID]
+}
+
 	# Update Requirement input arguments.
 input UpdateRequirementInput {
 		# Requirement ID.
@@ -351,25 +365,31 @@ type Mutation {
 		input: UpdatePerformanceInput!
 	): Performance
 
-		# Update Requirement object
+		# Update RealisationModule object.
+	updateRealisationModule(
+			# Input for Update RealisationModule.
+		input: UpdateRealisationModuleInput!
+	): RealisationModule
+
+		# Update Requirement object.
 	updateRequirement(
 			# Input for Update Requirement.
 		input: UpdateRequirementInput!
 	): Requirement
 	
-			# Update SystemInterface object
+			# Update SystemInterface object.
 	updateSystemInterface(
 			# Input for Update SystemInterface.
 		input: UpdateSystemInterfaceInput!
 	): SystemInterface
 		
-		# Update SystemSlot object
+		# Update SystemSlot object.
 	updateSystemSlot(
 			# Input for Update SystemSlot.
 		input: UpdateSystemSlotInput!
 	): SystemSlot
 	
-		# Update Value object
+		# Update Value object.
 	updateValue(
 			# Input for Update Value.
 		input: UpdateValueInput!

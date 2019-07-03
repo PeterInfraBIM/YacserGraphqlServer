@@ -9,11 +9,13 @@ import com.coxautodev.graphql.tools.GraphQLMutationResolver;
 
 import nl.infrabim.yacser.graphQLserver.graphql.objects.Function;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.Performance;
+import nl.infrabim.yacser.graphQLserver.graphql.objects.RealisationModule;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.Requirement;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.SystemInterface;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.SystemSlot;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateFunctionInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdatePerformanceInput;
+import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateRealisationModuleInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateRequirementInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateSystemInterfaceInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateSystemSlotInput;
@@ -90,6 +92,17 @@ public class Mutation implements GraphQLMutationResolver {
 		return yacserObjectRepository.updatePerformance(input.getPerformanceId(),
 				Optional.ofNullable(input.getUpdateName()), Optional.ofNullable(input.getUpdateDescription()),
 				Optional.ofNullable(input.getUpdateValue()));
+	}
+	
+	/**
+	 * @param input Input arguments for updating the RealisationModule object
+	 * @return Updated RealisationModule object
+	 * @throws IOException
+	 */
+	public RealisationModule updateRealisationModule(UpdateRealisationModuleInput input) throws IOException {
+		return yacserObjectRepository.updateRealisationModule(input.getRealisationModuleId(),
+				Optional.ofNullable(input.getUpdateName()), Optional.ofNullable(input.getUpdateDescription()),
+				Optional.ofNullable(input.getAddPerformances()));
 	}
 
 	/**

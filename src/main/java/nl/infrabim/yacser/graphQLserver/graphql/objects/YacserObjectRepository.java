@@ -439,7 +439,34 @@ public class YacserObjectRepository {
 
 		return (Performance) build(YacserObjectType.Performance, performanceId);
 	}
+	
+	/**
+	 * Update RealisationModule
+	 * 
+	 * @param realisationModuleId
+	 * @param updateName
+	 * @param addFunctions
+	 * @return RealisationModule object
+	 * @throws IOException
+	 */
+	public RealisationModule updateRealisationModule(String realisationModuleId, Optional<String> updateName,
+			Optional<String> updateDescription, Optional<List<String>> addPerformances) throws IOException {
 
+		if (updateName.isPresent()) {
+			updateLiteral(realisationModuleId, SKOS_PREF_LABEL, updateName.get());
+		}
+
+		if (updateDescription.isPresent()) {
+			updateLiteral(realisationModuleId, DB_DESCRIPTION, updateDescription.get());
+		}
+
+		if (addPerformances.isPresent()) {
+			addRelatedObjects(realisationModuleId, YACSER_HAS_PERFORMANCE, addPerformances.get());
+		}
+
+		return (RealisationModule) build(YacserObjectType.RealisationModule, realisationModuleId);
+	}
+	
 	/**
 	 * Update Requirement object
 	 * 
