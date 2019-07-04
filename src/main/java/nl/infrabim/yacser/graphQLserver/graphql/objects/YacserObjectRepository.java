@@ -15,6 +15,7 @@ import nl.infrabim.yacser.graphQLserver.sparql.SparqlServer;
 
 @Component
 public class YacserObjectRepository {
+	public static final String YACSER_FUNCTIONAL_UNIT = SparqlServer.YACSER_URI + "#functionalUnit";
 	public static final String YACSER_HAS_FUNCTION = SparqlServer.YACSER_URI + "#hasFunction";
 	public static final String YACSER_HAS_MAX_VALUE = SparqlServer.YACSER_URI + "#hasMaxValue";
 	public static final String YACSER_HAS_MIN_VALUE = SparqlServer.YACSER_URI + "#hasMinValue";
@@ -23,6 +24,7 @@ public class YacserObjectRepository {
 	public static final String YACSER_HAS_VALUE = SparqlServer.YACSER_URI + "#hasValue";
 	public static final String YACSER_SYSTEM_SLOT_0 = SparqlServer.YACSER_URI + "#systemSlot0";
 	public static final String YACSER_SYSTEM_SLOT_1 = SparqlServer.YACSER_URI + "#systemSlot1";
+	public static final String YACSER_TECHNICAL_SOLUTION = SparqlServer.YACSER_URI + "#technicalSolution";
 	public static final String SKOS_PREF_LABEL = SparqlServer.SKOS_URI + "#prefLabel";
 	public static final String DB_DESCRIPTION = SparqlServer.DBC_URI + "description";
 	public static final String BS_HAS_UNIT = SparqlServer.BS_URI + "#hasUnit";
@@ -295,19 +297,26 @@ public class YacserObjectRepository {
 		SparqlServer.instance.update(queryStr);
 	}
 
-	private void updateRelatedObject(String subjectId, String relationId, String objectId) throws IOException {
+	public static void updateRelatedObject(String subjectId, String relationId, String objectId) throws IOException {
 		String modelId = subjectId.substring(0, subjectId.indexOf('#'));
 
 		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
 		queryStr.setIri("graph", modelId);
 		queryStr.setIri("subject", subjectId);
 		queryStr.setIri("predicate", relationId);
-		queryStr.setIri("object", objectId);
-		queryStr.append("INSERT { ");
+		queryStr.append("DELETE { ");
 		queryStr.append("  GRAPH ?graph { ");
-		queryStr.append("    ?subject ?predicate ?object . ");
+		queryStr.append("    ?subject ?predicate ?oldObject . ");
 		queryStr.append("  } ");
 		queryStr.append("} ");
+		if (!objectId.isEmpty()) {
+			queryStr.setIri("object", objectId);
+			queryStr.append("INSERT { ");
+			queryStr.append("  GRAPH ?graph { ");
+			queryStr.append("    ?subject ?predicate ?object . ");
+			queryStr.append("  } ");
+			queryStr.append("} ");
+		}
 		queryStr.append("WHERE {} ");
 
 		SparqlServer.instance.update(queryStr);
@@ -412,6 +421,29 @@ public class YacserObjectRepository {
 		return (Function) build(YacserObjectType.Function, functionId);
 	}
 
+	public Hamburger updateHamburger(String hamburgerId, Optional<String> updateName,
+			Optional<String> updateDescription, Optional<String> updateFunctionalUnit,
+			Optional<String> updateTechnicalSolution) throws IOException {
+
+		if (updateName.isPresent()) {
+			updateLiteral(hamburgerId, SKOS_PREF_LABEL, updateName.get());
+		}
+
+		if (updateDescription.isPresent()) {
+			updateLiteral(hamburgerId, DB_DESCRIPTION, updateDescription.get());
+		}
+
+		if (updateFunctionalUnit.isPresent()) {
+			updateRelatedObject(hamburgerId, YACSER_FUNCTIONAL_UNIT, updateFunctionalUnit.get());
+		}
+
+		if (updateTechnicalSolution.isPresent()) {
+			updateRelatedObject(hamburgerId, YACSER_TECHNICAL_SOLUTION, updateTechnicalSolution.get());
+		}
+
+		return (Hamburger) build(YacserObjectType.Hamburger, hamburgerId);
+	}
+
 	/**
 	 * Update Performance object
 	 * 
@@ -439,7 +471,7 @@ public class YacserObjectRepository {
 
 		return (Performance) build(YacserObjectType.Performance, performanceId);
 	}
-	
+
 	/**
 	 * Update RealisationModule
 	 * 
@@ -466,7 +498,7 @@ public class YacserObjectRepository {
 
 		return (RealisationModule) build(YacserObjectType.RealisationModule, realisationModuleId);
 	}
-	
+
 	/**
 	 * Update Requirement object
 	 * 

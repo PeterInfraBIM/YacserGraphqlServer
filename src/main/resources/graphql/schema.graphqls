@@ -58,8 +58,12 @@ type Hamburger implements YacserObject {
 	name: String
 		# Optional description of the object.
 	description: String
-		# Type of the object instance
+		# Type of the object instance,
 	type: YacserObjectType!
+		# Functional Unit reference.
+	functionalUnit: SystemSlot
+		# Technical Solution reference.
+	technicalSolution: RealisationModule
 }
 
 	# YACSER Performance instance.
@@ -230,6 +234,20 @@ input UpdateFunctionInput {
 	addRequirements: [ID]
 }
 
+	# Update Hamburger input arguments.
+input UpdateHamburgerInput {
+		# Hamburger ID.
+	hamburgerId: ID!
+		# If present: new name.
+	updateName: String
+		# If present: new description.
+	updateDescription: String
+		# If present: new functional unit reference.
+	updateFunctionalUnit: ID
+		# If present: new technical solution reference.
+	updateTechnicalSolution: ID
+}
+
 	# Update Performance input arguments.
 input UpdatePerformanceInput {
 		# Performance ID.
@@ -347,11 +365,17 @@ type Mutation {
 		description: String
 	): YacserObject
 
-		# Update Function object
+		# Update Function object.
 	updateFunction(
 			# Input for Update Function.
 		input: UpdateFunctionInput!
 	): Function
+	
+		# Update Hamburger object.
+	updateHamburger(
+			# Input for Update Hamburger.
+		input: UpdateHamburgerInput!
+	): Hamburger
 	
 		# Update YacserModel object
 	updateModel(

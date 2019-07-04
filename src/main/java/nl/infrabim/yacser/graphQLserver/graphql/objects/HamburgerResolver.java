@@ -23,4 +23,20 @@ public class HamburgerResolver extends YacserObjectResolver implements GraphQLRe
 	public YacserObjectType getType(Hamburger hamburger) throws IOException {
 		return super.getType(hamburger);
 	}
+
+	public SystemSlot getFunctionalUnit(Hamburger hamburger) throws IOException {
+		String systemSlotId = YacserObjectRepository.getRelatedObject(hamburger.getId(),
+				YacserObjectRepository.YACSER_FUNCTIONAL_UNIT);
+		return systemSlotId != null
+				? (SystemSlot) YacserObjectRepository.build(YacserObjectType.SystemSlot, systemSlotId)
+				: null;
+	}
+	
+	public RealisationModule getTechnicalSolution(Hamburger hamburger) throws IOException {
+		String realisationModuleId = YacserObjectRepository.getRelatedObject(hamburger.getId(),
+				YacserObjectRepository.YACSER_TECHNICAL_SOLUTION);
+		return realisationModuleId != null
+				? (RealisationModule) YacserObjectRepository.build(YacserObjectType.RealisationModule, realisationModuleId)
+				: null;
+	}
 }

@@ -8,12 +8,14 @@ import org.springframework.stereotype.Component;
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
 
 import nl.infrabim.yacser.graphQLserver.graphql.objects.Function;
+import nl.infrabim.yacser.graphQLserver.graphql.objects.Hamburger;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.Performance;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.RealisationModule;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.Requirement;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.SystemInterface;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.SystemSlot;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateFunctionInput;
+import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateHamburgerInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdatePerformanceInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateRealisationModuleInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateRequirementInput;
@@ -74,6 +76,18 @@ public class Mutation implements GraphQLMutationResolver {
 	}
 
 	/**
+	 * @param input Input arguments for updating the Hamburger object
+	 * @return Updated Hamburger object
+	 * @throws IOException
+	 */
+	public Hamburger updateHamburger(UpdateHamburgerInput input) throws IOException {
+		return yacserObjectRepository.updateHamburger(input.getHamburgerId(),
+				Optional.ofNullable(input.getUpdateName()), Optional.ofNullable(input.getUpdateDescription()),
+				Optional.ofNullable(input.getUpdateFunctionalUnit()),
+				Optional.ofNullable(input.getUpdateTechnicalSolution()));
+	}
+
+	/**
 	 * @param input Input arguments for updating the YacserModel object
 	 * @return Updated YacserModel object
 	 * @throws IOException
@@ -93,7 +107,7 @@ public class Mutation implements GraphQLMutationResolver {
 				Optional.ofNullable(input.getUpdateName()), Optional.ofNullable(input.getUpdateDescription()),
 				Optional.ofNullable(input.getUpdateValue()));
 	}
-	
+
 	/**
 	 * @param input Input arguments for updating the RealisationModule object
 	 * @return Updated RealisationModule object
