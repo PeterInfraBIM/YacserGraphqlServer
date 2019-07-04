@@ -4,8 +4,8 @@ public class UpdateSystemInterfaceInput {
 	private String systemInterfaceId; // SystemInterface ID.
 	private String updateName; // If present: new name, "" will remove the name.
 	private String updateDescription; // If present: new description, "" will remove the description.
-	private String updateSystemSlot0; // If present: update SystemSlot 0.
-	private String updateSystemSlot1; // If present: update SystemSlot 1.
+	private String updateSystemSlot0; // If present: update SystemSlot 0, "" will remove the reference.
+	private String updateSystemSlot1; // If present: update SystemSlot 1, "" will remove the reference.
 
 	public UpdateSystemInterfaceInput() {
 	}

@@ -17,8 +17,10 @@ import nl.infrabim.yacser.graphQLserver.sparql.SparqlServer;
 public class YacserObjectRepository {
 	public static final String YACSER_FUNCTIONAL_UNIT = SparqlServer.YACSER_URI + "#functionalUnit";
 	public static final String YACSER_HAS_FUNCTION = SparqlServer.YACSER_URI + "#hasFunction";
+	public static final String YACSER_HAS_INPUT = SparqlServer.YACSER_URI + "#hasInput";
 	public static final String YACSER_HAS_MAX_VALUE = SparqlServer.YACSER_URI + "#hasMaxValue";
 	public static final String YACSER_HAS_MIN_VALUE = SparqlServer.YACSER_URI + "#hasMinValue";
+	public static final String YACSER_HAS_OUTPUT = SparqlServer.YACSER_URI + "#hasOutput";
 	public static final String YACSER_HAS_PERFORMANCE = SparqlServer.YACSER_URI + "#hasPerformance";
 	public static final String YACSER_HAS_REQUIREMENT = SparqlServer.YACSER_URI + "#hasRequirement";
 	public static final String YACSER_HAS_VALUE = SparqlServer.YACSER_URI + "#hasValue";
@@ -400,11 +402,14 @@ public class YacserObjectRepository {
 	 * @param updateName        If present, updated name.
 	 * @param updateDescription If present, updated description.
 	 * @param addRequirements   If present, additional requirements.
+	 * @param updateInput       If present, updated input system interface.
+	 * @param updateOutput      If present, updated output system interface.
 	 * @return Updated Function object.
 	 * @throws IOException
 	 */
 	public Function updateFunction(String functionId, Optional<String> updateName, Optional<String> updateDescription,
-			Optional<List<String>> addRequirements) throws IOException {
+			Optional<List<String>> addRequirements, Optional<String> updateInput, Optional<String> updateOutput)
+			throws IOException {
 
 		if (updateName.isPresent()) {
 			updateLiteral(functionId, SKOS_PREF_LABEL, updateName.get());
@@ -416,6 +421,14 @@ public class YacserObjectRepository {
 
 		if (addRequirements.isPresent()) {
 			addRelatedObjects(functionId, YACSER_HAS_REQUIREMENT, addRequirements.get());
+		}
+
+		if (updateInput.isPresent()) {
+			updateRelatedObject(functionId, YACSER_HAS_INPUT, updateInput.get());
+		}
+
+		if (updateOutput.isPresent()) {
+			updateRelatedObject(functionId, YACSER_HAS_OUTPUT, updateOutput.get());
 		}
 
 		return (Function) build(YacserObjectType.Function, functionId);

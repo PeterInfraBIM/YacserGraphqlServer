@@ -54,8 +54,11 @@ public class SystemSlotResolver extends YacserObjectResolver implements GraphQLR
 		queryStr.append("SELECT ?interface ?label ");
 		queryStr.append("WHERE { ");
 		queryStr.append("	GRAPH ?model { ");
+		queryStr.append("	  { ");
 		queryStr.append("	    OPTIONAL { ?interface yacser:systemSlot0 ?object . } ");
+		queryStr.append("	      } UNION { ");
 		queryStr.append("	    OPTIONAL { ?interface yacser:systemSlot1 ?object . } ");
+		queryStr.append("	  } ");
 		queryStr.append("	    OPTIONAL { ?interface skos:prefLabel ?label . } ");
 		queryStr.append("	} ");
 		queryStr.append("} ");

@@ -42,12 +42,16 @@ type Function implements YacserObject {
 	name: String
 		# Optional description of the object.
 	description: String
-		# Type of the object instance
+		# Type of the object instance.
 	type: YacserObjectType!
-		# Owner SystemSlot
+		# Owner SystemSlot.
 	owner: SystemSlot
-		# Related Requirements
+		# Related Requirements.
 	requirements: [Requirement]
+		# Function input.
+	input: SystemInterface
+		# Function output.
+	output: SystemInterface
 }
 
 	# YACSER Hamburger instance.
@@ -232,6 +236,10 @@ input UpdateFunctionInput {
 	updateDescription: String
 		# If present: add requirements.
 	addRequirements: [ID]
+		# If present: new input reference.
+	updateInput: ID
+		# If present: new output reference.
+	updateOutput: ID
 }
 
 	# Update Hamburger input arguments.

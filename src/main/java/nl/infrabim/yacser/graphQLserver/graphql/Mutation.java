@@ -72,7 +72,8 @@ public class Mutation implements GraphQLMutationResolver {
 	 */
 	public Function updateFunction(UpdateFunctionInput input) throws IOException {
 		return yacserObjectRepository.updateFunction(input.getFunctionId(), Optional.ofNullable(input.getUpdateName()),
-				Optional.ofNullable(input.getUpdateDescription()), Optional.ofNullable(input.getAddRequirements()));
+				Optional.ofNullable(input.getUpdateDescription()), Optional.ofNullable(input.getAddRequirements()),
+				Optional.ofNullable(input.getUpdateInput()), Optional.ofNullable(input.getUpdateOutput()));
 	}
 
 	/**

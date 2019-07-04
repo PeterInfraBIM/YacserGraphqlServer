@@ -46,4 +46,20 @@ public class FunctionResolver extends YacserObjectResolver implements GraphQLRes
 		}
 		return null;
 	}
+
+	public SystemInterface getInput(Function function) throws IOException {
+		String inputId = YacserObjectRepository.getRelatedObject(function.getId(),
+				YacserObjectRepository.YACSER_HAS_INPUT);
+		return inputId != null
+				? (SystemInterface) YacserObjectRepository.build(YacserObjectType.SystemInterface, inputId)
+				: null;
+	}
+	
+	public SystemInterface getOutput(Function function) throws IOException {
+		String outputId = YacserObjectRepository.getRelatedObject(function.getId(),
+				YacserObjectRepository.YACSER_HAS_OUTPUT);
+		return outputId != null
+				? (SystemInterface) YacserObjectRepository.build(YacserObjectType.SystemInterface, outputId)
+				: null;
+	}
 }
