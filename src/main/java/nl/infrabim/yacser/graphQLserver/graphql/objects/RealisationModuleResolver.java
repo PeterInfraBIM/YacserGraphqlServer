@@ -27,17 +27,30 @@ public class RealisationModuleResolver extends YacserObjectResolver implements G
 	}
 
 	public List<Performance> getPerformances(RealisationModule realisationModule) throws IOException {
+		List<Performance> performances = null;
 		List<String> performanceIds = YacserObjectRepository.getRelatedObjects(realisationModule.getId(),
 				YacserObjectRepository.YACSER_HAS_PERFORMANCE);
 		if (performanceIds != null) {
-			List<Performance> performances = new ArrayList<>();
+			performances = new ArrayList<>();
 			for (String performanceId : performanceIds) {
 				performances
 						.add((Performance) YacserObjectRepository.build(YacserObjectType.Performance, performanceId));
 			}
-			return performances;
 		}
-		return null;
+		return performances;
+	}
+
+	public List<Hamburger> getHamburgers(RealisationModule realisationModule) throws IOException {
+		List<Hamburger> hamburgers = null;
+		List<String> hamburgerIds = YacserObjectRepository.getRelatedSubjects(realisationModule.getId(),
+				YacserObjectRepository.YACSER_TECHNICAL_SOLUTION);
+		if (hamburgerIds != null) {
+			hamburgers = new ArrayList<>();
+			for (String hamburgerId : hamburgerIds) {
+				hamburgers.add((Hamburger) YacserObjectRepository.build(YacserObjectType.Hamburger, hamburgerId));
+			}
+		}
+		return hamburgers;
 	}
 
 }

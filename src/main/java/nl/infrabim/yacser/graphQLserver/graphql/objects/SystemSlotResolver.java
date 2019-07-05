@@ -78,5 +78,17 @@ public class SystemSlotResolver extends YacserObjectResolver implements GraphQLR
 
 		return interfaces;
 	}
-
+	
+	public List<Hamburger> getHamburgers(SystemSlot systemSlot) throws IOException {
+		List<Hamburger> hamburgers = null;
+		List<String> hamburgerIds = YacserObjectRepository.getRelatedSubjects(systemSlot.getId(),
+				YacserObjectRepository.YACSER_FUNCTIONAL_UNIT);
+		if (hamburgerIds != null) {
+			hamburgers = new ArrayList<>();
+			for (String hamburgerId : hamburgerIds) {
+				hamburgers.add((Hamburger) YacserObjectRepository.build(YacserObjectType.Hamburger, hamburgerId));
+			}
+		}
+		return hamburgers;
+	}
 }

@@ -98,6 +98,8 @@ type RealisationModule implements YacserObject {
 	type: YacserObjectType!
 		# Specified performances.
 	performances: [Performance]
+		# Hamburger references
+	hamburgers: [Hamburger]
 }
 
 	# YACSER Requirement instance.
@@ -132,6 +134,10 @@ type SystemInterface implements YacserObject {
 	systemSlot0: SystemSlot
 		# Second SystemSlot.
 	systemSlot1: SystemSlot
+		# Input to functions
+	functionInputs: [Function]
+		# Output from functions
+	functionOutputs: [Function]
 }
 
 	# YACSER System slot instance.
@@ -148,6 +154,8 @@ type SystemSlot implements YacserObject {
 	functions: [Function]
 		# Related interfaces.
 	interfaces: [SystemInterface]
+		# Hamburger references
+	hamburgers: [Hamburger]
 }
 
 	# Value instance.

@@ -276,7 +276,38 @@ public class YacserObjectRepository {
 		}
 		return null;
 	}
+	
+	public static List<String> getRelatedSubjects(String objectId, String relationId) throws IOException {
+		List<String> subjectIds = null;
+		String modelId = getModelId(objectId);
 
+		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
+		queryStr.setIri("graph", modelId);
+		queryStr.setIri("object", objectId);
+		queryStr.setIri("predicate", relationId);
+		queryStr.append("SELECT ?subject ?label ");
+		queryStr.append("WHERE { ");
+		queryStr.append("	GRAPH ?graph { ");
+		queryStr.append("	    ?subject ?predicate ?object . ");
+		queryStr.append("	    OPTIONAL { ?subject skos:prefLabel ?label . } ");
+		queryStr.append("	} ");
+		queryStr.append("} ");
+		queryStr.append("ORDER BY ?label ");
+
+		JsonNode responseNodes = SparqlServer.instance.query(queryStr);
+		if (responseNodes.size() > 0) {
+			subjectIds = new ArrayList<>();
+			for (JsonNode node : responseNodes) {
+				JsonNode subjectNode = node.get("subject");
+				if (subjectNode != null) {
+					subjectIds.add(subjectNode.get("value").asText());
+				}
+			}
+		}
+
+		return subjectIds;
+	}
+	
 	private void addRelatedObjects(String subjectId, String relationId, List<String> objectIds) throws IOException {
 		String modelId = subjectId.substring(0, subjectId.indexOf('#'));
 

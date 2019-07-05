@@ -1,6 +1,8 @@
 package nl.infrabim.yacser.graphQLserver.graphql.objects;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -38,6 +40,32 @@ public class SystemInterfaceResolver extends YacserObjectResolver implements Gra
 		return systemSlot1Id != null
 				? (SystemSlot) YacserObjectRepository.build(YacserObjectType.SystemSlot, systemSlot1Id)
 				: null;
+	}
+
+	public List<Function> getFunctionInputs(SystemInterface systemInterface) throws IOException {
+		List<Function> functions = null;
+		List<String> subjectIds = YacserObjectRepository.getRelatedSubjects(systemInterface.getId(),
+				YacserObjectRepository.YACSER_HAS_INPUT);
+		if (subjectIds != null) {
+			functions = new ArrayList<>();
+			for (String subjectId : subjectIds) {
+				functions.add((Function) YacserObjectRepository.build(YacserObjectType.Function, subjectId));
+			}
+		}
+		return functions;
+	}
+	
+	public List<Function> getFunctionOutputs(SystemInterface systemInterface) throws IOException {
+		List<Function> functions = null;
+		List<String> subjectIds = YacserObjectRepository.getRelatedSubjects(systemInterface.getId(),
+				YacserObjectRepository.YACSER_HAS_OUTPUT);
+		if (subjectIds != null) {
+			functions = new ArrayList<>();
+			for (String subjectId : subjectIds) {
+				functions.add((Function) YacserObjectRepository.build(YacserObjectType.Function, subjectId));
+			}
+		}
+		return functions;
 	}
 
 }
