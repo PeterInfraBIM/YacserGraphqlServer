@@ -37,7 +37,7 @@ public class PerformamceResolver extends YacserObjectResolver implements GraphQL
 	public Value getValue(Performance performance) throws IOException {
 		String valueId = YacserObjectRepository.getRelatedObject(performance.getId(),
 				YacserObjectRepository.YACSER_HAS_VALUE);
-		return (Value) YacserObjectRepository.build(YacserObjectType.Value, valueId);
+		return valueId != null ? (Value) YacserObjectRepository.build(YacserObjectType.Value, valueId) : null;
 	}
 
 }
