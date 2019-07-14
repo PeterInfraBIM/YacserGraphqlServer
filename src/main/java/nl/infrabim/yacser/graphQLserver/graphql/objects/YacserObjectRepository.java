@@ -29,6 +29,7 @@ public class YacserObjectRepository {
 	public static final String YACSER_TECHNICAL_SOLUTION = SparqlServer.YACSER_URI + "#technicalSolution";
 	public static final String SKOS_PREF_LABEL = SparqlServer.SKOS_URI + "#prefLabel";
 	public static final String DB_DESCRIPTION = SparqlServer.DBC_URI + "description";
+	public static final String DCT_HAS_PART = SparqlServer.DCT_URI + "hasPart";
 	public static final String BS_HAS_UNIT = SparqlServer.BS_URI + "#hasUnit";
 	public static final String BS_HAS_VALUE = SparqlServer.BS_URI + "#hasValue";
 
@@ -233,7 +234,7 @@ public class YacserObjectRepository {
 		queryStr.append("WHERE { ");
 		queryStr.append("	GRAPH ?graph { ");
 		queryStr.append("	    ?subject ?predicate ?object . ");
-		queryStr.append("	    OPTIONAL { ?subject skos:prefLabel ?label . } ");
+		queryStr.append("	    OPTIONAL { ?object skos:prefLabel ?label . } ");
 		queryStr.append("	} ");
 		queryStr.append("} ");
 		queryStr.append("ORDER BY ?label ");
@@ -276,7 +277,7 @@ public class YacserObjectRepository {
 		}
 		return null;
 	}
-	
+
 	public static List<String> getRelatedSubjects(String objectId, String relationId) throws IOException {
 		List<String> subjectIds = null;
 		String modelId = getModelId(objectId);
@@ -307,8 +308,9 @@ public class YacserObjectRepository {
 
 		return subjectIds;
 	}
-	
-	private void addRelatedObjects(String subjectId, String relationId, List<String> objectIds) throws IOException {
+
+	public static void addRelatedObjects(String subjectId, String relationId, List<String> objectIds)
+			throws IOException {
 		String modelId = subjectId.substring(0, subjectId.indexOf('#'));
 
 		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
@@ -526,7 +528,8 @@ public class YacserObjectRepository {
 	 * @throws IOException
 	 */
 	public RealisationModule updateRealisationModule(String realisationModuleId, Optional<String> updateName,
-			Optional<String> updateDescription, Optional<List<String>> addPerformances) throws IOException {
+			Optional<String> updateDescription, Optional<List<String>> addPerformances, Optional<String> updateAssembly,
+			Optional<List<String>> addParts) throws IOException {
 
 		if (updateName.isPresent()) {
 			updateLiteral(realisationModuleId, SKOS_PREF_LABEL, updateName.get());
@@ -538,6 +541,16 @@ public class YacserObjectRepository {
 
 		if (addPerformances.isPresent()) {
 			addRelatedObjects(realisationModuleId, YACSER_HAS_PERFORMANCE, addPerformances.get());
+		}
+
+		if (updateAssembly.isPresent()) {
+			List<String> parts = new ArrayList<>();
+			parts.add(realisationModuleId);
+			addRelatedObjects(updateAssembly.get(), DCT_HAS_PART, parts);
+		}
+
+		if (addParts.isPresent()) {
+			addRelatedObjects(realisationModuleId, DCT_HAS_PART, addParts.get());
 		}
 
 		return (RealisationModule) build(YacserObjectType.RealisationModule, realisationModuleId);

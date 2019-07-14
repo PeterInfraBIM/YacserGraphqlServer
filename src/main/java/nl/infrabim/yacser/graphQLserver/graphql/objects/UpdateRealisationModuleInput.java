@@ -7,6 +7,8 @@ public class UpdateRealisationModuleInput {
 	private String updateName; // If present: new name, "" will remove the name.
 	private String updateDescription; // If present: new description, "" will remove the description.
 	private List<String> addPerformances; // If present: add performances.
+	private String updateAssembly; // If present: new assembly, "" will remove the reference.
+	private List<String> addParts; // If present: add parts.
 
 	public UpdateRealisationModuleInput() {
 	}
@@ -15,7 +17,7 @@ public class UpdateRealisationModuleInput {
 		return realisationModuleId;
 	}
 
-	public void setRealisationModule(String realisationModuleId) {
+	public void setRealisationModuleId(String realisationModuleId) {
 		this.realisationModuleId = realisationModuleId;
 	}
 
@@ -41,6 +43,22 @@ public class UpdateRealisationModuleInput {
 
 	public void setAddPerformances(List<String> addPerformanes) {
 		this.addPerformances = addPerformanes;
+	}
+
+	public String getUpdateAssembly() {
+		return updateAssembly;
+	}
+
+	public void setUpdateAssembly(String updateAssembly) {
+		this.updateAssembly = updateAssembly;
+	}
+
+	public List<String> getAddParts() {
+		return addParts;
+	}
+
+	public void setAddParts(List<String> addParts) {
+		this.addParts = addParts;
 	}
 
 }

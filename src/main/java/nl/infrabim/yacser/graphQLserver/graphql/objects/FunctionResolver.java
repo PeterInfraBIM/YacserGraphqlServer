@@ -54,7 +54,7 @@ public class FunctionResolver extends YacserObjectResolver implements GraphQLRes
 				? (SystemInterface) YacserObjectRepository.build(YacserObjectType.SystemInterface, inputId)
 				: null;
 	}
-	
+
 	public SystemInterface getOutput(Function function) throws IOException {
 		String outputId = YacserObjectRepository.getRelatedObject(function.getId(),
 				YacserObjectRepository.YACSER_HAS_OUTPUT);
@@ -62,4 +62,23 @@ public class FunctionResolver extends YacserObjectResolver implements GraphQLRes
 				? (SystemInterface) YacserObjectRepository.build(YacserObjectType.SystemInterface, outputId)
 				: null;
 	}
+
+	public Function getAssembly(Function function) throws IOException {
+		String assemblyId = super.getAssemblyId(function);
+		return assemblyId != null ? (Function) YacserObjectRepository.build(YacserObjectType.Function, assemblyId)
+				: null;
+	}
+
+	public List<Function> getParts(Function function) throws IOException {
+		List<String> partIds = super.getPartIds(function);
+		if (partIds != null) {
+			List<Function> parts = new ArrayList<>();
+			for (String partId : partIds) {
+				parts.add((Function) YacserObjectRepository.build(YacserObjectType.Function, partId));
+			}
+			return parts;
+		}
+		return null;
+	}
+
 }

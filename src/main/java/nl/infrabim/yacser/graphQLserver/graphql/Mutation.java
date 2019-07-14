@@ -117,7 +117,8 @@ public class Mutation implements GraphQLMutationResolver {
 	public RealisationModule updateRealisationModule(UpdateRealisationModuleInput input) throws IOException {
 		return yacserObjectRepository.updateRealisationModule(input.getRealisationModuleId(),
 				Optional.ofNullable(input.getUpdateName()), Optional.ofNullable(input.getUpdateDescription()),
-				Optional.ofNullable(input.getAddPerformances()));
+				Optional.ofNullable(input.getAddPerformances()), Optional.ofNullable(input.getUpdateAssembly()),
+				Optional.ofNullable(input.getAddParts()));
 	}
 
 	/**

@@ -53,4 +53,22 @@ public class RealisationModuleResolver extends YacserObjectResolver implements G
 		return hamburgers;
 	}
 
+	public RealisationModule getAssembly(RealisationModule realisationModule) throws IOException {
+		String assemblyId = super.getAssemblyId(realisationModule);
+		return assemblyId != null
+				? (RealisationModule) YacserObjectRepository.build(YacserObjectType.RealisationModule, assemblyId)
+				: null;
+	}
+
+	public List<RealisationModule> getParts(RealisationModule realisationModule) throws IOException {
+		List<String> partIds = super.getPartIds(realisationModule);
+		if (partIds != null) {
+			List<RealisationModule> parts = new ArrayList<>();
+			for (String partId : partIds) {
+				parts.add((RealisationModule) YacserObjectRepository.build(YacserObjectType.RealisationModule, partId));
+			}
+			return parts;
+		}
+		return null;
+	}
 }

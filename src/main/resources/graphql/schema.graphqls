@@ -52,6 +52,10 @@ type Function implements YacserObject {
 	input: SystemInterface
 		# Function output.
 	output: SystemInterface
+		# Assembly reference.
+	assembly: Function
+		# Parts references.
+	parts: [Function]
 }
 
 	# YACSER Hamburger instance.
@@ -100,6 +104,10 @@ type RealisationModule implements YacserObject {
 	performances: [Performance]
 		# Hamburger references
 	hamburgers: [Hamburger]
+		# Assembly reference.
+	assembly: RealisationModule
+		# Parts references.
+	parts: [RealisationModule]
 }
 
 	# YACSER Requirement instance.
@@ -156,6 +164,10 @@ type SystemSlot implements YacserObject {
 	interfaces: [SystemInterface]
 		# Hamburger references
 	hamburgers: [Hamburger]
+		# Assembly reference.
+	assembly: SystemSlot
+		# Parts references.
+	parts: [SystemSlot]
 }
 
 	# Value instance.
@@ -232,6 +244,7 @@ type Query {
 			# Value object ID.
 		id: ID!
 	): Value
+	
 }
 
 	# Update Function input arguments.
@@ -286,6 +299,10 @@ input UpdateRealisationModuleInput {
 	updateDescription: String
 		# If present: add performances.
 	addPerformances: [ID]
+		# If present: update assembly.
+	updateAssembly: ID
+		# If present: add parts.
+	addParts: [ID]
 }
 
 	# Update Requirement input arguments.

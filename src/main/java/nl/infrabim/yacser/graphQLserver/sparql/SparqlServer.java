@@ -38,7 +38,8 @@ public class SparqlServer {
 	private static final String YACSER_PATH = "src/main/resources/static/yacser.ttl";
 	public static final String BS_URI = "https://w3id.org/def/basicsemantics";
 	private static final String BS_PATH = "src/main/resources/static/basicsemantics.ttl";
-	public static final String DBC_URI = "http://purl.org/dc/elements/1.1/";	
+	public static final String DBC_URI = "http://purl.org/dc/elements/1.1/";
+	public static final String DCT_URI = "http://purl.org/dc/terms/";
 	public static final String SKOS_URI = "http://www.w3.org/2004/02/skos/core";
 
 	public static SparqlServer instance;

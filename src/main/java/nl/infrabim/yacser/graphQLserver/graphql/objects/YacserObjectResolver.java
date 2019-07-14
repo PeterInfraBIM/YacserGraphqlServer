@@ -1,13 +1,9 @@
 package nl.infrabim.yacser.graphQLserver.graphql.objects;
 
 import java.io.IOException;
+import java.util.List;
 
-import org.apache.jena.query.ParameterizedSparqlString;
 import org.springframework.stereotype.Component;
-
-import com.fasterxml.jackson.databind.JsonNode;
-
-import nl.infrabim.yacser.graphQLserver.sparql.SparqlServer;
 
 @Component
 public class YacserObjectResolver {
@@ -49,4 +45,25 @@ public class YacserObjectResolver {
 		return typeId != null ? YacserObjectType.getType(typeId) : null;
 	}
 
+	/**
+	 * Get the ID of the assembly object.
+	 * 
+	 * @param yacserObject the YACSER object instance
+	 * @return the assembly ID or null
+	 * @throws IOException
+	 */
+	public String getAssemblyId(YacserObject yacserObject) throws IOException {
+		return YacserObjectRepository.getRelatedSubject(yacserObject.getId(), YacserObjectRepository.DCT_HAS_PART);
+	}
+
+	/**
+	 * Get the IDs of the part objects.
+	 * 
+	 * @param yacserObject the YACSER object instance
+	 * @return the part IDs or null
+	 * @throws IOException
+	 */
+	public List<String> getPartIds(YacserObject yacserObject) throws IOException {
+		return YacserObjectRepository.getRelatedObjects(yacserObject.getId(), YacserObjectRepository.DCT_HAS_PART);
+	}
 }
