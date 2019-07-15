@@ -261,6 +261,10 @@ input UpdateFunctionInput {
 	updateInput: ID
 		# If present: new output reference.
 	updateOutput: ID
+		# If present: update assembly.
+	updateAssembly: ID
+		# If present: add parts.
+	addParts: [ID]
 }
 
 	# Update Hamburger input arguments.

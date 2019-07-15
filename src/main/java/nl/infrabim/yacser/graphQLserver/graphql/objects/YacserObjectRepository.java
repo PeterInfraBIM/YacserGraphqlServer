@@ -437,12 +437,14 @@ public class YacserObjectRepository {
 	 * @param addRequirements   If present, additional requirements.
 	 * @param updateInput       If present, updated input system interface.
 	 * @param updateOutput      If present, updated output system interface.
+	 * @param updateAssembly    If present, updated assembly function.
+	 * @param addParts          If present, additional part functions.
 	 * @return Updated Function object.
 	 * @throws IOException
 	 */
 	public Function updateFunction(String functionId, Optional<String> updateName, Optional<String> updateDescription,
-			Optional<List<String>> addRequirements, Optional<String> updateInput, Optional<String> updateOutput)
-			throws IOException {
+			Optional<List<String>> addRequirements, Optional<String> updateInput, Optional<String> updateOutput,
+			Optional<String> updateAssembly, Optional<List<String>> addParts) throws IOException {
 
 		if (updateName.isPresent()) {
 			updateLiteral(functionId, SKOS_PREF_LABEL, updateName.get());
@@ -462,6 +464,16 @@ public class YacserObjectRepository {
 
 		if (updateOutput.isPresent()) {
 			updateRelatedObject(functionId, YACSER_HAS_OUTPUT, updateOutput.get());
+		}
+
+		if (updateAssembly.isPresent()) {
+			List<String> parts = new ArrayList<>();
+			parts.add(functionId);
+			addRelatedObjects(updateAssembly.get(), DCT_HAS_PART, parts);
+		}
+
+		if (addParts.isPresent()) {
+			addRelatedObjects(functionId, DCT_HAS_PART, addParts.get());
 		}
 
 		return (Function) build(YacserObjectType.Function, functionId);
@@ -521,9 +533,12 @@ public class YacserObjectRepository {
 	/**
 	 * Update RealisationModule
 	 * 
-	 * @param realisationModuleId
-	 * @param updateName
-	 * @param addFunctions
+	 * @param realisationModuleId        RealisationModule ID.
+	 * @param updateName        If present, updated name.
+	 * @param updateDescription If present, updated description.
+	 * @param addPerformances   If present, additional performances.
+	 * @param updateAssembly    If present, updated assembly realisation module.
+	 * @param addParts          If present, additional part realisation modules.
 	 * @return RealisationModule object
 	 * @throws IOException
 	 */

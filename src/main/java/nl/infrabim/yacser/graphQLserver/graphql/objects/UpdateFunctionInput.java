@@ -9,6 +9,8 @@ public class UpdateFunctionInput {
 	private List<String> addRequirements; // If present: add requirements.
 	private String updateInput; // If present: new input system interface, "" will remove the reference.
 	private String updateOutput; // If present: new output system interface, "" will remove the reference.
+	private String updateAssembly; // If present: new assembly, "" will remove the reference.
+	private List<String> addParts; // If present: add parts.
 
 	public UpdateFunctionInput() {
 	}
@@ -59,6 +61,22 @@ public class UpdateFunctionInput {
 
 	public void setUpdateOutput(String updateOutput) {
 		this.updateOutput = updateOutput;
+	}
+
+	public String getUpdateAssembly() {
+		return updateAssembly;
+	}
+
+	public void setUpdateAssembly(String updateAssembly) {
+		this.updateAssembly = updateAssembly;
+	}
+
+	public List<String> getAddParts() {
+		return addParts;
+	}
+
+	public void setAddParts(List<String> addParts) {
+		this.addParts = addParts;
 	}
 
 }
