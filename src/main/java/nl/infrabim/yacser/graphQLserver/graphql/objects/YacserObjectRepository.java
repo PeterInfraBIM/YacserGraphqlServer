@@ -420,9 +420,9 @@ public class YacserObjectRepository {
 			queryStr.append("} ");
 		}
 		queryStr.append("WHERE { ");
-//		queryStr.append("  GRAPH ?graph { ");
-//		queryStr.append("    ?subject ?predicate ?oldLiteral . ");
-//		queryStr.append("  } ");
+		queryStr.append("  GRAPH ?graph { ");
+		queryStr.append("    OPTIONAL { ?subject ?predicate ?oldLiteral . } ");
+		queryStr.append("  } ");
 		queryStr.append("} ");
 
 		SparqlServer.instance.update(queryStr);
