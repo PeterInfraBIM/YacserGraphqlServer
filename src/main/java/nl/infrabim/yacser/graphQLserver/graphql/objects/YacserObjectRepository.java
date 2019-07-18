@@ -333,7 +333,7 @@ public class YacserObjectRepository {
 	}
 
 	public static void updateRelatedObject(String subjectId, String relationId, String objectId) throws IOException {
-		String modelId = subjectId.substring(0, subjectId.indexOf('#'));
+		String modelId = getModelId(subjectId);
 
 		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
 		queryStr.setIri("graph", modelId);
@@ -352,6 +352,24 @@ public class YacserObjectRepository {
 			queryStr.append("  } ");
 			queryStr.append("} ");
 		}
+		queryStr.append("WHERE {} ");
+
+		SparqlServer.instance.update(queryStr);
+	}
+	
+	public static void removeRelatedObject(String subjectId, String relationId, String objectId) throws IOException {
+		String modelId = getModelId(subjectId);
+
+		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
+		queryStr.setIri("graph", modelId);
+		queryStr.setIri("subject", subjectId);
+		queryStr.setIri("predicate", relationId);
+		queryStr.setIri("object", objectId);
+		queryStr.append("DELETE { ");
+		queryStr.append("  GRAPH ?graph { ");
+		queryStr.append("    ?subject ?predicate ?object . ");
+		queryStr.append("  } ");
+		queryStr.append("} ");
 		queryStr.append("WHERE {} ");
 
 		SparqlServer.instance.update(queryStr);
@@ -533,12 +551,12 @@ public class YacserObjectRepository {
 	/**
 	 * Update RealisationModule
 	 * 
-	 * @param realisationModuleId        RealisationModule ID.
-	 * @param updateName        If present, updated name.
-	 * @param updateDescription If present, updated description.
-	 * @param addPerformances   If present, additional performances.
-	 * @param updateAssembly    If present, updated assembly realisation module.
-	 * @param addParts          If present, additional part realisation modules.
+	 * @param realisationModuleId RealisationModule ID.
+	 * @param updateName          If present, updated name.
+	 * @param updateDescription   If present, updated description.
+	 * @param addPerformances     If present, additional performances.
+	 * @param updateAssembly      If present, updated assembly realisation module.
+	 * @param addParts            If present, additional part realisation modules.
 	 * @return RealisationModule object
 	 * @throws IOException
 	 */
@@ -560,6 +578,10 @@ public class YacserObjectRepository {
 
 		if (updateAssembly.isPresent()) {
 			List<String> parts = new ArrayList<>();
+			String oldAssemblyId = getRelatedSubject(realisationModuleId, DCT_HAS_PART);
+			if (oldAssemblyId != null) {
+				removeRelatedObject(oldAssemblyId, DCT_HAS_PART, realisationModuleId);
+			}
 			parts.add(realisationModuleId);
 			addRelatedObjects(updateAssembly.get(), DCT_HAS_PART, parts);
 		}
