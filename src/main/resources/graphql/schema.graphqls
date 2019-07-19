@@ -359,6 +359,10 @@ input UpdateSystemSlotInput {
 	removeFunctions: [ID]
 		# If present: Replace all functions.
 	replaceFunctions: [ID]
+		# If present: update assembly.
+	updateAssembly: ID
+		# If present: add parts.
+	addParts: [ID]
 }
 
 	# Update Value input arguments.

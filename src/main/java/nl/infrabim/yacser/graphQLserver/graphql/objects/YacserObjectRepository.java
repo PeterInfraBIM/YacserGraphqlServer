@@ -646,6 +646,8 @@ public class YacserObjectRepository {
 	 * @param updateName
 	 * @param updateSystemSlot0
 	 * @param updateSystemSlot1
+	 * @param updateAssembly      If present, updated assembly system interface.
+	 * @param addParts            If present, additional part system interfaces.
 	 * @return SystemInterface object
 	 * @throws IOException
 	 */
@@ -694,11 +696,14 @@ public class YacserObjectRepository {
 	 * @param systemSlotId
 	 * @param updateName
 	 * @param addFunctions
+	 * @param updateAssembly      If present, updated assembly system slot.
+	 * @param addParts            If present, additional part system slots.
 	 * @return SystemSlot object
 	 * @throws IOException
 	 */
 	public SystemSlot updateSystemSlot(String systemSlotId, Optional<String> updateName,
-			Optional<String> updateDescription, Optional<List<String>> addFunctions) throws IOException {
+			Optional<String> updateDescription, Optional<List<String>> addFunctions,
+			Optional<String> updateAssembly, Optional<List<String>> addParts) throws IOException {
 
 		if (updateName.isPresent()) {
 			updateLiteral(systemSlotId, SKOS_PREF_LABEL, updateName.get());
@@ -710,6 +715,22 @@ public class YacserObjectRepository {
 
 		if (addFunctions.isPresent()) {
 			addRelatedObjects(systemSlotId, YACSER_HAS_FUNCTION, addFunctions.get());
+		}
+		
+		if (updateAssembly.isPresent()) {
+			List<String> parts = new ArrayList<>();
+			String oldAssemblyId = getRelatedSubject(systemSlotId, DCT_HAS_PART);
+			if (oldAssemblyId != null) {
+				removeRelatedObject(oldAssemblyId, DCT_HAS_PART, systemSlotId);
+			}
+			if (!updateAssembly.get().isEmpty()) {
+				parts.add(systemSlotId);
+				addRelatedObjects(updateAssembly.get(), DCT_HAS_PART, parts);
+			}
+		}
+
+		if (addParts.isPresent()) {
+			addRelatedObjects(systemSlotId, DCT_HAS_PART, addParts.get());
 		}
 
 		return (SystemSlot) build(YacserObjectType.SystemSlot, systemSlotId);
