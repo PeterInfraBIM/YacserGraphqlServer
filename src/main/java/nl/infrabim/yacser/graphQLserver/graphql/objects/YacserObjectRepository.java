@@ -311,7 +311,7 @@ public class YacserObjectRepository {
 
 	public static void addRelatedObjects(String subjectId, String relationId, List<String> objectIds)
 			throws IOException {
-		String modelId = subjectId.substring(0, subjectId.indexOf('#'));
+		String modelId = getModelId(subjectId);
 
 		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
 		queryStr.setIri("graph", modelId);
@@ -352,11 +352,15 @@ public class YacserObjectRepository {
 			queryStr.append("  } ");
 			queryStr.append("} ");
 		}
-		queryStr.append("WHERE {} ");
+		queryStr.append("WHERE { ");
+		queryStr.append("  GRAPH ?graph { ");
+		queryStr.append("    OPTIONAL { ?subject ?predicate ?oldObject . } ");
+		queryStr.append("  } ");
+		queryStr.append("} ");
 
 		SparqlServer.instance.update(queryStr);
 	}
-	
+
 	public static void removeRelatedObject(String subjectId, String relationId, String objectId) throws IOException {
 		String modelId = getModelId(subjectId);
 
@@ -486,8 +490,14 @@ public class YacserObjectRepository {
 
 		if (updateAssembly.isPresent()) {
 			List<String> parts = new ArrayList<>();
-			parts.add(functionId);
-			addRelatedObjects(updateAssembly.get(), DCT_HAS_PART, parts);
+			String oldAssemblyId = getRelatedSubject(functionId, DCT_HAS_PART);
+			if (oldAssemblyId != null) {
+				removeRelatedObject(oldAssemblyId, DCT_HAS_PART, functionId);
+			}
+			if (!updateAssembly.get().isEmpty()) {
+				parts.add(functionId);
+				addRelatedObjects(updateAssembly.get(), DCT_HAS_PART, parts);
+			}
 		}
 
 		if (addParts.isPresent()) {
@@ -582,8 +592,10 @@ public class YacserObjectRepository {
 			if (oldAssemblyId != null) {
 				removeRelatedObject(oldAssemblyId, DCT_HAS_PART, realisationModuleId);
 			}
-			parts.add(realisationModuleId);
-			addRelatedObjects(updateAssembly.get(), DCT_HAS_PART, parts);
+			if (!updateAssembly.get().isEmpty()) {
+				parts.add(realisationModuleId);
+				addRelatedObjects(updateAssembly.get(), DCT_HAS_PART, parts);
+			}
 		}
 
 		if (addParts.isPresent()) {
@@ -638,8 +650,8 @@ public class YacserObjectRepository {
 	 * @throws IOException
 	 */
 	public SystemInterface updateSystemInterface(String systemInterfaceId, Optional<String> updateName,
-			Optional<String> updateDescription, Optional<String> updateSystemSlot0, Optional<String> updateSystemSlot1)
-			throws IOException {
+			Optional<String> updateDescription, Optional<String> updateSystemSlot0, Optional<String> updateSystemSlot1,
+			Optional<String> updateAssembly, Optional<List<String>> addParts) throws IOException {
 
 		if (updateName.isPresent()) {
 			updateLiteral(systemInterfaceId, SKOS_PREF_LABEL, updateName.get());
@@ -655,6 +667,22 @@ public class YacserObjectRepository {
 
 		if (updateSystemSlot1.isPresent()) {
 			updateRelatedObject(systemInterfaceId, YACSER_SYSTEM_SLOT_1, updateSystemSlot1.get());
+		}
+
+		if (updateAssembly.isPresent()) {
+			List<String> parts = new ArrayList<>();
+			String oldAssemblyId = getRelatedSubject(systemInterfaceId, DCT_HAS_PART);
+			if (oldAssemblyId != null) {
+				removeRelatedObject(oldAssemblyId, DCT_HAS_PART, systemInterfaceId);
+			}
+			if (!updateAssembly.get().isEmpty()) {
+				parts.add(systemInterfaceId);
+				addRelatedObjects(updateAssembly.get(), DCT_HAS_PART, parts);
+			}
+		}
+
+		if (addParts.isPresent()) {
+			addRelatedObjects(systemInterfaceId, DCT_HAS_PART, addParts.get());
 		}
 
 		return (SystemInterface) build(YacserObjectType.SystemInterface, systemInterfaceId);

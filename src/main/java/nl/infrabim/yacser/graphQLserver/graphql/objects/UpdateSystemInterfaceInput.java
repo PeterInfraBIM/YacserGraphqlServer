@@ -1,11 +1,15 @@
 package nl.infrabim.yacser.graphQLserver.graphql.objects;
 
+import java.util.List;
+
 public class UpdateSystemInterfaceInput {
 	private String systemInterfaceId; // SystemInterface ID.
 	private String updateName; // If present: new name, "" will remove the name.
 	private String updateDescription; // If present: new description, "" will remove the description.
 	private String updateSystemSlot0; // If present: update SystemSlot 0, "" will remove the reference.
 	private String updateSystemSlot1; // If present: update SystemSlot 1, "" will remove the reference.
+	private String updateAssembly; // If present: new assembly, "" will remove the reference.
+	private List<String> addParts; // If present: add parts.
 
 	public UpdateSystemInterfaceInput() {
 	}
@@ -48,6 +52,22 @@ public class UpdateSystemInterfaceInput {
 
 	public void setUpdateSystemSlot1(String updateSystemSlot1) {
 		this.updateSystemSlot1 = updateSystemSlot1;
+	}
+
+	public String getUpdateAssembly() {
+		return updateAssembly;
+	}
+
+	public void setUpdateAssembly(String updateAssembly) {
+		this.updateAssembly = updateAssembly;
+	}
+
+	public List<String> getAddParts() {
+		return addParts;
+	}
+
+	public void setAddParts(List<String> addParts) {
+		this.addParts = addParts;
 	}
 
 }

@@ -146,6 +146,10 @@ type SystemInterface implements YacserObject {
 	functionInputs: [Function]
 		# Output from functions
 	functionOutputs: [Function]
+		# Assembly reference.
+	assembly: SystemInterface
+		# Parts references.
+	parts: [SystemInterface]
 }
 
 	# YACSER System slot instance.
@@ -335,6 +339,10 @@ input UpdateSystemInterfaceInput {
 	updateSystemSlot0: ID
 		# If present: update SystemSlot 1.
 	updateSystemSlot1: ID
+		# If present: update assembly.
+	updateAssembly: ID
+		# If present: add parts.
+	addParts: [ID]
 }
 
 	# Update SystemSlot input arguments.

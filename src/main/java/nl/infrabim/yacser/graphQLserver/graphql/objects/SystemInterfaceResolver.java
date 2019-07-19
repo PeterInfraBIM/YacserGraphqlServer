@@ -54,7 +54,7 @@ public class SystemInterfaceResolver extends YacserObjectResolver implements Gra
 		}
 		return functions;
 	}
-	
+
 	public List<Function> getFunctionOutputs(SystemInterface systemInterface) throws IOException {
 		List<Function> functions = null;
 		List<String> subjectIds = YacserObjectRepository.getRelatedSubjects(systemInterface.getId(),
@@ -68,4 +68,22 @@ public class SystemInterfaceResolver extends YacserObjectResolver implements Gra
 		return functions;
 	}
 
+	public SystemInterface getAssembly(SystemInterface systemInterface) throws IOException {
+		String assemblyId = super.getAssemblyId(systemInterface);
+		return assemblyId != null
+				? (SystemInterface) YacserObjectRepository.build(YacserObjectType.SystemInterface, assemblyId)
+				: null;
+	}
+
+	public List<SystemInterface> getParts(SystemInterface systemInterface) throws IOException {
+		List<String> partIds = super.getPartIds(systemInterface);
+		if (partIds != null) {
+			List<SystemInterface> parts = new ArrayList<>();
+			for (String partId : partIds) {
+				parts.add((SystemInterface) YacserObjectRepository.build(YacserObjectType.SystemInterface, partId));
+			}
+			return parts;
+		}
+		return null;
+	}
 }

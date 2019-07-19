@@ -141,7 +141,8 @@ public class Mutation implements GraphQLMutationResolver {
 	public SystemInterface updateSystemInterface(UpdateSystemInterfaceInput input) throws IOException {
 		return yacserObjectRepository.updateSystemInterface(input.getSystemInterfaceId(),
 				Optional.ofNullable(input.getUpdateName()), Optional.ofNullable(input.getUpdateDescription()),
-				Optional.ofNullable(input.getUpdateSystemSlot0()), Optional.ofNullable(input.getUpdateSystemSlot1()));
+				Optional.ofNullable(input.getUpdateSystemSlot0()), Optional.ofNullable(input.getUpdateSystemSlot1()),
+				Optional.ofNullable(input.getUpdateAssembly()), Optional.ofNullable(input.getAddParts()));
 	}
 
 	/**
