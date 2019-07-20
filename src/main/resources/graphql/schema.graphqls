@@ -311,6 +311,8 @@ input UpdateRealisationModuleInput {
 	updateAssembly: ID
 		# If present: add parts.
 	addParts: [ID]
+		# If present: remove parts.
+	removeParts: [ID]
 }
 
 	# Update Requirement input arguments.

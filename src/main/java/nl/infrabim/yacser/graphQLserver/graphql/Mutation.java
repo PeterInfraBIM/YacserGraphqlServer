@@ -119,7 +119,7 @@ public class Mutation implements GraphQLMutationResolver {
 		return yacserObjectRepository.updateRealisationModule(input.getRealisationModuleId(),
 				Optional.ofNullable(input.getUpdateName()), Optional.ofNullable(input.getUpdateDescription()),
 				Optional.ofNullable(input.getAddPerformances()), Optional.ofNullable(input.getUpdateAssembly()),
-				Optional.ofNullable(input.getAddParts()));
+				Optional.ofNullable(input.getAddParts()), Optional.ofNullable(input.getRemoveParts()));
 	}
 
 	/**
@@ -153,8 +153,8 @@ public class Mutation implements GraphQLMutationResolver {
 	public SystemSlot updateSystemSlot(UpdateSystemSlotInput input) throws IOException {
 		return yacserObjectRepository.updateSystemSlot(input.getSystemSlotId(),
 				Optional.ofNullable(input.getUpdateName()), Optional.ofNullable(input.getUpdateDescription()),
-				Optional.ofNullable(input.getAddFunctions()),
-				Optional.ofNullable(input.getUpdateAssembly()), Optional.ofNullable(input.getAddParts()));
+				Optional.ofNullable(input.getAddFunctions()), Optional.ofNullable(input.getUpdateAssembly()),
+				Optional.ofNullable(input.getAddParts()));
 	}
 
 	/**

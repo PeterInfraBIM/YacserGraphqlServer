@@ -9,6 +9,7 @@ public class UpdateRealisationModuleInput {
 	private List<String> addPerformances; // If present: add performances.
 	private String updateAssembly; // If present: new assembly, "" will remove the reference.
 	private List<String> addParts; // If present: add parts.
+	private List<String> removeParts; // If present: remove parts.
 
 	public UpdateRealisationModuleInput() {
 	}
@@ -59,6 +60,14 @@ public class UpdateRealisationModuleInput {
 
 	public void setAddParts(List<String> addParts) {
 		this.addParts = addParts;
+	}
+
+	public List<String> getRemoveParts() {
+		return removeParts;
+	}
+
+	public void setRemoveParts(List<String> removeParts) {
+		this.removeParts = removeParts;
 	}
 
 }

@@ -331,6 +331,29 @@ public class YacserObjectRepository {
 
 		SparqlServer.instance.update(queryStr);
 	}
+	
+	public static void removeRelatedObjects(String subjectId, String relationId, List<String> objectIds)
+			throws IOException {
+		String modelId = getModelId(subjectId);
+
+		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
+		queryStr.setIri("graph", modelId);
+		queryStr.setIri("subject", subjectId);
+		queryStr.setIri("predicate", relationId);
+		queryStr.append("DELETE { ");
+		queryStr.append("  GRAPH ?graph { ");
+		int index = 1;
+		for (String objectId : objectIds) {
+			queryStr.setIri("object" + index, objectId);
+			queryStr.append("    ?subject ?predicate ?object" + index + " . ");
+			index++;
+		}
+		queryStr.append("  } ");
+		queryStr.append("} ");
+		queryStr.append("WHERE {} ");
+
+		SparqlServer.instance.update(queryStr);
+	}
 
 	public static void updateRelatedObject(String subjectId, String relationId, String objectId) throws IOException {
 		String modelId = getModelId(subjectId);
@@ -572,7 +595,7 @@ public class YacserObjectRepository {
 	 */
 	public RealisationModule updateRealisationModule(String realisationModuleId, Optional<String> updateName,
 			Optional<String> updateDescription, Optional<List<String>> addPerformances, Optional<String> updateAssembly,
-			Optional<List<String>> addParts) throws IOException {
+			Optional<List<String>> addParts, Optional<List<String>> removeParts) throws IOException {
 
 		if (updateName.isPresent()) {
 			updateLiteral(realisationModuleId, SKOS_PREF_LABEL, updateName.get());
@@ -600,6 +623,10 @@ public class YacserObjectRepository {
 
 		if (addParts.isPresent()) {
 			addRelatedObjects(realisationModuleId, DCT_HAS_PART, addParts.get());
+		}
+		
+		if (removeParts.isPresent()) {
+			removeRelatedObjects(realisationModuleId, DCT_HAS_PART, removeParts.get());
 		}
 
 		return (RealisationModule) build(YacserObjectType.RealisationModule, realisationModuleId);
