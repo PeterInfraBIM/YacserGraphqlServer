@@ -261,6 +261,8 @@ input UpdateFunctionInput {
 	updateDescription: String
 		# If present: add requirements.
 	addRequirements: [ID]
+		# If present: remove requirements.
+	removeRequirements: [ID]
 		# If present: new input reference.
 	updateInput: ID
 		# If present: new output reference.
@@ -269,6 +271,8 @@ input UpdateFunctionInput {
 	updateAssembly: ID
 		# If present: add parts.
 	addParts: [ID]
+		# If present: remove parts.
+	removeParts: [ID]
 }
 
 	# Update Hamburger input arguments.

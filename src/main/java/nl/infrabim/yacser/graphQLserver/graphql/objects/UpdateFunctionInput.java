@@ -7,10 +7,12 @@ public class UpdateFunctionInput {
 	private String updateName; // If present: new name, "" will remove the name.
 	private String updateDescription; // If present: new description, "" will remove the description.
 	private List<String> addRequirements; // If present: add requirements.
+	private List<String> removeRequirements; // If present: remove requirements.
 	private String updateInput; // If present: new input system interface, "" will remove the reference.
 	private String updateOutput; // If present: new output system interface, "" will remove the reference.
 	private String updateAssembly; // If present: new assembly, "" will remove the reference.
 	private List<String> addParts; // If present: add parts.
+	private List<String> removeParts; // If present: remove parts.
 
 	public UpdateFunctionInput() {
 	}
@@ -47,6 +49,14 @@ public class UpdateFunctionInput {
 		this.addRequirements = addRequirements;
 	}
 
+	public List<String> getRemoveRequirements() {
+		return removeRequirements;
+	}
+
+	public void setRemoveRequirements(List<String> removeRequirements) {
+		this.removeRequirements = removeRequirements;
+	}
+
 	public String getUpdateInput() {
 		return updateInput;
 	}
@@ -77,6 +87,14 @@ public class UpdateFunctionInput {
 
 	public void setAddParts(List<String> addParts) {
 		this.addParts = addParts;
+	}
+
+	public List<String> getRemoveParts() {
+		return removeParts;
+	}
+
+	public void setRemoveParts(List<String> removeParts) {
+		this.removeParts = removeParts;
 	}
 
 }
