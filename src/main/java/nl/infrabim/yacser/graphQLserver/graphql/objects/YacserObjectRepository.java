@@ -689,7 +689,8 @@ public class YacserObjectRepository {
 	 */
 	public SystemInterface updateSystemInterface(String systemInterfaceId, Optional<String> updateName,
 			Optional<String> updateDescription, Optional<String> updateSystemSlot0, Optional<String> updateSystemSlot1,
-			Optional<String> updateAssembly, Optional<List<String>> addParts) throws IOException {
+			Optional<String> updateAssembly, Optional<List<String>> addParts, Optional<List<String>> removeParts)
+			throws IOException {
 
 		if (updateName.isPresent()) {
 			updateLiteral(systemInterfaceId, SKOS_PREF_LABEL, updateName.get());
@@ -721,6 +722,10 @@ public class YacserObjectRepository {
 
 		if (addParts.isPresent()) {
 			addRelatedObjects(systemInterfaceId, DCT_HAS_PART, addParts.get());
+		}
+
+		if (removeParts.isPresent()) {
+			removeRelatedObjects(systemInterfaceId, DCT_HAS_PART, removeParts.get());
 		}
 
 		return (SystemInterface) build(YacserObjectType.SystemInterface, systemInterfaceId);

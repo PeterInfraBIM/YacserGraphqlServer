@@ -10,6 +10,7 @@ public class UpdateSystemInterfaceInput {
 	private String updateSystemSlot1; // If present: update SystemSlot 1, "" will remove the reference.
 	private String updateAssembly; // If present: new assembly, "" will remove the reference.
 	private List<String> addParts; // If present: add parts.
+	private List<String> removeParts; // If present: remove parts.
 
 	public UpdateSystemInterfaceInput() {
 	}
@@ -68,6 +69,14 @@ public class UpdateSystemInterfaceInput {
 
 	public void setAddParts(List<String> addParts) {
 		this.addParts = addParts;
+	}
+
+	public List<String> getRemoveParts() {
+		return removeParts;
+	}
+
+	public void setRemoveParts(List<String> removeParts) {
+		this.removeParts = removeParts;
 	}
 
 }
