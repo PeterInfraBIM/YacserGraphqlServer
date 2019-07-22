@@ -507,7 +507,7 @@ public class YacserObjectRepository {
 		if (removeRequirements.isPresent()) {
 			removeRelatedObjects(functionId, YACSER_HAS_REQUIREMENT, removeRequirements.get());
 		}
-		
+
 		if (updateInput.isPresent()) {
 			updateRelatedObject(functionId, YACSER_HAS_INPUT, updateInput.get());
 		}
@@ -738,8 +738,9 @@ public class YacserObjectRepository {
 	 * @throws IOException
 	 */
 	public SystemSlot updateSystemSlot(String systemSlotId, Optional<String> updateName,
-			Optional<String> updateDescription, Optional<List<String>> addFunctions, Optional<String> updateAssembly,
-			Optional<List<String>> addParts) throws IOException {
+			Optional<String> updateDescription, Optional<List<String>> addFunctions,
+			Optional<List<String>> removeFunctions, Optional<String> updateAssembly, Optional<List<String>> addParts,
+			Optional<List<String>> removeParts) throws IOException {
 
 		if (updateName.isPresent()) {
 			updateLiteral(systemSlotId, SKOS_PREF_LABEL, updateName.get());
@@ -751,6 +752,10 @@ public class YacserObjectRepository {
 
 		if (addFunctions.isPresent()) {
 			addRelatedObjects(systemSlotId, YACSER_HAS_FUNCTION, addFunctions.get());
+		}
+
+		if (removeFunctions.isPresent()) {
+			removeRelatedObjects(systemSlotId, YACSER_HAS_FUNCTION, removeFunctions.get());
 		}
 
 		if (updateAssembly.isPresent()) {
@@ -767,6 +772,10 @@ public class YacserObjectRepository {
 
 		if (addParts.isPresent()) {
 			addRelatedObjects(systemSlotId, DCT_HAS_PART, addParts.get());
+		}
+
+		if (removeParts.isPresent()) {
+			removeRelatedObjects(systemSlotId, DCT_HAS_PART, removeParts.get());
 		}
 
 		return (SystemSlot) build(YacserObjectType.SystemSlot, systemSlotId);

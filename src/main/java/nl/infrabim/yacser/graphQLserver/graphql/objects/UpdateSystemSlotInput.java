@@ -8,9 +8,9 @@ public class UpdateSystemSlotInput {
 	private String updateDescription; // If present: new description, "" will remove the description.
 	private List<String> addFunctions; // If present: add functions.
 	private List<String> removeFunctions; // If present: remove functions.
-	private List<String> replaceFunctions; // If present: Replace all functions.
 	private String updateAssembly; // If present: new assembly, "" will remove the reference.
 	private List<String> addParts; // If present: add parts.
+	private List<String> removeParts; // If present: remove parts.
 
 	public UpdateSystemSlotInput() {
 	}
@@ -55,14 +55,6 @@ public class UpdateSystemSlotInput {
 		this.removeFunctions = removeFunctions;
 	}
 
-	public List<String> getReplaceFunctions() {
-		return replaceFunctions;
-	}
-
-	public void setReplaceFunctions(List<String> replaceFunctions) {
-		this.replaceFunctions = replaceFunctions;
-	}
-
 	public String getUpdateAssembly() {
 		return updateAssembly;
 	}
@@ -77,6 +69,14 @@ public class UpdateSystemSlotInput {
 
 	public void setAddParts(List<String> addParts) {
 		this.addParts = addParts;
+	}
+
+	public List<String> getRemoveParts() {
+		return removeParts;
+	}
+
+	public void setRemoveParts(List<String> removeParts) {
+		this.removeParts = removeParts;
 	}
 
 }
