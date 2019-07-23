@@ -72,6 +72,10 @@ type Hamburger implements YacserObject {
 	functionalUnit: SystemSlot
 		# Technical Solution reference.
 	technicalSolution: RealisationModule
+		# Assembly reference.
+	assembly: Hamburger
+		# Parts references.
+	parts: [Hamburger]
 }
 
 	# YACSER Performance instance.
@@ -287,6 +291,12 @@ input UpdateHamburgerInput {
 	updateFunctionalUnit: ID
 		# If present: new technical solution reference.
 	updateTechnicalSolution: ID
+		# If present: update assembly.
+	updateAssembly: ID
+		# If present: add parts.
+	addParts: [ID]
+		# If present: remove parts.
+	removeParts: [ID]
 }
 
 	# Update Performance input arguments.
@@ -311,6 +321,8 @@ input UpdateRealisationModuleInput {
 	updateDescription: String
 		# If present: add performances.
 	addPerformances: [ID]
+		# If present: remove performances.
+	removePerformances: [ID]
 		# If present: update assembly.
 	updateAssembly: ID
 		# If present: add parts.

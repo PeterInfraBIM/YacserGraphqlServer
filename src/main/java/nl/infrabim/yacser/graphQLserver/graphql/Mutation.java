@@ -87,7 +87,8 @@ public class Mutation implements GraphQLMutationResolver {
 		return yacserObjectRepository.updateHamburger(input.getHamburgerId(),
 				Optional.ofNullable(input.getUpdateName()), Optional.ofNullable(input.getUpdateDescription()),
 				Optional.ofNullable(input.getUpdateFunctionalUnit()),
-				Optional.ofNullable(input.getUpdateTechnicalSolution()));
+				Optional.ofNullable(input.getUpdateTechnicalSolution()), Optional.ofNullable(input.getUpdateAssembly()),
+				Optional.ofNullable(input.getAddParts()), Optional.ofNullable(input.getRemoveParts()));
 	}
 
 	/**
@@ -119,8 +120,9 @@ public class Mutation implements GraphQLMutationResolver {
 	public RealisationModule updateRealisationModule(UpdateRealisationModuleInput input) throws IOException {
 		return yacserObjectRepository.updateRealisationModule(input.getRealisationModuleId(),
 				Optional.ofNullable(input.getUpdateName()), Optional.ofNullable(input.getUpdateDescription()),
-				Optional.ofNullable(input.getAddPerformances()), Optional.ofNullable(input.getUpdateAssembly()),
-				Optional.ofNullable(input.getAddParts()), Optional.ofNullable(input.getRemoveParts()));
+				Optional.ofNullable(input.getAddPerformances()), Optional.ofNullable(input.getRemovePerformances()),
+				Optional.ofNullable(input.getUpdateAssembly()), Optional.ofNullable(input.getAddParts()),
+				Optional.ofNullable(input.getRemoveParts()));
 	}
 
 	/**

@@ -1,5 +1,7 @@
 package nl.infrabim.yacser.graphQLserver.graphql.objects;
 
+import java.util.List;
+
 public class UpdateHamburgerInput {
 	private String hamburgerId; // Hamburger ID.
 	private String updateName; // If present: new name, "" will remove the name.
@@ -7,6 +9,9 @@ public class UpdateHamburgerInput {
 	private String updateFunctionalUnit; // If present: new functional unit, "" will remove the functional unit.
 	private String updateTechnicalSolution; // If present: new technical solution, "" will remove the technical
 											// solution.
+	private String updateAssembly; // If present: new assembly, "" will only remove the old assembly.
+	private List<String> addParts; // If present: add parts.
+	private List<String> removeParts; // If present: remove parts.
 
 	public UpdateHamburgerInput() {
 	}
@@ -49,6 +54,30 @@ public class UpdateHamburgerInput {
 
 	public void setUpdateTechnicalSolution(String updateTechnicalSolution) {
 		this.updateTechnicalSolution = updateTechnicalSolution;
+	}
+
+	public String getUpdateAssembly() {
+		return updateAssembly;
+	}
+
+	public void setUpdateAssembly(String updateAssembly) {
+		this.updateAssembly = updateAssembly;
+	}
+
+	public List<String> getAddParts() {
+		return addParts;
+	}
+
+	public void setAddParts(List<String> addParts) {
+		this.addParts = addParts;
+	}
+
+	public List<String> getRemoveParts() {
+		return removeParts;
+	}
+
+	public void setRemoveParts(List<String> removeParts) {
+		this.removeParts = removeParts;
 	}
 
 }

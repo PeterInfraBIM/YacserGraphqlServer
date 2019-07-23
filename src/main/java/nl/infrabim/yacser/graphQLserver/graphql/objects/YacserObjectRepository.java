@@ -541,7 +541,8 @@ public class YacserObjectRepository {
 
 	public Hamburger updateHamburger(String hamburgerId, Optional<String> updateName,
 			Optional<String> updateDescription, Optional<String> updateFunctionalUnit,
-			Optional<String> updateTechnicalSolution) throws IOException {
+			Optional<String> updateTechnicalSolution, Optional<String> updateAssembly,
+			Optional<List<String>> addParts, Optional<List<String>> removeParts) throws IOException {
 
 		if (updateName.isPresent()) {
 			updateLiteral(hamburgerId, SKOS_PREF_LABEL, updateName.get());
@@ -558,7 +559,27 @@ public class YacserObjectRepository {
 		if (updateTechnicalSolution.isPresent()) {
 			updateRelatedObject(hamburgerId, YACSER_TECHNICAL_SOLUTION, updateTechnicalSolution.get());
 		}
+		
+		if (updateAssembly.isPresent()) {
+			List<String> parts = new ArrayList<>();
+			String oldAssemblyId = getRelatedSubject(hamburgerId, DCT_HAS_PART);
+			if (oldAssemblyId != null) {
+				removeRelatedObject(oldAssemblyId, DCT_HAS_PART, hamburgerId);
+			}
+			if (!updateAssembly.get().isEmpty()) {
+				parts.add(hamburgerId);
+				addRelatedObjects(updateAssembly.get(), DCT_HAS_PART, parts);
+			}
+		}
 
+		if (addParts.isPresent()) {
+			addRelatedObjects(hamburgerId, DCT_HAS_PART, addParts.get());
+		}
+
+		if (removeParts.isPresent()) {
+			removeRelatedObjects(hamburgerId, DCT_HAS_PART, removeParts.get());
+		}
+		
 		return (Hamburger) build(YacserObjectType.Hamburger, hamburgerId);
 	}
 
@@ -603,8 +624,9 @@ public class YacserObjectRepository {
 	 * @throws IOException
 	 */
 	public RealisationModule updateRealisationModule(String realisationModuleId, Optional<String> updateName,
-			Optional<String> updateDescription, Optional<List<String>> addPerformances, Optional<String> updateAssembly,
-			Optional<List<String>> addParts, Optional<List<String>> removeParts) throws IOException {
+			Optional<String> updateDescription, Optional<List<String>> addPerformances,
+			Optional<List<String>> removePerformances, Optional<String> updateAssembly, Optional<List<String>> addParts,
+			Optional<List<String>> removeParts) throws IOException {
 
 		if (updateName.isPresent()) {
 			updateLiteral(realisationModuleId, SKOS_PREF_LABEL, updateName.get());
@@ -618,6 +640,10 @@ public class YacserObjectRepository {
 			addRelatedObjects(realisationModuleId, YACSER_HAS_PERFORMANCE, addPerformances.get());
 		}
 
+		if (removePerformances.isPresent()) {
+			removeRelatedObjects(realisationModuleId, DCT_HAS_PART, removePerformances.get());
+		}
+		
 		if (updateAssembly.isPresent()) {
 			List<String> parts = new ArrayList<>();
 			String oldAssemblyId = getRelatedSubject(realisationModuleId, DCT_HAS_PART);

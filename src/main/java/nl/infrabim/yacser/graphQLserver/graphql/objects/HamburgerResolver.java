@@ -1,6 +1,8 @@
 package nl.infrabim.yacser.graphQLserver.graphql.objects;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -38,5 +40,23 @@ public class HamburgerResolver extends YacserObjectResolver implements GraphQLRe
 		return realisationModuleId != null
 				? (RealisationModule) YacserObjectRepository.build(YacserObjectType.RealisationModule, realisationModuleId)
 				: null;
+	}
+	
+	public Hamburger getAssembly(Hamburger hamburger) throws IOException {
+		String assemblyId = super.getAssemblyId(hamburger);
+		return assemblyId != null ? (Hamburger) YacserObjectRepository.build(YacserObjectType.Hamburger, assemblyId)
+				: null;
+	}
+
+	public List<Hamburger> getParts(Hamburger hamburger) throws IOException {
+		List<String> partIds = super.getPartIds(hamburger);
+		if (partIds != null) {
+			List<Hamburger> parts = new ArrayList<>();
+			for (String partId : partIds) {
+				parts.add((Hamburger) YacserObjectRepository.build(YacserObjectType.Hamburger, partId));
+			}
+			return parts;
+		}
+		return null;
 	}
 }
