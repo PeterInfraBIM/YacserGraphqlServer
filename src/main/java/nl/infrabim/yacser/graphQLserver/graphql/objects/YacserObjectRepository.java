@@ -670,6 +670,53 @@ public class YacserObjectRepository {
 	}
 
 	/**
+	 * Update RealisationPort
+	 * 
+	 * @param realisationPortId RealisationPort ID.
+	 * @param updateName        If present, updated name.
+	 * @param updateDescription If present, updated description.
+	 * @param updateAssembly    If present, updated assembly realisation port.
+	 * @param addParts          If present, additional part realisation ports.
+	 * @param removeParts       If present, remove part realisation ports.
+	 * @return RealisationPort object
+	 * @throws IOException
+	 */
+	public RealisationPort updateRealisationPort(String realisationPortId, Optional<String> updateName,
+			Optional<String> updateDescription, Optional<String> updateAssembly, Optional<List<String>> addParts,
+			Optional<List<String>> removeParts) throws IOException {
+
+		if (updateName.isPresent()) {
+			updateLiteral(realisationPortId, SKOS_PREF_LABEL, updateName.get());
+		}
+
+		if (updateDescription.isPresent()) {
+			updateLiteral(realisationPortId, DB_DESCRIPTION, updateDescription.get());
+		}
+
+		if (updateAssembly.isPresent()) {
+			List<String> parts = new ArrayList<>();
+			String oldAssemblyId = getRelatedSubject(realisationPortId, DCT_HAS_PART);
+			if (oldAssemblyId != null) {
+				removeRelatedObject(oldAssemblyId, DCT_HAS_PART, realisationPortId);
+			}
+			if (!updateAssembly.get().isEmpty()) {
+				parts.add(realisationPortId);
+				addRelatedObjects(updateAssembly.get(), DCT_HAS_PART, parts);
+			}
+		}
+
+		if (addParts.isPresent()) {
+			addRelatedObjects(realisationPortId, DCT_HAS_PART, addParts.get());
+		}
+
+		if (removeParts.isPresent()) {
+			removeRelatedObjects(realisationPortId, DCT_HAS_PART, removeParts.get());
+		}
+
+		return (RealisationPort) build(YacserObjectType.RealisationPort, realisationPortId);
+	}
+
+	/**
 	 * Update Requirement object
 	 * 
 	 * @param requirementId     Requirement ID.

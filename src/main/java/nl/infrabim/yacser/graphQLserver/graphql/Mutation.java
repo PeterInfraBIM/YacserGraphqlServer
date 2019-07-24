@@ -11,6 +11,7 @@ import nl.infrabim.yacser.graphQLserver.graphql.objects.Function;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.Hamburger;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.Performance;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.RealisationModule;
+import nl.infrabim.yacser.graphQLserver.graphql.objects.RealisationPort;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.Requirement;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.SystemInterface;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.SystemSlot;
@@ -18,6 +19,7 @@ import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateFunctionInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateHamburgerInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdatePerformanceInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateRealisationModuleInput;
+import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateRealisationPortInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateRequirementInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateSystemInterfaceInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateSystemSlotInput;
@@ -125,6 +127,18 @@ public class Mutation implements GraphQLMutationResolver {
 				Optional.ofNullable(input.getRemoveParts()));
 	}
 
+	/**
+	 * @param input Input arguments for updating the RealisationPort object
+	 * @return Updated RealisationPort object
+	 * @throws IOException
+	 */
+	public RealisationPort updateRealisationPort(UpdateRealisationPortInput input) throws IOException {
+		return yacserObjectRepository.updateRealisationPort(input.getRealisationPortId(),
+				Optional.ofNullable(input.getUpdateName()), Optional.ofNullable(input.getUpdateDescription()),
+				Optional.ofNullable(input.getUpdateAssembly()), Optional.ofNullable(input.getAddParts()),
+				Optional.ofNullable(input.getRemoveParts()));
+	}
+	
 	/**
 	 * @param input Input arguments for updating the Requirement object
 	 * @return Updated Requirement object

@@ -355,6 +355,22 @@ input UpdateRealisationModuleInput {
 	removeParts: [ID]
 }
 
+	# Update Realisation port input arguments.
+input UpdateRealisationPortInput {
+		# Realisation port ID.
+	realisationPortId: ID!
+		# If present: new name.
+	updateName: String
+		# If present: new description.
+	updateDescription: String
+		# If present: update assembly.
+	updateAssembly: ID
+		# If present: add parts.
+	addParts: [ID]
+		# If present: remove parts.
+	removeParts: [ID]
+}
+
 	# Update Requirement input arguments.
 input UpdateRequirementInput {
 		# Requirement ID.
@@ -487,6 +503,12 @@ type Mutation {
 			# Input for Update RealisationModule.
 		input: UpdateRealisationModuleInput!
 	): RealisationModule
+
+		# Update RealisationPort object.
+	updateRealisationPort(
+			# Input for Update RealisationPort.
+		input: UpdateRealisationPortInput!
+	): RealisationPort
 
 		# Update Requirement object.
 	updateRequirement(
