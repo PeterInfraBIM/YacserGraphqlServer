@@ -22,6 +22,7 @@ public class YacserObjectRepository {
 	public static final String YACSER_HAS_MIN_VALUE = SparqlServer.YACSER_URI + "#hasMinValue";
 	public static final String YACSER_HAS_OUTPUT = SparqlServer.YACSER_URI + "#hasOutput";
 	public static final String YACSER_HAS_PERFORMANCE = SparqlServer.YACSER_URI + "#hasPerformance";
+	public static final String YACSER_HAS_PORT = SparqlServer.YACSER_URI + "#hasPort";
 	public static final String YACSER_HAS_REQUIREMENT = SparqlServer.YACSER_URI + "#hasRequirement";
 	public static final String YACSER_HAS_VALUE = SparqlServer.YACSER_URI + "#hasValue";
 	public static final String YACSER_SYSTEM_SLOT_0 = SparqlServer.YACSER_URI + "#systemSlot0";
@@ -91,6 +92,7 @@ public class YacserObjectRepository {
 			yacserObject = new RealisationModule(objectId);
 			break;
 		case RealisationPort:
+			yacserObject = new RealisationPort(objectId);
 			break;
 		case Requirement:
 			yacserObject = new Requirement(objectId);
@@ -541,8 +543,8 @@ public class YacserObjectRepository {
 
 	public Hamburger updateHamburger(String hamburgerId, Optional<String> updateName,
 			Optional<String> updateDescription, Optional<String> updateFunctionalUnit,
-			Optional<String> updateTechnicalSolution, Optional<String> updateAssembly,
-			Optional<List<String>> addParts, Optional<List<String>> removeParts) throws IOException {
+			Optional<String> updateTechnicalSolution, Optional<String> updateAssembly, Optional<List<String>> addParts,
+			Optional<List<String>> removeParts) throws IOException {
 
 		if (updateName.isPresent()) {
 			updateLiteral(hamburgerId, SKOS_PREF_LABEL, updateName.get());
@@ -559,7 +561,7 @@ public class YacserObjectRepository {
 		if (updateTechnicalSolution.isPresent()) {
 			updateRelatedObject(hamburgerId, YACSER_TECHNICAL_SOLUTION, updateTechnicalSolution.get());
 		}
-		
+
 		if (updateAssembly.isPresent()) {
 			List<String> parts = new ArrayList<>();
 			String oldAssemblyId = getRelatedSubject(hamburgerId, DCT_HAS_PART);
@@ -579,7 +581,7 @@ public class YacserObjectRepository {
 		if (removeParts.isPresent()) {
 			removeRelatedObjects(hamburgerId, DCT_HAS_PART, removeParts.get());
 		}
-		
+
 		return (Hamburger) build(YacserObjectType.Hamburger, hamburgerId);
 	}
 
@@ -643,7 +645,7 @@ public class YacserObjectRepository {
 		if (removePerformances.isPresent()) {
 			removeRelatedObjects(realisationModuleId, DCT_HAS_PART, removePerformances.get());
 		}
-		
+
 		if (updateAssembly.isPresent()) {
 			List<String> parts = new ArrayList<>();
 			String oldAssemblyId = getRelatedSubject(realisationModuleId, DCT_HAS_PART);

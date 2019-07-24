@@ -11,6 +11,7 @@ import nl.infrabim.yacser.graphQLserver.graphql.objects.Function;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.Hamburger;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.Performance;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.RealisationModule;
+import nl.infrabim.yacser.graphQLserver.graphql.objects.RealisationPort;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.Requirement;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.SystemInterface;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.SystemSlot;
@@ -71,6 +72,10 @@ public class Query implements GraphQLQueryResolver {
 
 	public RealisationModule getRealisationModule(String objectId) {
 		return (RealisationModule) yacserObjectRepository.getObject(YacserObjectType.RealisationModule, objectId);
+	}
+
+	public RealisationPort getRealisationPort(String objectId) {
+		return (RealisationPort) yacserObjectRepository.getObject(YacserObjectType.RealisationPort, objectId);
 	}
 
 	public Requirement getRequirement(String objectId) {

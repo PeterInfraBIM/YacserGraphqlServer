@@ -114,6 +114,24 @@ type RealisationModule implements YacserObject {
 	parts: [RealisationModule]
 }
 
+	# YACSER Realisation port instance.
+type RealisationPort implements YacserObject {
+		# URI of the object instance.
+	id: ID!
+		# Optional name of the object.
+	name: String
+		# Optional description of the object.
+	description: String
+		# Type of the object instance.
+	type: YacserObjectType!
+		# Owner RealisationModule.
+	owner: RealisationModule
+		# Assembly reference.
+	assembly: RealisationPort
+		# Parts references.
+	parts: [RealisationPort]
+}
+
 	# YACSER Requirement instance.
 type Requirement implements YacserObject {
 		# URI of the object instance.
@@ -228,6 +246,12 @@ type Query {
 			# RealisationModule object ID.
 		id: ID!
 	): RealisationModule
+	
+		# Get RealisationPort object by ID.
+	realisationPort(
+			# RealisationPort object ID.
+		id: ID!
+	): RealisationPort
 
 		# Get Requirement object by ID.
 	requirement(
