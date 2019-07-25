@@ -71,4 +71,17 @@ public class RealisationModuleResolver extends YacserObjectResolver implements G
 		}
 		return null;
 	}
+
+	public List<RealisationPort> getPorts(RealisationModule realisationModule) throws IOException {
+		List<RealisationPort> ports = null;
+		List<String> portIds = YacserObjectRepository.getRelatedObjects(realisationModule.getId(),
+				YacserObjectRepository.YACSER_HAS_PORT);
+		if (portIds != null) {
+			ports = new ArrayList<>();
+			for (String portId : portIds) {
+				ports.add((RealisationPort) YacserObjectRepository.build(YacserObjectType.RealisationPort, portId));
+			}
+		}
+		return ports;
+	}
 }

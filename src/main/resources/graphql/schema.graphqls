@@ -106,6 +106,8 @@ type RealisationModule implements YacserObject {
 	type: YacserObjectType!
 		# Specified performances.
 	performances: [Performance]
+		# Connection ports
+	ports: [RealisationPort]
 		# Hamburger references
 	hamburgers: [Hamburger]
 		# Assembly reference.
@@ -347,6 +349,10 @@ input UpdateRealisationModuleInput {
 	addPerformances: [ID]
 		# If present: remove performances.
 	removePerformances: [ID]
+		# If present: add ports.
+	addPorts: [ID]
+		# If present: remove ports.
+	removePorts: [ID]
 		# If present: update assembly.
 	updateAssembly: ID
 		# If present: add parts.

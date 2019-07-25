@@ -627,7 +627,8 @@ public class YacserObjectRepository {
 	 */
 	public RealisationModule updateRealisationModule(String realisationModuleId, Optional<String> updateName,
 			Optional<String> updateDescription, Optional<List<String>> addPerformances,
-			Optional<List<String>> removePerformances, Optional<String> updateAssembly, Optional<List<String>> addParts,
+			Optional<List<String>> removePerformances, Optional<List<String>> addPorts,
+			Optional<List<String>> removePorts, Optional<String> updateAssembly, Optional<List<String>> addParts,
 			Optional<List<String>> removeParts) throws IOException {
 
 		if (updateName.isPresent()) {
@@ -643,7 +644,15 @@ public class YacserObjectRepository {
 		}
 
 		if (removePerformances.isPresent()) {
-			removeRelatedObjects(realisationModuleId, DCT_HAS_PART, removePerformances.get());
+			removeRelatedObjects(realisationModuleId, YACSER_HAS_PERFORMANCE, removePerformances.get());
+		}
+
+		if (addPorts.isPresent()) {
+			addRelatedObjects(realisationModuleId, YACSER_HAS_PORT, addPorts.get());
+		}
+
+		if (removePorts.isPresent()) {
+			removeRelatedObjects(realisationModuleId, YACSER_HAS_PORT, removePorts.get());
 		}
 
 		if (updateAssembly.isPresent()) {

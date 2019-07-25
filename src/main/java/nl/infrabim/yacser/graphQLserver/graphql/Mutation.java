@@ -123,6 +123,7 @@ public class Mutation implements GraphQLMutationResolver {
 		return yacserObjectRepository.updateRealisationModule(input.getRealisationModuleId(),
 				Optional.ofNullable(input.getUpdateName()), Optional.ofNullable(input.getUpdateDescription()),
 				Optional.ofNullable(input.getAddPerformances()), Optional.ofNullable(input.getRemovePerformances()),
+				Optional.ofNullable(input.getAddPorts()), Optional.ofNullable(input.getRemovePorts()),
 				Optional.ofNullable(input.getUpdateAssembly()), Optional.ofNullable(input.getAddParts()),
 				Optional.ofNullable(input.getRemoveParts()));
 	}

@@ -8,6 +8,8 @@ public class UpdateRealisationModuleInput {
 	private String updateDescription; // If present: new description, "" will remove the description.
 	private List<String> addPerformances; // If present: add performances.
 	private List<String> removePerformances; // If present: remove performances.
+	private List<String> addPorts; // If present: add ports.
+	private List<String> removePorts; // If present: remove ports.
 	private String updateAssembly; // If present: new assembly, "" will remove the reference.
 	private List<String> addParts; // If present: add parts.
 	private List<String> removeParts; // If present: remove parts.
@@ -53,6 +55,22 @@ public class UpdateRealisationModuleInput {
 
 	public void setRemovePerformances(List<String> removePerformances) {
 		this.removePerformances = removePerformances;
+	}
+
+	public List<String> getAddPorts() {
+		return addPorts;
+	}
+
+	public void setAddPorts(List<String> addPorts) {
+		this.addPorts = addPorts;
+	}
+
+	public List<String> getRemovePorts() {
+		return removePorts;
+	}
+
+	public void setRemovePorts(List<String> removePorts) {
+		this.removePorts = removePorts;
 	}
 
 	public String getUpdateAssembly() {
