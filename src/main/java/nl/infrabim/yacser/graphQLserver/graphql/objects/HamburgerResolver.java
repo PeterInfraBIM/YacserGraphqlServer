@@ -33,15 +33,16 @@ public class HamburgerResolver extends YacserObjectResolver implements GraphQLRe
 				? (SystemSlot) YacserObjectRepository.build(YacserObjectType.SystemSlot, systemSlotId)
 				: null;
 	}
-	
+
 	public RealisationModule getTechnicalSolution(Hamburger hamburger) throws IOException {
 		String realisationModuleId = YacserObjectRepository.getRelatedObject(hamburger.getId(),
 				YacserObjectRepository.YACSER_TECHNICAL_SOLUTION);
 		return realisationModuleId != null
-				? (RealisationModule) YacserObjectRepository.build(YacserObjectType.RealisationModule, realisationModuleId)
+				? (RealisationModule) YacserObjectRepository.build(YacserObjectType.RealisationModule,
+						realisationModuleId)
 				: null;
 	}
-	
+
 	public Hamburger getAssembly(Hamburger hamburger) throws IOException {
 		String assemblyId = super.getAssemblyId(hamburger);
 		return assemblyId != null ? (Hamburger) YacserObjectRepository.build(YacserObjectType.Hamburger, assemblyId)
@@ -58,5 +59,18 @@ public class HamburgerResolver extends YacserObjectResolver implements GraphQLRe
 			return parts;
 		}
 		return null;
+	}
+
+	public List<PortRealisation> getPorts(Hamburger hamburger) throws IOException {
+		List<PortRealisation> ports = null;
+		List<String> portIds = YacserObjectRepository.getRelatedObjects(hamburger.getId(),
+				YacserObjectRepository.YACSER_HAS_PORT_REALISATION);
+		if (portIds != null) {
+			ports = new ArrayList<>();
+			for (String portId : portIds) {
+				ports.add((PortRealisation) YacserObjectRepository.build(YacserObjectType.PortRealisation, portId));
+			}
+		}
+		return ports;
 	}
 }

@@ -72,6 +72,8 @@ type Hamburger implements YacserObject {
 	functionalUnit: SystemSlot
 		# Technical Solution reference.
 	technicalSolution: RealisationModule
+		# Port realisations
+	ports: [PortRealisation]
 		# Assembly reference.
 	assembly: Hamburger
 		# Parts references.
@@ -92,6 +94,28 @@ type Performance implements YacserObject {
 	owner: RealisationModule
 		# Value
 	value: Value
+}
+
+	# YACSER Port realisation instance.
+type PortRealisation implements YacserObject {
+		# URI of the object instance.
+	id: ID!
+		# Optional name of the object.
+	name: String
+		# Optional description of the object.
+	description: String
+		# Type of the object instance.
+	type: YacserObjectType!
+		# Owner Hamburger.
+	owner: Hamburger
+		# System interface reference.
+	interface: SystemInterface
+		# Realisation port reference.
+	port: RealisationPort
+		# Assembly reference.
+	assembly: PortRealisation
+		# Parts references.
+	parts: [PortRealisation]
 }
 
 	# YACSER Realisation module instance.
@@ -242,6 +266,12 @@ type Query {
 			# Performance object ID.
 		id: ID!
 	): Performance
+	
+		# Get PortRealisation object by ID.
+	portRealisation(
+			# PortRealisation object ID.
+		id: ID!
+	): PortRealisation
 
 		# Get RealisationModule object by ID.
 	realisationModule(

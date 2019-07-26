@@ -23,8 +23,11 @@ public class YacserObjectRepository {
 	public static final String YACSER_HAS_OUTPUT = SparqlServer.YACSER_URI + "#hasOutput";
 	public static final String YACSER_HAS_PERFORMANCE = SparqlServer.YACSER_URI + "#hasPerformance";
 	public static final String YACSER_HAS_PORT = SparqlServer.YACSER_URI + "#hasPort";
+	public static final String YACSER_HAS_PORT_REALISATION = SparqlServer.YACSER_URI + "#hasPortRealisation";
 	public static final String YACSER_HAS_REQUIREMENT = SparqlServer.YACSER_URI + "#hasRequirement";
 	public static final String YACSER_HAS_VALUE = SparqlServer.YACSER_URI + "#hasValue";
+	public static final String YACSER_INTERFACE = SparqlServer.YACSER_URI + "#interface";
+	public static final String YACSER_PORT = SparqlServer.YACSER_URI + "#port";
 	public static final String YACSER_SYSTEM_SLOT_0 = SparqlServer.YACSER_URI + "#systemSlot0";
 	public static final String YACSER_SYSTEM_SLOT_1 = SparqlServer.YACSER_URI + "#systemSlot1";
 	public static final String YACSER_TECHNICAL_SOLUTION = SparqlServer.YACSER_URI + "#technicalSolution";
@@ -87,6 +90,7 @@ public class YacserObjectRepository {
 			yacserObject = new Performance(objectId);
 			break;
 		case PortRealisation:
+			yacserObject = new PortRealisation(objectId);
 			break;
 		case RealisationModule:
 			yacserObject = new RealisationModule(objectId);

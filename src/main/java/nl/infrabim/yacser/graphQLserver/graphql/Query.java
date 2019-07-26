@@ -10,6 +10,7 @@ import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.Function;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.Hamburger;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.Performance;
+import nl.infrabim.yacser.graphQLserver.graphql.objects.PortRealisation;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.RealisationModule;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.RealisationPort;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.Requirement;
@@ -68,6 +69,10 @@ public class Query implements GraphQLQueryResolver {
 
 	public Performance getPerformance(String objectId) {
 		return (Performance) yacserObjectRepository.getObject(YacserObjectType.Performance, objectId);
+	}
+
+	public PortRealisation getPortRealisation(String objectId) {
+		return (PortRealisation) yacserObjectRepository.getObject(YacserObjectType.PortRealisation, objectId);
 	}
 
 	public RealisationModule getRealisationModule(String objectId) {
