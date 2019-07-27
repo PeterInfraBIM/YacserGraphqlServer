@@ -349,6 +349,10 @@ input UpdateHamburgerInput {
 	updateTechnicalSolution: ID
 		# If present: update assembly.
 	updateAssembly: ID
+		# If present: add realisation ports.
+	addPorts: [ID]
+		# If present: remove realisation ports.
+	removePorts: [ID]
 		# If present: add parts.
 	addParts: [ID]
 		# If present: remove parts.
@@ -365,6 +369,26 @@ input UpdatePerformanceInput {
 	updateDescription: String
 		# If present: new Value
 	updateValue: ID
+}
+
+	# Update PortRealisation input arguments.
+input UpdatePortRealisationInput {
+		# Port realisation ID.
+	portRealisationId: ID!
+		# If present: new name.
+	updateName: String
+		# If present: new description.
+	updateDescription: String
+		# If present: new interface reference.
+	updateInterface: String
+		# If present: new realisation port reference.
+	updatePort: String
+		# If present: update assembly.
+	updateAssembly: ID
+		# If present: add parts.
+	addParts: [ID]
+		# If present: remove parts.
+	removeParts: [ID]
 }
 
 	# Update RealisationModule input arguments.
@@ -533,6 +557,12 @@ type Mutation {
 			# Input for Update Performance.
 		input: UpdatePerformanceInput!
 	): Performance
+
+		# Update PortRealisation object.
+	updatePortRealisation(
+			# Input for Update PortRealisation.
+		input: UpdatePortRealisationInput!
+	): PortRealisation
 
 		# Update RealisationModule object.
 	updateRealisationModule(

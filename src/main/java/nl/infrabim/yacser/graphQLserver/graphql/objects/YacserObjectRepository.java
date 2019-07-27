@@ -490,6 +490,7 @@ public class YacserObjectRepository {
 	 * @param updateOutput      If present, updated output system interface.
 	 * @param updateAssembly    If present, updated assembly function.
 	 * @param addParts          If present, additional part functions.
+	 * @param removeParts       If present, remove part functions.
 	 * @return Updated Function object.
 	 * @throws IOException
 	 */
@@ -545,9 +546,27 @@ public class YacserObjectRepository {
 		return (Function) build(YacserObjectType.Function, functionId);
 	}
 
+	/**
+	 * Update Hamburger object
+	 * 
+	 * @param hamburgerId             Hamburger ID.
+	 * @param updateName              If present, updated name.
+	 * @param updateDescription       If present, additional requirements
+	 * @param updateFunctionalUnit    If present, updated functional unit reference.
+	 * @param updateTechnicalSolution If present, updated technical solution
+	 *                                reference.
+	 * @param addPorts                If present, add realisation ports.
+	 * @param removePorts             If present, remove realisation ports.
+	 * @param updateAssembly          If present, updated assembly function.
+	 * @param addParts                If present, add part hamburgers.
+	 * @param removeParts             If present, remove part hamburgers.
+	 * @return Updated Hamburger object
+	 * @throws IOException
+	 */
 	public Hamburger updateHamburger(String hamburgerId, Optional<String> updateName,
 			Optional<String> updateDescription, Optional<String> updateFunctionalUnit,
-			Optional<String> updateTechnicalSolution, Optional<String> updateAssembly, Optional<List<String>> addParts,
+			Optional<String> updateTechnicalSolution, Optional<List<String>> addPorts,
+			Optional<List<String>> removePorts, Optional<String> updateAssembly, Optional<List<String>> addParts,
 			Optional<List<String>> removeParts) throws IOException {
 
 		if (updateName.isPresent()) {
@@ -564,6 +583,14 @@ public class YacserObjectRepository {
 
 		if (updateTechnicalSolution.isPresent()) {
 			updateRelatedObject(hamburgerId, YACSER_TECHNICAL_SOLUTION, updateTechnicalSolution.get());
+		}
+
+		if (addPorts.isPresent()) {
+			addRelatedObjects(hamburgerId, YACSER_HAS_PORT_REALISATION, addPorts.get());
+		}
+
+		if (removePorts.isPresent()) {
+			removeRelatedObjects(hamburgerId, YACSER_HAS_PORT_REALISATION, removePorts.get());
 		}
 
 		if (updateAssembly.isPresent()) {
@@ -615,6 +642,64 @@ public class YacserObjectRepository {
 		}
 
 		return (Performance) build(YacserObjectType.Performance, performanceId);
+	}
+
+	/**
+	 * Update PortRealisation
+	 * 
+	 * @param portRealisationId PortRealisation ID.
+	 * @param updateName        If present, updated name.
+	 * @param updateDescription If present, updated description.
+	 * @param updateInterface   If present, updated system interface reference.
+	 * @param updatePort        If present, updated realisation port reference.
+	 * @param updateAssembly    If present, updated assembly port realisation.
+	 * @param addParts          If present, additional part port realisations.
+	 * @param removeParts       If present, remove part port realisations.
+	 * @return PortRealisation object
+	 * @throws IOException
+	 */
+	public PortRealisation updatePortRealisation(String portRealisationId, Optional<String> updateName,
+			Optional<String> updateDescription, Optional<String> updateInterface, Optional<String> updatePort,
+			Optional<String> updateAssembly, Optional<List<String>> addParts, Optional<List<String>> removeParts)
+			throws IOException {
+
+		if (updateName.isPresent()) {
+			updateLiteral(portRealisationId, SKOS_PREF_LABEL, updateName.get());
+		}
+
+		if (updateDescription.isPresent()) {
+			updateLiteral(portRealisationId, DB_DESCRIPTION, updateDescription.get());
+		}
+
+		if (updateInterface.isPresent()) {
+			updateRelatedObject(portRealisationId, YACSER_INTERFACE, updateInterface.get());
+		}
+
+		if (updatePort.isPresent()) {
+			updateRelatedObject(portRealisationId, YACSER_PORT, updatePort.get());
+		}
+
+		if (updateAssembly.isPresent()) {
+			List<String> parts = new ArrayList<>();
+			String oldAssemblyId = getRelatedSubject(portRealisationId, DCT_HAS_PART);
+			if (oldAssemblyId != null) {
+				removeRelatedObject(oldAssemblyId, DCT_HAS_PART, portRealisationId);
+			}
+			if (!updateAssembly.get().isEmpty()) {
+				parts.add(portRealisationId);
+				addRelatedObjects(updateAssembly.get(), DCT_HAS_PART, parts);
+			}
+		}
+
+		if (addParts.isPresent()) {
+			addRelatedObjects(portRealisationId, DCT_HAS_PART, addParts.get());
+		}
+
+		if (removeParts.isPresent()) {
+			removeRelatedObjects(portRealisationId, DCT_HAS_PART, removeParts.get());
+		}
+
+		return (PortRealisation) build(YacserObjectType.PortRealisation, portRealisationId);
 	}
 
 	/**

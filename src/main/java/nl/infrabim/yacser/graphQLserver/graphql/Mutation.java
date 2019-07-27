@@ -10,6 +10,7 @@ import com.coxautodev.graphql.tools.GraphQLMutationResolver;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.Function;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.Hamburger;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.Performance;
+import nl.infrabim.yacser.graphQLserver.graphql.objects.PortRealisation;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.RealisationModule;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.RealisationPort;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.Requirement;
@@ -18,6 +19,7 @@ import nl.infrabim.yacser.graphQLserver.graphql.objects.SystemSlot;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateFunctionInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateHamburgerInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdatePerformanceInput;
+import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdatePortRealisationInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateRealisationModuleInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateRealisationPortInput;
 import nl.infrabim.yacser.graphQLserver.graphql.objects.UpdateRequirementInput;
@@ -89,7 +91,8 @@ public class Mutation implements GraphQLMutationResolver {
 		return yacserObjectRepository.updateHamburger(input.getHamburgerId(),
 				Optional.ofNullable(input.getUpdateName()), Optional.ofNullable(input.getUpdateDescription()),
 				Optional.ofNullable(input.getUpdateFunctionalUnit()),
-				Optional.ofNullable(input.getUpdateTechnicalSolution()), Optional.ofNullable(input.getUpdateAssembly()),
+				Optional.ofNullable(input.getUpdateTechnicalSolution()), Optional.ofNullable(input.getAddPorts()),
+				Optional.ofNullable(input.getRemovePorts()), Optional.ofNullable(input.getUpdateAssembly()),
 				Optional.ofNullable(input.getAddParts()), Optional.ofNullable(input.getRemoveParts()));
 	}
 
@@ -112,6 +115,19 @@ public class Mutation implements GraphQLMutationResolver {
 		return yacserObjectRepository.updatePerformance(input.getPerformanceId(),
 				Optional.ofNullable(input.getUpdateName()), Optional.ofNullable(input.getUpdateDescription()),
 				Optional.ofNullable(input.getUpdateValue()));
+	}
+
+	/**
+	 * @param input Input arguments for updating the PortRealisation object
+	 * @return Updated PortRealisation object
+	 * @throws IOException
+	 */
+	public PortRealisation updatePortRealisation(UpdatePortRealisationInput input) throws IOException {
+		return yacserObjectRepository.updatePortRealisation(input.getPortRealisationId(),
+				Optional.ofNullable(input.getUpdateName()), Optional.ofNullable(input.getUpdateDescription()),
+				Optional.ofNullable(input.getUpdateInterface()), Optional.ofNullable(input.getUpdatePort()),
+				Optional.ofNullable(input.getUpdateAssembly()), Optional.ofNullable(input.getAddParts()),
+				Optional.ofNullable(input.getRemoveParts()));
 	}
 
 	/**
@@ -139,7 +155,7 @@ public class Mutation implements GraphQLMutationResolver {
 				Optional.ofNullable(input.getUpdateAssembly()), Optional.ofNullable(input.getAddParts()),
 				Optional.ofNullable(input.getRemoveParts()));
 	}
-	
+
 	/**
 	 * @param input Input arguments for updating the Requirement object
 	 * @return Updated Requirement object

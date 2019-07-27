@@ -9,6 +9,8 @@ public class UpdateHamburgerInput {
 	private String updateFunctionalUnit; // If present: new functional unit, "" will remove the functional unit.
 	private String updateTechnicalSolution; // If present: new technical solution, "" will remove the technical
 											// solution.
+	private List<String> addPorts; // If present: add ports.
+	private List<String> removePorts; // If present: remove ports.
 	private String updateAssembly; // If present: new assembly, "" will only remove the old assembly.
 	private List<String> addParts; // If present: add parts.
 	private List<String> removeParts; // If present: remove parts.
@@ -54,6 +56,22 @@ public class UpdateHamburgerInput {
 
 	public void setUpdateTechnicalSolution(String updateTechnicalSolution) {
 		this.updateTechnicalSolution = updateTechnicalSolution;
+	}
+
+	public List<String> getAddPorts() {
+		return addPorts;
+	}
+
+	public void setAddPorts(List<String> addPorts) {
+		this.addPorts = addPorts;
+	}
+
+	public List<String> getRemovePorts() {
+		return removePorts;
+	}
+
+	public void setRemovePorts(List<String> removePorts) {
+		this.removePorts = removePorts;
 	}
 
 	public String getUpdateAssembly() {
