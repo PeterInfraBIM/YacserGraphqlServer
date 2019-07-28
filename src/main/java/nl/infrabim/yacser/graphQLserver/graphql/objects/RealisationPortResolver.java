@@ -34,6 +34,20 @@ public class RealisationPortResolver extends YacserObjectResolver implements Gra
 				: null;
 	}
 
+	public List<PortRealisation> getPortRealisations(RealisationPort realisationPort) throws IOException {
+		List<PortRealisation> portRealisations = null;
+		List<String> subjectIds = YacserObjectRepository.getRelatedSubjects(realisationPort.getId(),
+				YacserObjectRepository.YACSER_PORT);
+		if (subjectIds != null) {
+			portRealisations = new ArrayList<>();
+			for (String subjectId : subjectIds) {
+				portRealisations.add(
+						(PortRealisation) YacserObjectRepository.build(YacserObjectType.PortRealisation, subjectId));
+			}
+		}
+		return portRealisations;
+	}
+
 	public RealisationPort getAssembly(RealisationPort realisationPort) throws IOException {
 		String assemblyId = super.getAssemblyId(realisationPort);
 		return assemblyId != null

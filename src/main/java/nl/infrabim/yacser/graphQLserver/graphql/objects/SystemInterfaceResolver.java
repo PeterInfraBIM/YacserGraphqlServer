@@ -68,6 +68,20 @@ public class SystemInterfaceResolver extends YacserObjectResolver implements Gra
 		return functions;
 	}
 
+	public List<PortRealisation> getPortRealisations(SystemInterface systemInterface) throws IOException {
+		List<PortRealisation> portRealisations = null;
+		List<String> subjectIds = YacserObjectRepository.getRelatedSubjects(systemInterface.getId(),
+				YacserObjectRepository.YACSER_INTERFACE);
+		if (subjectIds != null) {
+			portRealisations = new ArrayList<>();
+			for (String subjectId : subjectIds) {
+				portRealisations.add(
+						(PortRealisation) YacserObjectRepository.build(YacserObjectType.PortRealisation, subjectId));
+			}
+		}
+		return portRealisations;
+	}
+
 	public SystemInterface getAssembly(SystemInterface systemInterface) throws IOException {
 		String assemblyId = super.getAssemblyId(systemInterface);
 		return assemblyId != null

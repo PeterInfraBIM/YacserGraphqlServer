@@ -152,6 +152,8 @@ type RealisationPort implements YacserObject {
 	type: YacserObjectType!
 		# Owner RealisationModule.
 	owner: RealisationModule
+		# Port realisation references
+	portRealisations: [PortRealisation]
 		# Assembly reference.
 	assembly: RealisationPort
 		# Parts references.
@@ -194,6 +196,8 @@ type SystemInterface implements YacserObject {
 	functionInputs: [Function]
 		# Output from functions
 	functionOutputs: [Function]
+		# Port realisation references
+	portRealisations: [PortRealisation]
 		# Assembly reference.
 	assembly: SystemInterface
 		# Parts references.
