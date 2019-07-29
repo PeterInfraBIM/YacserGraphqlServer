@@ -37,6 +37,14 @@ public class Query implements GraphQLQueryResolver {
 		this.yacserModelRepository = yacserModelRepository;
 		this.yacserObjectRepository = yacserObjectRepository;
 	}
+	
+	/**
+	 * @return all model files
+	 * @throws IOException
+	 */
+	public List<String> getAllModelFiles() throws IOException {
+		return yacserModelRepository.getAllModelFiles();
+	}
 
 	/**
 	 * List all currently loaded YACSER models.
@@ -46,6 +54,10 @@ public class Query implements GraphQLQueryResolver {
 	 */
 	public List<YacserModel> getAllModels() throws IOException {
 		return yacserModelRepository.getAllModels();
+	}
+	
+	public YacserModel getModel(String modelId) throws IOException {
+		return yacserModelRepository.getModel(modelId);
 	}
 
 	/**

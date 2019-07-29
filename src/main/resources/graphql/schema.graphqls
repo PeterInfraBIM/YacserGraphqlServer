@@ -244,8 +244,18 @@ type Value implements YacserObject {
 
 	# All queries that are defined for this YACSER graphQL server
 type Query {
+		# List all model files.
+	allModelFiles: [String]
+	
 		# List all loaded models.
 	allModels: [YacserModel]
+	
+		# get Model by ID.
+	model(
+			# Base URI of the model.
+		modelId: ID!
+	): YacserModel
+	
 	
 		# List all YACSER objects
 	allObjects(

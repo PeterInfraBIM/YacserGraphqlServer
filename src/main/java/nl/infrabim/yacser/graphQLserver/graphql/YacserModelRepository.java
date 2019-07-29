@@ -1,6 +1,8 @@
 package nl.infrabim.yacser.graphQLserver.graphql;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +27,13 @@ import nl.infrabim.yacser.graphQLserver.sparql.SparqlServer;
 public class YacserModelRepository {
 
 	public YacserModelRepository() {
+	}
+
+	public List<String> getAllModelFiles() throws IOException {
+		List<String> list = new ArrayList<>();
+		Files.newDirectoryStream(Paths.get("."), path -> path.toString().endsWith(".ttl"))
+				.forEach((file) -> list.add(file.getFileName().toString()));
+		return list;
 	}
 
 	public List<YacserModel> getAllModels() throws IOException {
@@ -53,6 +62,33 @@ public class YacserModelRepository {
 		}
 
 		return models;
+	}
+	
+	public YacserModel getModel(String modelId) throws IOException {
+		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
+		queryStr.setIri("model", modelId);
+		queryStr.append("SELECT ?graph ");
+		queryStr.append("WHERE {");
+		queryStr.append("	GRAPH ?graph { ");
+		queryStr.append("	   	?model rdf:type owl:Ontology . ");
+		queryStr.append("	}");
+		queryStr.append("}");
+
+		JsonNode responseNodes = SparqlServer.instance.query(queryStr);
+
+		if (responseNodes.size() > 0) {
+			for (JsonNode node : responseNodes) {
+				JsonNode graphNode = node.get("graph");
+				if (graphNode != null) {
+					String modelUri = graphNode.get("value").asText();
+					if (!modelUri.equals(SparqlServer.YACSER_URI) && !modelUri.equals(SparqlServer.BS_URI)) {
+						return new YacserModel(modelUri);
+					}
+				}
+			}
+		}
+
+		return null;
 	}
 
 	public YacserModel createModel(String id, Optional<String> modelName, Optional<String> modelDescription) {
@@ -109,8 +145,7 @@ public class YacserModelRepository {
 			throws IOException {
 
 		if (updateName.isPresent()) {
-			YacserObjectRepository.updateLiteral(modelId, YacserObjectRepository.SKOS_PREF_LABEL,
-					updateName.get());
+			YacserObjectRepository.updateLiteral(modelId, YacserObjectRepository.SKOS_PREF_LABEL, updateName.get());
 		}
 
 		if (updateDescription.isPresent()) {
