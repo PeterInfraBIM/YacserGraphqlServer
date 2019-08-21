@@ -1,10 +1,10 @@
 # baseURI: http://www.infrabim.nl/coins/bs/yacser
 # imports: http://purl.org/dc/terms/
 # imports: http://www.w3.org/2004/02/skos/core
-# imports: https://w3id.org/def/basicsemantics
+# imports: https://w3id.org/def/basicsemantics-owl
 # prefix: yacser
 
-@prefix bs: <https://w3id.org/def/basicsemantics#> .
+@prefix bs: <https://w3id.org/def/basicsemantics-owl#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -14,45 +14,45 @@
 @prefix yacser: <http://www.infrabim.nl/coins/bs/yacser#> .
 
 <http://www.infrabim.nl/coins/bs/yacser>
-  rdf:type owl:Ontology ;
+  a owl:Ontology ;
   owl:imports <http://purl.org/dc/terms/> ;
   owl:imports <http://www.w3.org/2004/02/skos/core> ;
-  owl:imports <https://w3id.org/def/basicsemantics> ;
+  owl:imports <https://w3id.org/def/basicsemantics-owl> ;
   owl:versionInfo "Created with TopBraid Composer" ;
 .
 yacser:Function
-  rdf:type owl:Class ;
-  rdf:type sh:Shape ;
+  a owl:Class ;
+  a sh:Shape ;
   rdfs:subClassOf bs:Activity ;
   rdfs:subClassOf [
-      rdf:type owl:Restriction ;
+      a owl:Restriction ;
       owl:allValuesFrom yacser:Function ;
-      owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+      owl:onProperty bs:hasPart ;
     ] ;
 .
 yacser:Hamburger
-  rdf:type owl:Class ;
-  rdf:type sh:Shape ;
+  a owl:Class ;
+  a sh:Shape ;
   rdfs:subClassOf bs:InformationObject ;
   rdfs:subClassOf [
-      rdf:type owl:Restriction ;
+      a owl:Restriction ;
       owl:allValuesFrom yacser:Hamburger ;
-      owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+      owl:onProperty bs:hasPart ;
     ] ;
   skos:prefLabel "Hamburger"@en ;
   skos:prefLabel "Hamburger"@nl ;
 .
 yacser:Performance
-  rdf:type owl:Class ;
-  rdf:type sh:Shape ;
+  a owl:Class ;
+  a sh:Shape ;
   rdfs:subClassOf bs:InformationObject ;
   rdfs:subClassOf [
-      rdf:type owl:Restriction ;
+      a owl:Restriction ;
       owl:allValuesFrom yacser:Performance ;
-      owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+      owl:onProperty bs:hasPart ;
     ] ;
   rdfs:subClassOf [
-      rdf:type owl:Restriction ;
+      a owl:Restriction ;
       owl:maxCardinality "1"^^xsd:nonNegativeInteger ;
       owl:onProperty yacser:hasValue ;
     ] ;
@@ -60,57 +60,57 @@ yacser:Performance
   skos:prefLabel "Prestatie"@nl ;
 .
 yacser:PortRealisation
-  rdf:type owl:Class ;
-  rdf:type sh:Shape ;
+  a owl:Class ;
+  a sh:Shape ;
   rdfs:subClassOf bs:InformationObject ;
   rdfs:subClassOf [
-      rdf:type owl:Restriction ;
+      a owl:Restriction ;
       owl:allValuesFrom yacser:PortRealisation ;
-      owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+      owl:onProperty bs:hasPart ;
     ] ;
   skos:prefLabel "Poortrealisatie"@nl ;
   skos:prefLabel "Port realisation"@en ;
 .
 yacser:RealisationModule
-  rdf:type owl:Class ;
-  rdf:type sh:Shape ;
+  a owl:Class ;
+  a sh:Shape ;
   rdfs:subClassOf bs:PhysicalObject ;
   rdfs:subClassOf [
-      rdf:type owl:Restriction ;
+      a owl:Restriction ;
       owl:allValuesFrom yacser:RealisationModule ;
-      owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+      owl:onProperty bs:hasPart ;
     ] ;
   skos:prefLabel "Realisatiemodule"@nl ;
   skos:prefLabel "Realisation module"@en ;
 .
 yacser:RealisationPort
-  rdf:type owl:Class ;
-  rdf:type sh:Shape ;
+  a owl:Class ;
+  a sh:Shape ;
   rdfs:subClassOf bs:InformationObject ;
   rdfs:subClassOf [
-      rdf:type owl:Restriction ;
+      a owl:Restriction ;
       owl:allValuesFrom yacser:RealisationPort ;
-      owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+      owl:onProperty bs:hasPart ;
     ] ;
   skos:prefLabel "Realisatiepoort"@nl ;
   skos:prefLabel "Realisation port"@en ;
 .
 yacser:Requirement
-  rdf:type owl:Class ;
-  rdf:type sh:Shape ;
+  a owl:Class ;
+  a sh:Shape ;
   rdfs:subClassOf bs:InformationObject ;
   rdfs:subClassOf [
-      rdf:type owl:Restriction ;
+      a owl:Restriction ;
       owl:allValuesFrom yacser:Requirement ;
-      owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+      owl:onProperty bs:hasPart ;
     ] ;
   rdfs:subClassOf [
-      rdf:type owl:Restriction ;
+      a owl:Restriction ;
       owl:maxCardinality "1"^^xsd:nonNegativeInteger ;
       owl:onProperty yacser:hasMaxValue ;
     ] ;
   rdfs:subClassOf [
-      rdf:type owl:Restriction ;
+      a owl:Restriction ;
       owl:maxCardinality "1"^^xsd:nonNegativeInteger ;
       owl:onProperty yacser:hasMinValue ;
     ] ;
@@ -119,21 +119,21 @@ yacser:Requirement
   skos:prefLabel "Requirement"@en ;
 .
 yacser:SystemInterface
-  rdf:type owl:Class ;
-  rdf:type sh:Shape ;
+  a owl:Class ;
+  a sh:Shape ;
   rdfs:subClassOf bs:InformationObject ;
   rdfs:subClassOf [
-      rdf:type owl:Restriction ;
+      a owl:Restriction ;
       owl:allValuesFrom yacser:SystemInterface ;
-      owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+      owl:onProperty bs:hasPart ;
     ] ;
   rdfs:subClassOf [
-      rdf:type owl:Restriction ;
+      a owl:Restriction ;
       owl:maxCardinality "1"^^xsd:nonNegativeInteger ;
       owl:onProperty yacser:systemSlot0 ;
     ] ;
   rdfs:subClassOf [
-      rdf:type owl:Restriction ;
+      a owl:Restriction ;
       owl:maxCardinality "1"^^xsd:nonNegativeInteger ;
       owl:onProperty yacser:systemSlot1 ;
     ] ;
@@ -141,26 +141,26 @@ yacser:SystemInterface
   skos:prefLabel "System interface"@en ;
 .
 yacser:SystemSlot
-  rdf:type owl:Class ;
-  rdf:type sh:Shape ;
+  a owl:Class ;
+  a sh:Shape ;
   rdfs:subClassOf bs:PhysicalObject ;
   rdfs:subClassOf [
-      rdf:type owl:Restriction ;
+      a owl:Restriction ;
       owl:allValuesFrom yacser:SystemInterface ;
-      owl:onProperty <http://purl.org/dc/terms/hasPart> ;
+      owl:onProperty bs:hasPart ;
     ] ;
   skos:prefLabel "Systeemelement"@nl ;
   skos:prefLabel "System slot"@en ;
 .
 yacser:Value
-  rdf:type owl:Class ;
-  rdf:type sh:Shape ;
+  a owl:Class ;
+  a sh:Shape ;
   rdfs:subClassOf bs:Property ;
   skos:prefLabel "Value"@en ;
   skos:prefLabel "Waarde"@nl ;
 .
 yacser:functionalUnit
-  rdf:type owl:ObjectProperty ;
+  a owl:ObjectProperty ;
   rdfs:domain yacser:Hamburger ;
   rdfs:range yacser:SystemSlot ;
   rdfs:subPropertyOf bs:describes ;
@@ -168,63 +168,63 @@ yacser:functionalUnit
   skos:prefLabel "functionele eenheid"@nl ;
 .
 yacser:hasFunction
-  rdf:type owl:ObjectProperty ;
+  a owl:ObjectProperty ;
   rdfs:domain yacser:SystemSlot ;
   rdfs:range yacser:Function ;
   rdfs:subPropertyOf bs:isDescribedBy ;
   skos:prefLabel "has function"@en ;
 .
 yacser:hasInput
-  rdf:type owl:ObjectProperty ;
+  a owl:ObjectProperty ;
   rdfs:domain yacser:Function ;
   rdfs:range yacser:SystemInterface ;
   rdfs:subPropertyOf bs:hasInput ;
 .
 yacser:hasMaxValue
-  rdf:type owl:ObjectProperty ;
-  rdfs:domain yacser:Requirement ;
-  rdfs:range yacser:Value ;
-  rdfs:subPropertyOf bs:hasProperty ;
-  skos:prefLabel "has minimal value"@en ;
-.
-yacser:hasMinValue
-  rdf:type owl:ObjectProperty ;
+  a owl:ObjectProperty ;
   rdfs:domain yacser:Requirement ;
   rdfs:range yacser:Value ;
   rdfs:subPropertyOf bs:hasProperty ;
   skos:prefLabel "has maximal value"@en ;
 .
+yacser:hasMinValue
+  a owl:ObjectProperty ;
+  rdfs:domain yacser:Requirement ;
+  rdfs:range yacser:Value ;
+  rdfs:subPropertyOf bs:hasProperty ;
+  skos:prefLabel "has minimal value"@en ;
+.
 yacser:hasOutput
-  rdf:type owl:ObjectProperty ;
+  a owl:ObjectProperty ;
   rdfs:domain yacser:Function ;
   rdfs:range yacser:SystemInterface ;
   rdfs:subPropertyOf bs:hasOutput ;
 .
 yacser:hasPerformance
-  rdf:type owl:ObjectProperty ;
+  a owl:ObjectProperty ;
   rdfs:domain yacser:RealisationModule ;
   rdfs:range yacser:Performance ;
   rdfs:subPropertyOf bs:isDescribedBy ;
   skos:prefLabel "has performance"@en ;
 .
 yacser:hasPort
-  rdf:type owl:ObjectProperty ;
+  a owl:ObjectProperty ;
   rdfs:domain yacser:RealisationModule ;
   rdfs:range yacser:RealisationPort ;
   rdfs:subPropertyOf bs:isDescribedBy ;
   skos:prefLabel "has port"@en ;
 .
 yacser:hasPortRealisation
-  rdf:type owl:ObjectProperty ;
+  a owl:ObjectProperty ;
   rdfs:domain yacser:Hamburger ;
   rdfs:range yacser:PortRealisation ;
   rdfs:subPropertyOf bs:isDescribedBy ;
   skos:prefLabel "has port realisation"@en ;
 .
 yacser:hasRequirement
-  rdf:type owl:ObjectProperty ;
+  a owl:ObjectProperty ;
   rdfs:domain [
-      rdf:type owl:Class ;
+      a owl:Class ;
       owl:unionOf (
           yacser:SystemSlot
           yacser:Function
@@ -236,14 +236,14 @@ yacser:hasRequirement
   skos:prefLabel "has requirement"@en ;
 .
 yacser:hasValue
-  rdf:type owl:ObjectProperty ;
+  a owl:ObjectProperty ;
   rdfs:domain yacser:Performance ;
   rdfs:range yacser:Value ;
   rdfs:subPropertyOf bs:hasProperty ;
   skos:prefLabel "has value"@en ;
 .
 yacser:interface
-  rdf:type owl:ObjectProperty ;
+  a owl:ObjectProperty ;
   rdfs:domain yacser:PortRealisation ;
   rdfs:range yacser:SystemInterface ;
   rdfs:subPropertyOf bs:describes ;
@@ -251,7 +251,7 @@ yacser:interface
   skos:prefLabel "interface"@nl ;
 .
 yacser:port
-  rdf:type owl:ObjectProperty ;
+  a owl:ObjectProperty ;
   rdfs:domain yacser:PortRealisation ;
   rdfs:range yacser:RealisationPort ;
   rdfs:subPropertyOf bs:describes ;
@@ -259,19 +259,19 @@ yacser:port
   skos:prefLabel "port"@en ;
 .
 yacser:systemSlot0
-  rdf:type owl:ObjectProperty ;
+  a owl:ObjectProperty ;
   rdfs:subPropertyOf bs:describes ;
   skos:prefLabel "systemslot 0"@en ;
 .
 yacser:systemSlot1
-  rdf:type owl:ObjectProperty ;
+  a owl:ObjectProperty ;
   rdfs:domain yacser:SystemInterface ;
   rdfs:range yacser:SystemSlot ;
   rdfs:subPropertyOf bs:describes ;
   skos:prefLabel "systemslot 1"@en ;
 .
 yacser:technicalSolution
-  rdf:type owl:ObjectProperty ;
+  a owl:ObjectProperty ;
   rdfs:domain yacser:Hamburger ;
   rdfs:range yacser:RealisationModule ;
   rdfs:subPropertyOf bs:describes ;

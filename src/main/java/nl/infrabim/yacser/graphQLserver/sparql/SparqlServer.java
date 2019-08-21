@@ -36,8 +36,8 @@ public class SparqlServer {
 	public static final String UPDATE_URL = "http://localhost:3330/rdf/update";
 	public static final String YACSER_URI = "http://www.infrabim.nl/coins/bs/yacser";
 	private static final String YACSER_PATH = "src/main/resources/static/yacser.ttl";
-	public static final String BS_URI = "https://w3id.org/def/basicsemantics";
-	private static final String BS_PATH = "src/main/resources/static/basicsemantics.ttl";
+	public static final String BS_URI = "https://w3id.org/def/basicsemantics-owl";
+	private static final String BS_PATH = "src/main/resources/static/basicsemantics-owl.ttl";
 	public static final String DBC_URI = "http://purl.org/dc/elements/1.1/";
 	public static final String DCT_URI = "http://purl.org/dc/terms/";
 	public static final String SKOS_URI = "http://www.w3.org/2004/02/skos/core";

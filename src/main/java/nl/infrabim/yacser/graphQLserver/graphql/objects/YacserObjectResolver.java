@@ -53,7 +53,7 @@ public class YacserObjectResolver {
 	 * @throws IOException
 	 */
 	public String getAssemblyId(YacserObject yacserObject) throws IOException {
-		return YacserObjectRepository.getRelatedSubject(yacserObject.getId(), YacserObjectRepository.DCT_HAS_PART);
+		return YacserObjectRepository.getRelatedSubject(yacserObject.getId(), YacserObjectRepository.BS_HAS_PART);
 	}
 
 	/**
@@ -64,6 +64,6 @@ public class YacserObjectResolver {
 	 * @throws IOException
 	 */
 	public List<String> getPartIds(YacserObject yacserObject) throws IOException {
-		return YacserObjectRepository.getRelatedObjects(yacserObject.getId(), YacserObjectRepository.DCT_HAS_PART);
+		return YacserObjectRepository.getRelatedObjects(yacserObject.getId(), YacserObjectRepository.BS_HAS_PART);
 	}
 }

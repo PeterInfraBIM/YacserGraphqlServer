@@ -33,7 +33,7 @@ public class YacserObjectRepository {
 	public static final String YACSER_TECHNICAL_SOLUTION = SparqlServer.YACSER_URI + "#technicalSolution";
 	public static final String SKOS_PREF_LABEL = SparqlServer.SKOS_URI + "#prefLabel";
 	public static final String DB_DESCRIPTION = SparqlServer.DBC_URI + "description";
-	public static final String DCT_HAS_PART = SparqlServer.DCT_URI + "hasPart";
+	public static final String BS_HAS_PART = SparqlServer.BS_URI + "#hasPart";
 	public static final String BS_HAS_UNIT = SparqlServer.BS_URI + "#hasUnit";
 	public static final String BS_HAS_VALUE = SparqlServer.BS_URI + "#hasValue";
 
@@ -525,22 +525,22 @@ public class YacserObjectRepository {
 
 		if (updateAssembly.isPresent()) {
 			List<String> parts = new ArrayList<>();
-			String oldAssemblyId = getRelatedSubject(functionId, DCT_HAS_PART);
+			String oldAssemblyId = getRelatedSubject(functionId, BS_HAS_PART);
 			if (oldAssemblyId != null) {
-				removeRelatedObject(oldAssemblyId, DCT_HAS_PART, functionId);
+				removeRelatedObject(oldAssemblyId, BS_HAS_PART, functionId);
 			}
 			if (!updateAssembly.get().isEmpty()) {
 				parts.add(functionId);
-				addRelatedObjects(updateAssembly.get(), DCT_HAS_PART, parts);
+				addRelatedObjects(updateAssembly.get(), BS_HAS_PART, parts);
 			}
 		}
 
 		if (addParts.isPresent()) {
-			addRelatedObjects(functionId, DCT_HAS_PART, addParts.get());
+			addRelatedObjects(functionId, BS_HAS_PART, addParts.get());
 		}
 
 		if (removeParts.isPresent()) {
-			removeRelatedObjects(functionId, DCT_HAS_PART, removeParts.get());
+			removeRelatedObjects(functionId, BS_HAS_PART, removeParts.get());
 		}
 
 		return (Function) build(YacserObjectType.Function, functionId);
@@ -595,22 +595,22 @@ public class YacserObjectRepository {
 
 		if (updateAssembly.isPresent()) {
 			List<String> parts = new ArrayList<>();
-			String oldAssemblyId = getRelatedSubject(hamburgerId, DCT_HAS_PART);
+			String oldAssemblyId = getRelatedSubject(hamburgerId, BS_HAS_PART);
 			if (oldAssemblyId != null) {
-				removeRelatedObject(oldAssemblyId, DCT_HAS_PART, hamburgerId);
+				removeRelatedObject(oldAssemblyId, BS_HAS_PART, hamburgerId);
 			}
 			if (!updateAssembly.get().isEmpty()) {
 				parts.add(hamburgerId);
-				addRelatedObjects(updateAssembly.get(), DCT_HAS_PART, parts);
+				addRelatedObjects(updateAssembly.get(), BS_HAS_PART, parts);
 			}
 		}
 
 		if (addParts.isPresent()) {
-			addRelatedObjects(hamburgerId, DCT_HAS_PART, addParts.get());
+			addRelatedObjects(hamburgerId, BS_HAS_PART, addParts.get());
 		}
 
 		if (removeParts.isPresent()) {
-			removeRelatedObjects(hamburgerId, DCT_HAS_PART, removeParts.get());
+			removeRelatedObjects(hamburgerId, BS_HAS_PART, removeParts.get());
 		}
 
 		return (Hamburger) build(YacserObjectType.Hamburger, hamburgerId);
@@ -681,22 +681,22 @@ public class YacserObjectRepository {
 
 		if (updateAssembly.isPresent()) {
 			List<String> parts = new ArrayList<>();
-			String oldAssemblyId = getRelatedSubject(portRealisationId, DCT_HAS_PART);
+			String oldAssemblyId = getRelatedSubject(portRealisationId, BS_HAS_PART);
 			if (oldAssemblyId != null) {
-				removeRelatedObject(oldAssemblyId, DCT_HAS_PART, portRealisationId);
+				removeRelatedObject(oldAssemblyId, BS_HAS_PART, portRealisationId);
 			}
 			if (!updateAssembly.get().isEmpty()) {
 				parts.add(portRealisationId);
-				addRelatedObjects(updateAssembly.get(), DCT_HAS_PART, parts);
+				addRelatedObjects(updateAssembly.get(), BS_HAS_PART, parts);
 			}
 		}
 
 		if (addParts.isPresent()) {
-			addRelatedObjects(portRealisationId, DCT_HAS_PART, addParts.get());
+			addRelatedObjects(portRealisationId, BS_HAS_PART, addParts.get());
 		}
 
 		if (removeParts.isPresent()) {
-			removeRelatedObjects(portRealisationId, DCT_HAS_PART, removeParts.get());
+			removeRelatedObjects(portRealisationId, BS_HAS_PART, removeParts.get());
 		}
 
 		return (PortRealisation) build(YacserObjectType.PortRealisation, portRealisationId);
@@ -746,22 +746,22 @@ public class YacserObjectRepository {
 
 		if (updateAssembly.isPresent()) {
 			List<String> parts = new ArrayList<>();
-			String oldAssemblyId = getRelatedSubject(realisationModuleId, DCT_HAS_PART);
+			String oldAssemblyId = getRelatedSubject(realisationModuleId, BS_HAS_PART);
 			if (oldAssemblyId != null) {
-				removeRelatedObject(oldAssemblyId, DCT_HAS_PART, realisationModuleId);
+				removeRelatedObject(oldAssemblyId, BS_HAS_PART, realisationModuleId);
 			}
 			if (!updateAssembly.get().isEmpty()) {
 				parts.add(realisationModuleId);
-				addRelatedObjects(updateAssembly.get(), DCT_HAS_PART, parts);
+				addRelatedObjects(updateAssembly.get(), BS_HAS_PART, parts);
 			}
 		}
 
 		if (addParts.isPresent()) {
-			addRelatedObjects(realisationModuleId, DCT_HAS_PART, addParts.get());
+			addRelatedObjects(realisationModuleId, BS_HAS_PART, addParts.get());
 		}
 
 		if (removeParts.isPresent()) {
-			removeRelatedObjects(realisationModuleId, DCT_HAS_PART, removeParts.get());
+			removeRelatedObjects(realisationModuleId, BS_HAS_PART, removeParts.get());
 		}
 
 		return (RealisationModule) build(YacserObjectType.RealisationModule, realisationModuleId);
@@ -793,22 +793,22 @@ public class YacserObjectRepository {
 
 		if (updateAssembly.isPresent()) {
 			List<String> parts = new ArrayList<>();
-			String oldAssemblyId = getRelatedSubject(realisationPortId, DCT_HAS_PART);
+			String oldAssemblyId = getRelatedSubject(realisationPortId, BS_HAS_PART);
 			if (oldAssemblyId != null) {
-				removeRelatedObject(oldAssemblyId, DCT_HAS_PART, realisationPortId);
+				removeRelatedObject(oldAssemblyId, BS_HAS_PART, realisationPortId);
 			}
 			if (!updateAssembly.get().isEmpty()) {
 				parts.add(realisationPortId);
-				addRelatedObjects(updateAssembly.get(), DCT_HAS_PART, parts);
+				addRelatedObjects(updateAssembly.get(), BS_HAS_PART, parts);
 			}
 		}
 
 		if (addParts.isPresent()) {
-			addRelatedObjects(realisationPortId, DCT_HAS_PART, addParts.get());
+			addRelatedObjects(realisationPortId, BS_HAS_PART, addParts.get());
 		}
 
 		if (removeParts.isPresent()) {
-			removeRelatedObjects(realisationPortId, DCT_HAS_PART, removeParts.get());
+			removeRelatedObjects(realisationPortId, BS_HAS_PART, removeParts.get());
 		}
 
 		return (RealisationPort) build(YacserObjectType.RealisationPort, realisationPortId);
@@ -883,22 +883,22 @@ public class YacserObjectRepository {
 
 		if (updateAssembly.isPresent()) {
 			List<String> parts = new ArrayList<>();
-			String oldAssemblyId = getRelatedSubject(systemInterfaceId, DCT_HAS_PART);
+			String oldAssemblyId = getRelatedSubject(systemInterfaceId, BS_HAS_PART);
 			if (oldAssemblyId != null) {
-				removeRelatedObject(oldAssemblyId, DCT_HAS_PART, systemInterfaceId);
+				removeRelatedObject(oldAssemblyId, BS_HAS_PART, systemInterfaceId);
 			}
 			if (!updateAssembly.get().isEmpty()) {
 				parts.add(systemInterfaceId);
-				addRelatedObjects(updateAssembly.get(), DCT_HAS_PART, parts);
+				addRelatedObjects(updateAssembly.get(), BS_HAS_PART, parts);
 			}
 		}
 
 		if (addParts.isPresent()) {
-			addRelatedObjects(systemInterfaceId, DCT_HAS_PART, addParts.get());
+			addRelatedObjects(systemInterfaceId, BS_HAS_PART, addParts.get());
 		}
 
 		if (removeParts.isPresent()) {
-			removeRelatedObjects(systemInterfaceId, DCT_HAS_PART, removeParts.get());
+			removeRelatedObjects(systemInterfaceId, BS_HAS_PART, removeParts.get());
 		}
 
 		return (SystemInterface) build(YacserObjectType.SystemInterface, systemInterfaceId);
@@ -938,22 +938,22 @@ public class YacserObjectRepository {
 
 		if (updateAssembly.isPresent()) {
 			List<String> parts = new ArrayList<>();
-			String oldAssemblyId = getRelatedSubject(systemSlotId, DCT_HAS_PART);
+			String oldAssemblyId = getRelatedSubject(systemSlotId, BS_HAS_PART);
 			if (oldAssemblyId != null) {
-				removeRelatedObject(oldAssemblyId, DCT_HAS_PART, systemSlotId);
+				removeRelatedObject(oldAssemblyId, BS_HAS_PART, systemSlotId);
 			}
 			if (!updateAssembly.get().isEmpty()) {
 				parts.add(systemSlotId);
-				addRelatedObjects(updateAssembly.get(), DCT_HAS_PART, parts);
+				addRelatedObjects(updateAssembly.get(), BS_HAS_PART, parts);
 			}
 		}
 
 		if (addParts.isPresent()) {
-			addRelatedObjects(systemSlotId, DCT_HAS_PART, addParts.get());
+			addRelatedObjects(systemSlotId, BS_HAS_PART, addParts.get());
 		}
 
 		if (removeParts.isPresent()) {
-			removeRelatedObjects(systemSlotId, DCT_HAS_PART, removeParts.get());
+			removeRelatedObjects(systemSlotId, BS_HAS_PART, removeParts.get());
 		}
 
 		return (SystemSlot) build(YacserObjectType.SystemSlot, systemSlotId);
