@@ -70,6 +70,15 @@ public class Mutation implements GraphQLMutationResolver {
 	}
 
 	/**
+	 * @param id The id of the object to be deleted.
+	 * @return true if the object could be deleted.
+	 * @throws IOException 
+	 */
+	public boolean deleteObject(String id) throws IOException {
+		return yacserObjectRepository.deleteObject(id);
+	}
+
+	/**
 	 * @param input Input arguments for updating the Function object
 	 * @return Updated Function object
 	 * @throws IOException

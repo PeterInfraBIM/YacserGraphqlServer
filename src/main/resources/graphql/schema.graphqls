@@ -547,6 +547,12 @@ type Mutation {
 			# Optional description of the object.
 		description: String
 	): YacserObject
+	
+		# Delete a YACSER object.
+	deleteObject(
+			# Object id.
+		id: ID!
+	): Boolean
 
 		# Update Function object.
 	updateFunction(

@@ -77,6 +77,28 @@ public class YacserObjectRepository {
 		return build(type, objectId);
 	}
 
+	public boolean deleteObject(String objectId) throws IOException {
+		String modelId = getModelId(objectId);
+		ParameterizedSparqlString queryStr = new ParameterizedSparqlString(SparqlServer.getPrefixMapping());
+		queryStr.setIri("graph", modelId);
+		queryStr.setIri("object", objectId);
+		queryStr.append("DELETE { ");
+		queryStr.append("  GRAPH ?graph { ");
+		queryStr.append("    ?object ?pred1 ?obj1 . ");
+		queryStr.append("    ?obj2 ?pred2 ?object . ");
+		queryStr.append("  } ");
+		queryStr.append("} ");
+		queryStr.append("WHERE { ");
+		queryStr.append("  GRAPH ?graph { ");
+		queryStr.append("    ?object ?pred1 ?obj1 . ");
+		queryStr.append("    OPTIONAL { ?obj2 ?pred2 ?object . } ");
+		queryStr.append("  } ");
+		queryStr.append("} ");
+		
+		SparqlServer.instance.update(queryStr);
+		return true;
+	}
+
 	public static YacserObject build(YacserObjectType type, String objectId) {
 		YacserObject yacserObject = null;
 		switch (type) {
