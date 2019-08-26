@@ -8,6 +8,8 @@ public class UpdateSystemInterfaceInput {
 	private String updateDescription; // If present: new description, "" will remove the description.
 	private String updateSystemSlot0; // If present: update SystemSlot 0, "" will remove the reference.
 	private String updateSystemSlot1; // If present: update SystemSlot 1, "" will remove the reference.
+	private List<String> addRequirements; // If present: add requirements.
+	private List<String> removeRequirements; // If present: remove requirements.
 	private String updateAssembly; // If present: new assembly, "" will remove the reference.
 	private List<String> addParts; // If present: add parts.
 	private List<String> removeParts; // If present: remove parts.
@@ -53,6 +55,22 @@ public class UpdateSystemInterfaceInput {
 
 	public void setUpdateSystemSlot1(String updateSystemSlot1) {
 		this.updateSystemSlot1 = updateSystemSlot1;
+	}
+
+	public List<String> getAddRequirements() {
+		return addRequirements;
+	}
+
+	public void setAddRequirements(List<String> addRequirements) {
+		this.addRequirements = addRequirements;
+	}
+
+	public List<String> getRemoveRequirements() {
+		return removeRequirements;
+	}
+
+	public void setRemoveRequirements(List<String> removeRequirements) {
+		this.removeRequirements = removeRequirements;
 	}
 
 	public String getUpdateAssembly() {

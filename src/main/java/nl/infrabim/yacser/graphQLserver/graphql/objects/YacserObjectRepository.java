@@ -94,7 +94,7 @@ public class YacserObjectRepository {
 		queryStr.append("    OPTIONAL { ?obj2 ?pred2 ?object . } ");
 		queryStr.append("  } ");
 		queryStr.append("} ");
-		
+
 		SparqlServer.instance.update(queryStr);
 		return true;
 	}
@@ -504,15 +504,16 @@ public class YacserObjectRepository {
 	/**
 	 * Update Function object
 	 * 
-	 * @param functionId        Function ID.
-	 * @param updateName        If present, updated name.
-	 * @param updateDescription If present, updated description.
-	 * @param addRequirements   If present, additional requirements.
-	 * @param updateInput       If present, updated input system interface.
-	 * @param updateOutput      If present, updated output system interface.
-	 * @param updateAssembly    If present, updated assembly function.
-	 * @param addParts          If present, additional part functions.
-	 * @param removeParts       If present, remove part functions.
+	 * @param functionId         Function ID.
+	 * @param updateName         If present, updated name.
+	 * @param updateDescription  If present, updated description.
+	 * @param addRequirements    If present, add requirements.
+	 * @param removeRequirements If present, remove requirements.
+	 * @param updateInput        If present, updated input system interface.
+	 * @param updateOutput       If present, updated output system interface.
+	 * @param updateAssembly     If present, updated assembly function.
+	 * @param addParts           If present, add part functions.
+	 * @param removeParts        If present, remove part functions.
 	 * @return Updated Function object.
 	 * @throws IOException
 	 */
@@ -877,13 +878,16 @@ public class YacserObjectRepository {
 	 * @param updateName
 	 * @param updateSystemSlot0
 	 * @param updateSystemSlot1
-	 * @param updateAssembly    If present, updated assembly system interface.
-	 * @param addParts          If present, additional part system interfaces.
+	 * @param addRequirements    If present, add requirements.
+	 * @param removeRequirements If present, remove requirements.
+	 * @param updateAssembly     If present, updated assembly system interface.
+	 * @param addParts           If present, additional part system interfaces.
 	 * @return SystemInterface object
 	 * @throws IOException
 	 */
 	public SystemInterface updateSystemInterface(String systemInterfaceId, Optional<String> updateName,
 			Optional<String> updateDescription, Optional<String> updateSystemSlot0, Optional<String> updateSystemSlot1,
+			Optional<List<String>> addRequirements, Optional<List<String>> removeRequirements,
 			Optional<String> updateAssembly, Optional<List<String>> addParts, Optional<List<String>> removeParts)
 			throws IOException {
 
@@ -901,6 +905,14 @@ public class YacserObjectRepository {
 
 		if (updateSystemSlot1.isPresent()) {
 			updateRelatedObject(systemInterfaceId, YACSER_SYSTEM_SLOT_1, updateSystemSlot1.get());
+		}
+
+		if (addRequirements.isPresent()) {
+			addRelatedObjects(systemInterfaceId, YACSER_HAS_REQUIREMENT, addRequirements.get());
+		}
+
+		if (removeRequirements.isPresent()) {
+			removeRelatedObjects(systemInterfaceId, YACSER_HAS_REQUIREMENT, removeRequirements.get());
 		}
 
 		if (updateAssembly.isPresent()) {
@@ -932,14 +944,19 @@ public class YacserObjectRepository {
 	 * @param systemSlotId
 	 * @param updateName
 	 * @param addFunctions
-	 * @param updateAssembly If present, updated assembly system slot.
-	 * @param addParts       If present, additional part system slots.
+	 * @param removeFunctions
+	 * @param addRequirements    If present, add requirements.
+	 * @param removeRequirements If present, remove requirements.
+	 * @param updateAssembly     If present, updated assembly system slot.
+	 * @param addParts           If present, add part system slots.
+	 * @param removeParts        If present, remove part system slots.
 	 * @return SystemSlot object
 	 * @throws IOException
 	 */
 	public SystemSlot updateSystemSlot(String systemSlotId, Optional<String> updateName,
 			Optional<String> updateDescription, Optional<List<String>> addFunctions,
-			Optional<List<String>> removeFunctions, Optional<String> updateAssembly, Optional<List<String>> addParts,
+			Optional<List<String>> removeFunctions, Optional<List<String>> addRequirements,
+			Optional<List<String>> removeRequirements, Optional<String> updateAssembly, Optional<List<String>> addParts,
 			Optional<List<String>> removeParts) throws IOException {
 
 		if (updateName.isPresent()) {
@@ -956,6 +973,14 @@ public class YacserObjectRepository {
 
 		if (removeFunctions.isPresent()) {
 			removeRelatedObjects(systemSlotId, YACSER_HAS_FUNCTION, removeFunctions.get());
+		}
+
+		if (addRequirements.isPresent()) {
+			addRelatedObjects(systemSlotId, YACSER_HAS_REQUIREMENT, addRequirements.get());
+		}
+
+		if (removeRequirements.isPresent()) {
+			removeRelatedObjects(systemSlotId, YACSER_HAS_REQUIREMENT, removeRequirements.get());
 		}
 
 		if (updateAssembly.isPresent()) {

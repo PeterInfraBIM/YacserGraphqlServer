@@ -72,7 +72,7 @@ public class Mutation implements GraphQLMutationResolver {
 	/**
 	 * @param id The id of the object to be deleted.
 	 * @return true if the object could be deleted.
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public boolean deleteObject(String id) throws IOException {
 		return yacserObjectRepository.deleteObject(id);
@@ -185,6 +185,7 @@ public class Mutation implements GraphQLMutationResolver {
 		return yacserObjectRepository.updateSystemInterface(input.getSystemInterfaceId(),
 				Optional.ofNullable(input.getUpdateName()), Optional.ofNullable(input.getUpdateDescription()),
 				Optional.ofNullable(input.getUpdateSystemSlot0()), Optional.ofNullable(input.getUpdateSystemSlot1()),
+				Optional.ofNullable(input.getAddRequirements()), Optional.ofNullable(input.getRemoveRequirements()),
 				Optional.ofNullable(input.getUpdateAssembly()), Optional.ofNullable(input.getAddParts()),
 				Optional.ofNullable(input.getRemoveParts()));
 	}
@@ -198,6 +199,7 @@ public class Mutation implements GraphQLMutationResolver {
 		return yacserObjectRepository.updateSystemSlot(input.getSystemSlotId(),
 				Optional.ofNullable(input.getUpdateName()), Optional.ofNullable(input.getUpdateDescription()),
 				Optional.ofNullable(input.getAddFunctions()), Optional.ofNullable(input.getRemoveFunctions()),
+				Optional.ofNullable(input.getAddRequirements()), Optional.ofNullable(input.getRemoveRequirements()),
 				Optional.ofNullable(input.getUpdateAssembly()), Optional.ofNullable(input.getAddParts()),
 				Optional.ofNullable(input.getRemoveParts()));
 	}

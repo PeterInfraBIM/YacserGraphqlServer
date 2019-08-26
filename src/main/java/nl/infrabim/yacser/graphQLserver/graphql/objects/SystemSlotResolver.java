@@ -42,7 +42,21 @@ public class SystemSlotResolver extends YacserObjectResolver implements GraphQLR
 		}
 		return null;
 	}
-
+	
+	public List<Requirement> getRequirements(SystemSlot systemSlot) throws IOException {
+		List<String> requirementIds = YacserObjectRepository.getRelatedObjects(systemSlot.getId(),
+				YacserObjectRepository.YACSER_HAS_REQUIREMENT);
+		if (requirementIds != null) {
+			List<Requirement> requirements = new ArrayList<>();
+			for (String requirementId : requirementIds) {
+				requirements
+						.add((Requirement) YacserObjectRepository.build(YacserObjectType.Requirement, requirementId));
+			}
+			return requirements;
+		}
+		return null;
+	}
+	
 	public List<SystemInterface> getInterfaces(SystemSlot systemSlot) throws IOException {
 		List<SystemInterface> interfaces = null;
 		String modelId = systemSlot.getId().substring(0, systemSlot.getId().indexOf('#'));

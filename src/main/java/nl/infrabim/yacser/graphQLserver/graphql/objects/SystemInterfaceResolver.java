@@ -41,7 +41,21 @@ public class SystemInterfaceResolver extends YacserObjectResolver implements Gra
 				? (SystemSlot) YacserObjectRepository.build(YacserObjectType.SystemSlot, systemSlot1Id)
 				: null;
 	}
-
+	
+	public List<Requirement> getRequirements(SystemInterface systemInterface) throws IOException {
+		List<String> requirementIds = YacserObjectRepository.getRelatedObjects(systemInterface.getId(),
+				YacserObjectRepository.YACSER_HAS_REQUIREMENT);
+		if (requirementIds != null) {
+			List<Requirement> requirements = new ArrayList<>();
+			for (String requirementId : requirementIds) {
+				requirements
+						.add((Requirement) YacserObjectRepository.build(YacserObjectType.Requirement, requirementId));
+			}
+			return requirements;
+		}
+		return null;
+	}
+	
 	public List<Function> getFunctionInputs(SystemInterface systemInterface) throws IOException {
 		List<Function> functions = null;
 		List<String> subjectIds = YacserObjectRepository.getRelatedSubjects(systemInterface.getId(),

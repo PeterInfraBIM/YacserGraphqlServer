@@ -192,6 +192,8 @@ type SystemInterface implements YacserObject {
 	systemSlot0: SystemSlot
 		# Second SystemSlot.
 	systemSlot1: SystemSlot
+		# Related Requirements.
+	requirements: [Requirement]
 		# Input to functions
 	functionInputs: [Function]
 		# Output from functions
@@ -216,6 +218,8 @@ type SystemSlot implements YacserObject {
 	type: YacserObjectType!
 		# Specified functions.
 	functions: [Function]
+		# Related Requirements.
+	requirements: [Requirement]
 		# Related interfaces.
 	interfaces: [SystemInterface]
 		# Hamburger references
@@ -471,6 +475,10 @@ input UpdateSystemInterfaceInput {
 	updateSystemSlot0: ID
 		# If present: update SystemSlot 1.
 	updateSystemSlot1: ID
+		# If present: add requirements.
+	addRequirements: [ID]
+		# If present: remove requirements.
+	removeRequirements: [ID]
 		# If present: update assembly.
 	updateAssembly: ID
 		# If present: add parts.
@@ -491,6 +499,10 @@ input UpdateSystemSlotInput {
 	addFunctions: [ID]
 		# If present: remove functions.
 	removeFunctions: [ID]
+		# If present: add requirements.
+	addRequirements: [ID]
+		# If present: remove requirements.
+	removeRequirements: [ID]
 		# If present: update assembly.
 	updateAssembly: ID
 		# If present: add parts.
